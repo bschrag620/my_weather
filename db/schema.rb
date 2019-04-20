@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_20_122402) do
+ActiveRecord::Schema.define(version: 2019_04_20_165709) do
 
   create_table "locations", force: :cascade do |t|
     t.float "lat"
@@ -18,6 +18,13 @@ ActiveRecord::Schema.define(version: 2019_04_20_122402) do
     t.integer "zip"
     t.string "city"
     t.string "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "session_tokens", force: :cascade do |t|
+    t.string "token"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -33,7 +40,6 @@ ActiveRecord::Schema.define(version: 2019_04_20_122402) do
     t.string "username"
     t.string "email"
     t.string "password_digest"
-    t.string "credential"
     t.text "session_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
