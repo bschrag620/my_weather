@@ -1,4 +1,9 @@
 class Api::UsersController < ApplicationController
+	def index
+		redirect_to api_index_path
+	end
+
+
 	def create
 		user = User.create(user_params)
 		if user.save
