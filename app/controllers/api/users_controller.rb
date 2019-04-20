@@ -10,6 +10,10 @@ class Api::UsersController < ApplicationController
 		end
 	end
 
+	def authenticate
+		binding.pry
+	end
+
 
 	private
 	def user_params
