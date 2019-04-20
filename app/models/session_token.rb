@@ -1,6 +1,10 @@
 class SessionToken < ApplicationRecord
-	def self.create(string)
+	before_validation :create_token
 
-		BCrypt::Password.create(string + Time.now.to_i.to_s)
+	private
+
+	# create a unique token when a user logs in
+	def create_token
+		self.token = BCrypt::Password.create(User.find(self.user_id).email + Time.now.to_f.to_s)
 	end
 end

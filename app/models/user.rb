@@ -18,4 +18,9 @@ class User < ApplicationRecord
 		end
 	end
 
+	def log_in
+		SessionToken.create(:user_id => self.id)
+		binding.pry
+	end
+
 end
