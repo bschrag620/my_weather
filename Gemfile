@@ -22,7 +22,7 @@ gem 'thor', '~> 0.19.1'
 gem 'active_model_serializers'
 
 gem 'faraday'
-
+gem 'dotenv-rails'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

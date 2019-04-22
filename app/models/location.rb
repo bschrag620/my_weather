@@ -26,7 +26,7 @@ class Location < ApplicationRecord
 	end
 
 	def self.retrieve_by_zip(params)
-		key = 'AIzaSyD-7EHJrtE1i8CWIh0kcJVvOEzhZj5yl_U'
+		key = ENV['GOOGLE_MAP_API_KEY']
 		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{key}"
 		resp = Faraday.get url
 		binding.pry
@@ -36,17 +36,11 @@ class Location < ApplicationRecord
 	end
 
 	def self.retrieve_by_city_state(params)
-		key = 'AIzaSyD-7EHJrtE1i8CWIh0kcJVvOEzhZj5yl_U'
+		key = ENV['GOOGLE_MAP_API_KEY']
 		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:city]}+#{params[:state]}&key=#{key}"
 		binding.pry
 	end		
 end
-
-# google api
-
-# AIzaSyD-7EHJrtE1i8CWIh0kcJVvOEzhZj5yl_U
-
-# GET request to receive forecasts
 
 # https://api.weather.gov/gridpoints/TOP/31,80/forecast/hourly?units=us
 
@@ -327,11 +321,3 @@ end
 #     ]
 #   }
 # }
-
-
-
-# zipcode api
-
-# key - dJGwmWPDcOI0rKy97C1oNz2tC3BJHQJxumwH8lQHwOXF0cr40OoDQd4cACAjVG1i
-# format - https://www.zipcodeapi.com/rest/<api_key>/info.<format>/<zip_code>/<units>
-# example - https://www.zipcodeapi.com/rest/dJGwmWPDcOI0rKy97C1oNz2tC3BJHQJxumwH8lQHwOXF0cr40OoDQd4cACAjVG1i/info.json/72762/degrees
