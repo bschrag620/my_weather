@@ -21,6 +21,8 @@ gem 'thor', '~> 0.19.1'
 
 gem 'active_model_serializers'
 
+gem 'faraday'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
