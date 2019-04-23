@@ -2,49 +2,60 @@ class Location < ApplicationRecord
 	has_many :user_locations
 	has_many :users, through: :user_locations
 
+	@@key = ENV['GOOGLE_MAP_API_KEY']
+	# allows for a Location to be created from an abstract string of either zip code or city, state
 	def self.new_or_create_from_string(string)
-		self.retrieve_xy(string)
+		query = parse_string(string)
+		if !query.nil?
+			# if we have a valid query, check for existing location based on results
+
+			location_query = query[:method].call(query[:params])
+			location = Location.find_or_create_by(location_query['data'])
+		end
 	end
 
-	def self.retrieve_xy(string)
-		if string.match(/^\d{5}$/)
-			query = {:params => {:zip => string}, :method => method(:retrieve_by_zip)}
-		elsif string.match(/^\w+[,]\s?\w+$/)
-			city = string.split(',')[0]
-			state = string.split(',')[1].strip
-			query = {:params => {:city => city, :state => state}, :method => method(:retrieve_by_city_state)}
-		elsif string.match(/^[-]?\d+[.]?/)
-			lat = string.match(/^[-]?\d+[.]?/)[0]
-			long = string.match(/^[-]?\d+[.]?/)[1]
-			query = {:params => {:lat => lat, :long => long}}
-		end
+	def self.parse_string(string)
+		zip = /\d{5}/
+		city_state = /\w+[,]\s?\w+/
 
-		query[:method].call(query[:params])
+		# assign values to data hash
+		data = {
+			:zip => (string.match(zip)) ? string.match(zip)[0] : nil,
+			:city => (string.match(city_state)) ? string.match(city_state)[0].split[0] : nil,
+			:state => (string.match(city_state)) ? string.match(city_state)[0].split[1].strip : nil 
+		}
+
+		# remove keys with a nil value and return new hash
+		data.each do |key, value|
+			if value.nil?
+				data.delete(key)
+			end
+		end
 	end
 
 	def self.retrieve_by_zip(params)
-		key = ENV['GOOGLE_MAP_API_KEY']
-		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{key}"
-		resp = Faraday.get url
-		data = JSON.parse(resp.body)
-		location = data['results'][0]['geometry']['location']
-		location[:city] =  data['results'][0]['address_components'][1]['long_name']
-		location[:state] = data['results'][0]['address_components'][2]['long_name']
-		location[:status] = resp.status
-		binding.pry
+		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{@@key}"
+		location = pull_api(url)		
+		location[:data][:zip] = params[:zip]
+		location
 	end
 
 	def self.retrieve_by_city_state(params)
-		key = ENV['GOOGLE_MAP_API_KEY']
-		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:city]}+#{params[:state]}&key=#{key}"
+		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:city]}+#{params[:state]}&key=#{@@key}"
+		pull_api(url)
+	end		
+
+	def self.pull_api(url)
 		resp = Faraday.get url
 		data = JSON.parse(resp.body)
-		location = data['results'][0]['geometry']['location']
-		location[:city] = params[:city]
-		location[:state] = params[:state]
+		location = {:data => {}}
+		location[:coordinates] = data['results'][0]['geometry']['location']
+		location[:data][:city] =  data['results'][0]['address_components'][1]['long_name']
+		location[:data][:state] = data['results'][0]['address_components'][2]['long_name']
 		location[:status] = resp.status
-		binding.pry
-	end		
+
+		location
+	end
 end
 
 # https://api.weather.gov/gridpoints/TOP/31,80/forecast/hourly?units=us
