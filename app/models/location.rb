@@ -8,9 +8,16 @@ class Location < ApplicationRecord
 		query = parse_string(string)
 		if !query.nil?
 			# if we have a valid query, check for existing location based on results
-
-			location_query = query[:method].call(query[:params])
-			location = Location.find_or_create_by(location_query['data'])
+			location = Location.find_by(query)
+			if location.nil?
+				location_data = (query.keys.include?(:zip)) ? retrieve_by_zip(query) : retrieve_by_city_state(query)
+				binding.pry
+				location = Location.create(location_data[:data])
+			end
+			binding.pry
+			location
+		else
+			'invalid query'
 		end
 	end
 
@@ -41,6 +48,7 @@ class Location < ApplicationRecord
 	end
 
 	def self.retrieve_by_city_state(params)
+		url = https://www.zipcodeapi.com/rest/<api_key>/city-zips.<format>/<city>/<state>
 		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:city]}+#{params[:state]}&key=#{@@key}"
 		pull_api(url)
 	end		
@@ -49,7 +57,7 @@ class Location < ApplicationRecord
 		resp = Faraday.get url
 		data = JSON.parse(resp.body)
 		location = {:data => {}}
-		location[:coordinates] = data['results'][0]['geometry']['location']
+		location[:data].update(data['results'][0]['geometry']['location'])
 		location[:data][:city] =  data['results'][0]['address_components'][1]['long_name']
 		location[:data][:state] = data['results'][0]['address_components'][2]['long_name']
 		location[:status] = resp.status
