@@ -3,12 +3,10 @@ class Location < ApplicationRecord
 	has_many :users, through: :user_locations
 
 	def self.new_or_create_from_string(string)
-		binding.pry
 		self.retrieve_xy(string)
 	end
 
 	def self.retrieve_xy(string)
-		binding.pry
 		if string.match(/^\d{5}$/)
 			query = {:params => {:zip => string}, :method => method(:retrieve_by_zip)}
 		elsif string.match(/^\w+[,]\s?\w+$/)
@@ -21,7 +19,6 @@ class Location < ApplicationRecord
 			query = {:params => {:lat => lat, :long => long}}
 		end
 
-		binding.pry
 		query[:method].call(query[:params])
 	end
 
@@ -29,15 +26,23 @@ class Location < ApplicationRecord
 		key = ENV['GOOGLE_MAP_API_KEY']
 		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{key}"
 		resp = Faraday.get url
-		binding.pry
 		data = JSON.parse(resp.body)
 		location = data['results'][0]['geometry']['location']
-		data[:status] = resp.status
+		location[:city] =  data['results'][0]['address_components'][1]['long_name']
+		location[:state] = data['results'][0]['address_components'][2]['long_name']
+		location[:status] = resp.status
+		binding.pry
 	end
 
 	def self.retrieve_by_city_state(params)
 		key = ENV['GOOGLE_MAP_API_KEY']
 		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:city]}+#{params[:state]}&key=#{key}"
+		resp = Faraday.get url
+		data = JSON.parse(resp.body)
+		location = data['results'][0]['geometry']['location']
+		location[:city] = params[:city]
+		location[:state] = params[:state]
+		location[:status] = resp.status
 		binding.pry
 	end		
 end
