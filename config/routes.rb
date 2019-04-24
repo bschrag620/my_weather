@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   	resources :users, only: [:create, :index] do
   		post '/authenticate', to: 'users#authenticate'
   	end
+
+  	get '/locations/retrieve', to: 'locations#retrieve'
   end
 
   resources :api, only: [:index]
