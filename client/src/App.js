@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+//import { Navbar } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import WeatherContainer from './containers/weatherContainer'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-          Hello, world!
+          <WeatherContainer />
       </div>
     );
   }

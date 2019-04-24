@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 
 const store = createStore(rootReducer)
-console.log('store initiated: ', store)
+console.log('store initiated: ', store.getState())
 
 ReactDOM.render(
 	<Provider store={store}>

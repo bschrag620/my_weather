@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Button from './button'
 
 export default class LocationInput extends Component {
 
@@ -6,8 +7,8 @@ export default class LocationInput extends Component {
 		text: ''
 	}
 
-	handleSubmit() {
-	
+	handleSubmit(e) {
+		debugger;
 	}
 
 	handleChange(e) {
@@ -20,18 +21,14 @@ export default class LocationInput extends Component {
 	render() {
 		return (
 			<form
-				onSubmit={ this.handleSubmit }
+				onSubmit={ e => this.handleSubmit(e) }
 			>
 				<input 
 					type="text"
 					value={this.state.text}
 					onChange={ e => this.handleChange(e) }
 					placeholder="city, st or zip code"/>
-				<button
-					onClick={this.handleSubmit}
-				>
-				Find myWeather!	
-				</button>
+				<Button text='Find myWeather!' onClick={ (e) => this.handleSubmit(e)} />
 			</form>
 		)
 	}
