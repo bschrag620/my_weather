@@ -12,9 +12,12 @@ class Location < ApplicationRecord
 	def self.create_from_string(string)
 		# parse the string to see what kind of data was sent
 		params = parse_string(string)
+
+		# if the string couldn't be parsed return nil
 		if params.keys.empty?
 			nil
 		else
+			
 			# if it is missing a zip key, find it using the zip api
 			if !params.keys.include?(:zip)
 				params = retrieve_zip_by_city_state(params)
