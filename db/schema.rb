@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(version: 2019_04_20_165709) do
   create_table "locations", force: :cascade do |t|
     t.float "lat"
     t.float "lng"
+    t.integer "weather_x"
+    t.integer "weather_y"
     t.integer "zip"
     t.string "city"
     t.string "state"
