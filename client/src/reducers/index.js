@@ -4,7 +4,7 @@ import locationReducer from './location_reducer'
 
 const rootReducer = combineReducers({
 	user: userReducer,
-	location: locationReducer
+	locationReducer
 });
 
 export default rootReducer;
