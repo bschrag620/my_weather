@@ -2,23 +2,48 @@ class Location < ApplicationRecord
 	has_many :user_locations
 	has_many :users, through: :user_locations
 
-	@@key = ENV['GOOGLE_MAP_API_KEY']
+	validates :zip, :weather_x, :weather_y, presence: true, uniqueness: true
+
+	@@google_key = ENV['GOOGLE_MAP_API_KEY']
+	@@zip_key = ENV['ZIP_API_KEY']
+
 	# allows for a Location to be created from an abstract string of either zip code or city, state
-	def self.new_or_create_from_string(string)
-		query = parse_string(string)
-		if !query.nil?
-			# if we have a valid query, check for existing location based on results
-			location = Location.find_by(query)
-			if location.nil?
-				location_data = (query.keys.include?(:zip)) ? retrieve_by_zip(query) : retrieve_by_city_state(query)
-				binding.pry
-				location = Location.create(location_data[:data])
-			end
-			binding.pry
-			location
+
+	def self.create_from_string(string)
+		# parse the string to see what kind of data was sent
+		params = parse_string(string)
+		if params.keys.empty?
+			nil
 		else
-			'invalid query'
+			# if it is missing a zip key, find it using the zip api
+			if !params.keys.include?(:zip)
+				params = retrieve_zip_by_city_state(params)
+				binding.pry
+			end
+
+			if params[:zip].nil?
+				nil
+			else
+			# now we have a zip key, let's find_or_create_by zips
+				Location.find_or_create_by(params)
+			end
 		end
+	end
+
+	
+	# overriding class method so the new location can be constructed will all relevant data
+	def self.find_or_create_by(params)
+		location = Location.find_by(params)
+
+		# if location wasn't found, create it and retrieve the necessary info
+		if !location
+			location = Location.new(params)
+			location.update(retrieve_by_zip(params))
+			location.update(retrieve_weather_xy(location.lat.round(4), location.lng.round(4)))
+			location.save
+		end
+
+		location
 	end
 
 	def self.parse_string(string)
@@ -28,10 +53,9 @@ class Location < ApplicationRecord
 		# assign values to data hash
 		data = {
 			:zip => (string.match(zip)) ? string.match(zip)[0] : nil,
-			:city => (string.match(city_state)) ? string.match(city_state)[0].split[0] : nil,
-			:state => (string.match(city_state)) ? string.match(city_state)[0].split[1].strip : nil 
+			:city => (string.match(city_state)) ? string.match(city_state)[0].split(',')[0] : nil,
+			:state => (string.match(city_state)) ? string.match(city_state)[0].split(',')[1].strip : nil 
 		}
-
 		# remove keys with a nil value and return new hash
 		data.each do |key, value|
 			if value.nil?
@@ -41,29 +65,35 @@ class Location < ApplicationRecord
 	end
 
 	def self.retrieve_by_zip(params)
-		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{@@key}"
-		location = pull_api(url)		
-		location[:data][:zip] = params[:zip]
+		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{@@google_key}"
+		resp = Faraday.get url
+		data = JSON.parse(resp.body)		
+		location = {}
+		location[:zip] = params[:zip]
+		address_components = data['results'][0]['address_components']
+		location.update(data['results'][0]['geometry']['location'])
+		location[:city] =  find_type(address_components, 'locality')['long_name']
+		location[:state] = find_type(address_components, 'administrative_area_level_1')['short_name']
 		location
 	end
 
-	def self.retrieve_by_city_state(params)
-		url = https://www.zipcodeapi.com/rest/<api_key>/city-zips.<format>/<city>/<state>
-		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:city]}+#{params[:state]}&key=#{@@key}"
-		pull_api(url)
-	end		
+	def self.find_type(array, name)
+		array.find { |item| item['types'].include?(name) }
+	end
 
-	def self.pull_api(url)
+	def self.retrieve_zip_by_city_state(params)
+		url = "https://www.zipcodeapi.com/rest/#{@@zip_key}/city-zips.json/#{params[:city]}/#{params[:state]}"
+		resp = Faraday.get url
+		{ :zip => JSON.parse(resp.body)['zip_codes'][0] }
+	end
+
+	def self.retrieve_weather_xy(lat, lng)
+		url = "https://api.weather.gov/points/#{lat},#{lng}"
 		resp = Faraday.get url
 		data = JSON.parse(resp.body)
-		location = {:data => {}}
-		location[:data].update(data['results'][0]['geometry']['location'])
-		location[:data][:city] =  data['results'][0]['address_components'][1]['long_name']
-		location[:data][:state] = data['results'][0]['address_components'][2]['long_name']
-		location[:status] = resp.status
-
-		location
+		{:weather_x => data['properties']['gridX'], :weather_y => data['properties']['gridY']}
 	end
+
 end
 
 # https://api.weather.gov/gridpoints/TOP/31,80/forecast/hourly?units=us
