@@ -2,7 +2,7 @@ class Location < ApplicationRecord
 	has_many :user_locations
 	has_many :users, through: :user_locations
 
-	validates :zip, :weather_x, :weather_y, presence: true, uniqueness: true
+	validates :zip, presence: true, uniqueness: true
 
 	@@google_key = ENV['GOOGLE_MAP_API_KEY']
 	@@zip_key = ENV['ZIP_API_KEY']
@@ -42,7 +42,7 @@ class Location < ApplicationRecord
 		if !location
 			location = Location.new(params)
 			location.update(retrieve_by_zip(params))
-			location.update(retrieve_weather_xy(location.lat.round(4), location.lng.round(4)))
+			location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))
 			location.save
 		end
 
@@ -90,11 +90,11 @@ class Location < ApplicationRecord
 		{ :zip => JSON.parse(resp.body)['zip_codes'][0] }
 	end
 
-	def self.retrieve_weather_xy(lat, lng)
+	def self.retrieve_weather_api(lat, lng)
 		url = "https://api.weather.gov/points/#{lat},#{lng}"
 		resp = Faraday.get url
 		data = JSON.parse(resp.body)
-		{:weather_x => data['properties']['gridX'], :weather_y => data['properties']['gridY']}
+		{:forecast_api => data['properties']['forecast'], :hourly_forecast_api => data['properties']['forecastHourly']}
 	end
 
 end
