@@ -1,4 +1,4 @@
-function usersReducer(state = {
+function userReducer(state = {
 	username: '',
 	token: ''}, action) {
 
@@ -9,4 +9,4 @@ function usersReducer(state = {
 	}
 }
 
-export default usersReducer;
+export default userReducer;
