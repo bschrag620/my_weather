@@ -3,8 +3,8 @@ class CreateLocations < ActiveRecord::Migration[5.2]
     create_table :locations do |t|
       t.float :lat
       t.float :lng
-      t.integer :weather_x
-      t.integer :weather_y
+      t.string :forecast_api
+      t.string :hourly_forecast_api
       t.integer :zip
       t.string :city
       t.string :state
