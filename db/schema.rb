@@ -10,16 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_20_165709) do
+ActiveRecord::Schema.define(version: 2019_04_25_201934) do
 
   create_table "locations", force: :cascade do |t|
     t.float "lat"
     t.float "lng"
     t.string "forecast_api"
     t.string "hourly_forecast_api"
+    t.string "station_list_api"
     t.integer "zip"
     t.string "city"
     t.string "state"
+    t.integer "preferred_observation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "observation_site_locations", force: :cascade do |t|
+    t.integer "observation_site_id"
+    t.integer "location_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "observation_sites", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.string "observation_api"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
