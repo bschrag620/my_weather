@@ -100,7 +100,10 @@ class Location < ApplicationRecord
 		url = "https://api.weather.gov/points/#{lat},#{lng}"
 		resp = Faraday.get url
 		data = JSON.parse(resp.body)
-		{:forecast_api => data['properties']['forecast'], :hourly_forecast_api => data['properties']['forecastHourly']}
+		{
+			:forecast_api => data['properties']['forecast'], 
+			:hourly_forecast_api => data['properties']['forecastHourly'],
+			:observation_api => data['properties']['observationStations']}
 	end
 
 	def self.to_uri(value)
