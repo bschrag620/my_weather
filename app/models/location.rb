@@ -2,6 +2,9 @@ class Location < ApplicationRecord
 	has_many :user_locations
 	has_many :users, through: :user_locations
 
+	has_many :observation_site_locations
+	has_many :observation_sites, through: :observation_site_locations
+
 	validates :zip, presence: true, uniqueness: true
 
 	@@google_key = ENV['GOOGLE_MAP_API_KEY']
@@ -49,6 +52,7 @@ class Location < ApplicationRecord
 			location = Location.new(params)
 			location.update(retrieve_by_zip(params))
 			location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))
+			location.update(retrieve_observation_stations(location.station_list_api))
 			location.save
 		end
 
@@ -103,7 +107,26 @@ class Location < ApplicationRecord
 		{
 			:forecast_api => data['properties']['forecast'], 
 			:hourly_forecast_api => data['properties']['forecastHourly'],
-			:observation_api => data['properties']['observationStations']}
+			:station_list_api => data['properties']['observationStations']}
+	end
+
+	def self.retrieve_observation_stations(url)
+		resp = Faraday.get url
+		body = JSON.parse(resp.body)
+		features = body['features']
+		station_ids = []
+		features.each do |station|
+			if station['properties']['@type'] == 'wx:ObservationStation'
+				params = {
+					:code => station['properties']['identifier'],
+					:name => station['properties']['name'],
+					:observation_api => station['properties']['@id'] + '/observations'}
+				observation_site = ObservationSite.find_or_create_by(params)
+				station_ids << observation_site.id
+			end
+		end
+		binding.pry
+		{observation_site_ids: station_ids}
 	end
 
 	def self.to_uri(value)
