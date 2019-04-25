@@ -9,7 +9,8 @@ export default class LocationInput extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault()
-		this.props.retrieveLocation(this.state.text)
+		debugger;
+		this.props.retrieveAndSetLocation(this.state.text)
 		this.setState({
 			text: ''
 		})
