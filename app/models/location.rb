@@ -9,10 +9,17 @@ class Location < ApplicationRecord
 
 	# allows for a Location to be created from an abstract string of either zip code or city, state
 
+	def lat=(value)
+		super(value.round(4))
+	end
+
+	def lng=(value)
+		super(value.round(4))
+	end
+
 	def self.create_from_string(string)
 		# parse the string to see what kind of data was sent
 		params = parse_string(string)
-
 		# if the string couldn't be parsed return nil
 		if params.keys.empty?
 			nil
@@ -21,7 +28,6 @@ class Location < ApplicationRecord
 			# if it is missing a zip key, find it using the zip api
 			if !params.keys.include?(:zip)
 				params = retrieve_zip_by_city_state(params)
-				binding.pry
 			end
 
 			if params[:zip].nil?
@@ -51,7 +57,7 @@ class Location < ApplicationRecord
 
 	def self.parse_string(string)
 		zip = /\d{5}/
-		city_state = /\w+[,]\s?\w+/
+		city_state = /.+[,]\s?\w+/
 
 		# assign values to data hash
 		data = {
@@ -85,7 +91,7 @@ class Location < ApplicationRecord
 	end
 
 	def self.retrieve_zip_by_city_state(params)
-		url = "https://www.zipcodeapi.com/rest/#{@@zip_key}/city-zips.json/#{params[:city]}/#{params[:state]}"
+		url = "https://www.zipcodeapi.com/rest/#{@@zip_key}/city-zips.json/#{to_uri(params[:city])}/#{params[:state]}"
 		resp = Faraday.get url
 		{ :zip => JSON.parse(resp.body)['zip_codes'][0] }
 	end
@@ -95,6 +101,10 @@ class Location < ApplicationRecord
 		resp = Faraday.get url
 		data = JSON.parse(resp.body)
 		{:forecast_api => data['properties']['forecast'], :hourly_forecast_api => data['properties']['forecastHourly']}
+	end
+
+	def self.to_uri(value)
+		value.sub(' ', '%20')
 	end
 
 end
