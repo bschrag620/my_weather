@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   	end
 
   	get '/locations/retrieve', to: 'locations#retrieve'
+  	get '/locations/:id/forecast', to: 'locations#forecast'
   end
 
   resources :api, only: [:index]
