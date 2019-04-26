@@ -49,6 +49,10 @@ class Api::LocationsController < ApplicationController
 		current_conditions[:pressure] = is_metric ? { value: prop['barometricPressure']['value'], units: 'Pa' } : { value: prop['barometricPressure']['value'] / 100, units: 'mBar' }
 		current_conditions[:windDirection] = wind_direction_conversion(prop['windDirection']['value'])
 		current_conditions[:visibility] = is_metric ? { value: prop['visibility']['value'] / 1000, units: 'km' } : { value: prop['visibility']['value'] / 1609, units: 'm' }
+		current_conditions[:relativeHumidity] = { value: prop['relativeHumidity']['value'], units: '%' }
+		current_conditions[:timestamp] = parse_time(prop['timestamp'])[0]
+
+		render json: [site: ObservationSiteSerializer.new(site).attributes, properties: current_conditions]
 	end
 
 	private
@@ -82,5 +86,11 @@ class Api::LocationsController < ApplicationController
 
 		wind_values = wind_table.find_all { |k, v| k < deg }
 		wind_values.last[1]
+	end
+
+	def parse_time(string)
+		(date, remainder) = string.split('T')
+		(time, utc) = remainder.split('+')
+		[time, utc, date]
 	end
 end
