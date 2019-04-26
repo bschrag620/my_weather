@@ -24,7 +24,3 @@ export function setLocation(id) {
 		})
 	}
 };
-
-export function retrieveAndSetLocation(text) {
-
-}

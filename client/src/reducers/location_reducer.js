@@ -4,8 +4,14 @@ function locationReducer(state = {
 }, action) {
 	switch (action.type) {
 		case 'ADD_LOCATION':
-			console.log('reducer is adding location: ', action.payload)
-			return {...state, locations: state.locations.concat(action.payload)}
+			if (state.locations.find( loc => loc.zip === action.payload.zip )) {
+    			console.log('duplicate location, not adding')
+    			return state
+			} else {
+    			console.log('reducer is adding location: ', action.payload)
+				return {...state, locations: state.locations.concat(action.payload)}
+			}
+			
 
 		case 'REMOVE_LOCATION':
 			console.log('location reducer removing locaiton: ', action.id)

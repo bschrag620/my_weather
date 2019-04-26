@@ -12,6 +12,4 @@ const Location = props => {
 	</div>)
 }
 
-
-
 export default Location
