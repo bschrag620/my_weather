@@ -1,11 +1,14 @@
 import React from 'react'
+import CityState from './stateless/cityState'
+import Zip from './stateless/zip'
+import LatLng from './stateless/latLng'
 
 const Location = props => {
 	return (
 	<div className="location block" id={props.location.id}>
-	<h4>{props.location.city}, {props.location.state}</h4>
-	Zip: {props.location.zip} <br/>
-	<i>lat: {props.location.lat} long: {props.location.lng}</i>
+	<h4><CityState city={props.location.city} state={props.location.state}/></h4>
+	<Zip zip={props.location.zip} /><br/>
+	<LatLng lat={props.location.lat} lng={props.location.lng} />
 	</div>)
 }
 
