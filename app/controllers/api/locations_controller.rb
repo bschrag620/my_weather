@@ -35,4 +35,8 @@ class Api::LocationsController < ApplicationController
 		
 		render json: forecasts
 	end
+
+	def current
+
+	end
 end
