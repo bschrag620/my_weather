@@ -53,6 +53,7 @@ class Location < ApplicationRecord
 			location.update(retrieve_by_zip(params))
 			location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))
 			location.update(retrieve_observation_stations(location.station_list_api))
+			location.set_preferred_site
 			location.save
 		end
 
@@ -118,19 +119,57 @@ class Location < ApplicationRecord
 		features.each do |station|
 			if station['properties']['@type'] == 'wx:ObservationStation'
 				params = {
-					:code => station['properties']['identifier'],
+					:code => station['properties']['stationIdentifier'],
 					:name => station['properties']['name'],
-					:observation_api => station['properties']['@id'] + '/observations'}
-				observation_site = ObservationSite.find_or_create_by(params)
+					:observation_api => station['properties']['@id'] + '/observations',
+					:lat => station['geometry']['coordinates'][1],
+					:lng => station['geometry']['coordinates'][0]}
+				observation_site = ObservationSite.find_by(:code => params[:code])
+				if !observation_site
+					observation_site = ObservationSite.create(params)
+				end
+				
 				station_ids << observation_site.id
 			end
 		end
-		binding.pry
+
 		{observation_site_ids: station_ids}
 	end
 
 	def self.to_uri(value)
 		value.sub(' ', '%20')
+	end
+
+	def set_preferred_site
+		self.preferred_observation_code = self.find_min_distance.code
+	end
+
+	def find_min_distance
+
+		def to_radians(deg)
+			deg * Math::PI / 180
+		end
+		
+		#implementation of haversine formulat
+		# found here: http://www.movable-type.co.uk/scripts/latlong.html?from=47.80423,-120.03866&to=47.799342,-119.984476
+		# self is site #1, observation site is #2 
+		
+		r = 6371e3
+		lat1 = to_radians(self.lat)
+		
+		self.observation_sites.min do | site |
+			lat2 = to_radians(site.lat)
+			delta_lat = to_radians(site.lat - self.lat)
+			delta_lng = to_radians(site.lng - self.lng)
+
+			a = Math.sin(delta_lat / 2) ** 2 +
+				Math.cos(lat1) * Math.cos(lat2) *
+				Math.sin(delta_lng / 2) ** 2 
+
+			c = 2 * Math.atan2(a ** 0.5, (1 - a) ** 0.5)
+
+			r * c
+		end
 	end
 
 end
