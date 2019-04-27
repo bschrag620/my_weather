@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Location from '../components/location'
-import retrieveCurrentConditions from '../actions/weather_actions'
 import uuid from 'uuid'
-
 
 class LocationsContainer extends Component {
 

@@ -48,9 +48,8 @@ class Api::LocationsController < ApplicationController
 
 		current_conditions = {}
 		current_conditions[:temperature] = is_metric ? { value: prop['temperature']['value'], units: 'C' } : { value: prop['temperature']['value'] * 9 / 5 + 32, units: 'F' }
-		current_conditions[:windSpeed] = is_metric ? { value: prop['windSpeed']['value'], units: 'ms-1' } : { value: prop['windSpeed']['value'] * 2.237, units: 'mph' }
+		current_conditions[:wind] = is_metric ? { value: prop['windSpeed']['value'], units: 'ms-1', direction: wind_direction_conversion(prop['windDirection']['value']) } : { value: prop['windSpeed']['value'] * 2.237, units: 'mph', direction: wind_direction_conversion(prop['windDirection']['value']) }
 		current_conditions[:pressure] = is_metric ? { value: prop['barometricPressure']['value'], units: 'Pa' } : { value: prop['barometricPressure']['value'] / 100, units: 'mBar' }
-		current_conditions[:windDirection] = wind_direction_conversion(prop['windDirection']['value'])
 		current_conditions[:visibility] = is_metric ? { value: prop['visibility']['value'] / 1000, units: 'km' } : { value: prop['visibility']['value'] / 1609, units: 'm' }
 		current_conditions[:relativeHumidity] = { value: prop['relativeHumidity']['value'], units: '%' }
 		current_conditions[:timestamp] = parse_time(prop['timestamp'])[0]
