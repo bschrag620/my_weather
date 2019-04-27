@@ -47,14 +47,18 @@ class Location < ApplicationRecord
 	def self.find_or_create_by(params)
 		location = Location.find_by(params)
 
-		# if location wasn't found, create it and retrieve the necessary info
+		# if location wasn't found, create it and retrieve the necessary info		
 		if !location
-			location = Location.new(params)
-			location.update(retrieve_by_zip(params))
-			location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))
-			location.update(retrieve_observation_stations(location.station_list_api))
-			location.set_preferred_site
-			location.save
+			zip_params = retrieve_by_zip(params)
+			
+			if zip_params
+				location = Location.new(zip_params)
+				location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))
+				location.update(retrieve_observation_stations(location.station_list_api))
+				location.set_preferred_site
+
+				location.save
+			end
 		end
 
 		location
@@ -81,13 +85,19 @@ class Location < ApplicationRecord
 	def self.retrieve_by_zip(params)
 		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{@@google_key}"
 		resp = Faraday.get url
-		data = JSON.parse(resp.body)		
-		location = {}
-		location[:zip] = params[:zip]
-		address_components = data['results'][0]['address_components']
-		location.update(data['results'][0]['geometry']['location'])
-		location[:city] =  find_type(address_components, 'locality')['long_name']
-		location[:state] = find_type(address_components, 'administrative_area_level_1')['short_name']
+		data = JSON.parse(resp.body)
+
+		if !data['results'].empty?	
+			location = {}
+
+			location[:zip] = params[:zip]
+			address_components = data['results'][0]['address_components']
+			location.update(data['results'][0]['geometry']['location'])
+			location[:city] =  find_type(address_components, 'locality')['long_name']
+			location[:state] = find_type(address_components, 'administrative_area_level_1')['short_name']
+		else
+			location = nil
+		end
 		location
 	end
 

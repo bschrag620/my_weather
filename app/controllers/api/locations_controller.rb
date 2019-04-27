@@ -1,8 +1,11 @@
 class Api::LocationsController < ApplicationController
 	def retrieve
 		location = Location.create_from_string(params[:query])
-
-		render json: location
+		if location
+			render json: location, :status => 200
+		else
+			render json: {:error => 'no matching zip code found'}, status: 404
+		end
 	end
 
 	def forecast
@@ -52,7 +55,7 @@ class Api::LocationsController < ApplicationController
 		current_conditions[:relativeHumidity] = { value: prop['relativeHumidity']['value'], units: '%' }
 		current_conditions[:timestamp] = parse_time(prop['timestamp'])[0]
 
-		render json: [site: ObservationSiteSerializer.new(site).attributes, properties: current_conditions]
+		render json: {:meta => ObservationSiteSerializer.new(site).attributes, properties: current_conditions}
 	end
 
 	private
@@ -84,7 +87,7 @@ class Api::LocationsController < ApplicationController
 			337.5 => 'NNW'
 		}
 
-		wind_values = wind_table.find_all { |k, v| k < deg }
+		wind_values = wind_table.find_all { |k, v| k <= deg }
 		wind_values.last[1]
 	end
 
