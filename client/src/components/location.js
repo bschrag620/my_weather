@@ -5,6 +5,7 @@ import LatLng from './stateless/latLng'
 import { connect } from 'react-redux'
 import CompactCurrentConditionsContainer from '../containers/compactCurrentConditionsContainer'
 import retrieveCurrentConditions from '../actions/weather_actions'
+import RetrievingData from './stateless/retrievingData'
 
 
 class Location extends Component {
@@ -31,7 +32,7 @@ class Location extends Component {
 		return (
 			<div className="location block" id={this.props.location.id}>
 				<div><CityState city={this.props.location.city} state={this.props.location.state}/></div>
-				{this.state.loading ? 'loading weather data' : <CompactCurrentConditionsContainer conditions={this.state.currentConditions}/>}
+				{this.state.loading ? <RetrievingData /> : <CompactCurrentConditionsContainer conditions={this.state.currentConditions}/>}
 				<Zip zip={this.props.location.zip} /><br/>
 				<LatLng lat={this.props.location.lat} lng={this.props.location.lng} />
 			</div>

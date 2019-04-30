@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import App from './App';
+import DailyDetailContainer from './containers/dailyDetailContainer'
 import rootReducer from './reducers/index'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
@@ -9,9 +11,19 @@ import { createStore, applyMiddleware } from 'redux'
 const store = createStore(rootReducer, applyMiddleware(thunk))
 console.log('store initiated: ', store.getState())
 
+const validateLocation = () => {
+	debugger;
+	return false
+}
+
 ReactDOM.render(
 	<Provider store={store}>
-		<App />
+		<Router>
+			<div>
+				<Route path='/' component={ App } />
+				<Route path='/:zip/detail' component={ DailyDetailContainer } />
+			</div>			
+		</Router>
 	</Provider>
 	, document.getElementById('root'));
 

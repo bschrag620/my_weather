@@ -11,7 +11,7 @@ export default function retrieveLocation(text) {
 			type: 'LOCATION_API_REQUEST',
 			text: text
 		})
-		return fetch(`api/locations/retrieve?query=${text}`)
+		return fetch(`/api/locations/retrieve?query=${text}`)
 			.then(handleErrors)
 			.then(response => response.json())
 			.then(location => {

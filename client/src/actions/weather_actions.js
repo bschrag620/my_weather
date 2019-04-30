@@ -4,7 +4,7 @@ export default function retrieveCurrentConditions(code, units='si') {
 			type: 'RETRIEVE_CURRENT',
 			code: code
 		})
-		return fetch(`api/locations/${code}/current?units=${units}`)
+		return fetch(`/api/locations/${code}/current?units=${units}`)
 				.then(resp => resp.json())
 				.then(weather => {
 					dispatch({
