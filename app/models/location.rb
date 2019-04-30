@@ -27,7 +27,6 @@ class Location < ApplicationRecord
 		if params.keys.empty?
 			nil
 		else
-			
 			# if it is missing a zip key, find it using the zip api
 			if !params.keys.include?(:zip)
 				params = retrieve_zip_by_city_state(params)
@@ -108,6 +107,8 @@ class Location < ApplicationRecord
 	def self.retrieve_zip_by_city_state(params)
 		url = "https://www.zipcodeapi.com/rest/#{@@zip_key}/city-zips.json/#{to_uri(params[:city])}/#{params[:state]}"
 		resp = Faraday.get url
+		binding.pry
+		
 		{ :zip => JSON.parse(resp.body)['zip_codes'][0] }
 	end
 

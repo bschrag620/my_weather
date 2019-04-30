@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   		post '/authenticate', to: 'users#authenticate'
   	end
 
-  	get '/locations/retrieve', to: 'locations#retrieve'
+  	post '/locations/retrieve', to: 'locations#retrieve'
   	get '/locations/:id/forecast', to: 'locations#forecast'
   	get '/locations/:code/current', to: 'locations#current'
   end
