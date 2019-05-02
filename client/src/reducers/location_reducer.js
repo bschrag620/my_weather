@@ -1,6 +1,5 @@
 function locationReducer(state = {
 	locations: [],
-	activeLocation: null
 }, action) {
 	switch (action.type) {
 		case 'ADD_LOCATION':
@@ -23,10 +22,6 @@ function locationReducer(state = {
 		case 'LOCATION_API_REQUEST':
 			console.log('reducer is retrieving location: ', action.text)
 			return state
-		
-		case 'SET_ACTIVE_LOCATION':
-			console.log('location reducer setting active location: ', action.id)
-			return {...state, activeLocation: action.id}
 
 		case 'CLEAR_ACTIVE_LOCATION':
 			console.log('location reducer clearing active location')
