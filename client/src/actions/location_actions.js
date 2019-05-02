@@ -21,7 +21,11 @@ export default function retrieveLocation(text) {
 			.then(handleErrors)
 			.then(response => response.json())
 			.then(location => {
-				setLocation(location.id)
+				dispatch({
+					type: 'SET_ACTIVE_LOCATION',
+					id: location.id,
+					code: location.preferred_observation_code
+				})
 				dispatch({
 					type: 'ADD_LOCATION', 
 					payload: location
@@ -34,11 +38,13 @@ export default function retrieveLocation(text) {
 	}
 };
 
-export function setLocation(id) {
+export function setLocation(location) {
 	return dispatch => {
 		dispatch({
 			dispatch: 'SET_ACTIVE_LOCATION',
-			id: id
+			id: location.id,
+			code: location.preferred_observation_code
+
 		})
 	}
 };
