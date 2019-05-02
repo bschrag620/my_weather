@@ -4,7 +4,7 @@ export default function weatherReducer (state={
 
 	switch (action.type) {
 		case 'RETRIEVING_CURRENT':
-			console.log('retrieving current for: ', action.code)
+			console.log('retrieving current weather for: ', action.code)
 			return state
 
 		case 'RETRIEVING_HOURLY':
@@ -20,7 +20,6 @@ export default function weatherReducer (state={
 			const key = action.payload.meta.code
 			newSite[key] = action.payload
 			const newSites = Object.assign(state.sites, newSite);
-
 			return {...state, sites: newSites}
 
 		default:

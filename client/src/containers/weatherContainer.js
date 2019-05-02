@@ -12,7 +12,6 @@ class WeatherContainer extends Component {
 				Weather container <br/>
 				<LocationInput retrieveLocation={this.props.retrieveLocation} /> <br/>
 				<LocationsContainer locations={this.props.locations} />
-				add in weather display <br/>
 			</div>
 		)
 	}

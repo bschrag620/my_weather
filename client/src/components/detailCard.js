@@ -9,10 +9,9 @@ export default class DetailCard extends Component {
 
 		return (
 			<div className={meta.code}>
-				<h1>{meta.name} - {meta.code}</h1>
-				<h1><Temperature temperature={properties.temperature} /></h1>
+				<h2>{meta.name} - {meta.code}</h2>
+				<h2><Temperature temperature={properties.temperature} /></h2>
 				<h3><Wind wind={properties.wind} /></h3>
-
 			</div>
 		)
 	}

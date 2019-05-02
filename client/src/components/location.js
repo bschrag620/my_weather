@@ -17,14 +17,25 @@ class Location extends Component {
 		}
 	}
 
-	componentDidMount() {
-		this.props.retrieveCurrentConditions(this.props.location.preferred_observation_code, 'si')
-			.then(resp => {
-				this.setState({
+	componentWillMount() {
+		if (this.props.sites[this.props.location.preferred_observation_code]) {
+			this.setState({
 					loading: false,
 					currentConditions: this.props.sites[this.props.location.preferred_observation_code].properties
+			})
+		}
+	}
+
+	componentDidMount() {
+		if (this.state.loading) {
+			const code = this.props.location.preferred_observation_code
+			this.props.retrieveCurrentConditions(code, 'si').then( () => {
+					this.setState({
+						loading: false,
+						currentConditions: this.props.sites[this.props.location.preferred_observation_code].properties
 				})
 			})
+		}
 	}
 
 	
@@ -32,7 +43,7 @@ class Location extends Component {
 		return (
 			<div className="location block" id={this.props.location.id}>
 				<div><CityState city={this.props.location.city} state={this.props.location.state}/></div>
-				{this.state.loading ? <RetrievingData /> : <CompactCurrentConditionsContainer conditions={this.state.currentConditions}/>}
+				{this.state.loading ? <RetrievingData message="location"/> : <CompactCurrentConditionsContainer conditions={this.state.currentConditions}/>}
 				<Zip zip={this.props.location.zip} /><br/>
 			</div>
 		)

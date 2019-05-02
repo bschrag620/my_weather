@@ -107,7 +107,6 @@ class Location < ApplicationRecord
 	def self.retrieve_zip_by_city_state(params)
 		url = "https://www.zipcodeapi.com/rest/#{@@zip_key}/city-zips.json/#{to_uri(params[:city])}/#{params[:state]}"
 		resp = Faraday.get url
-		binding.pry
 		
 		{ :zip => JSON.parse(resp.body)['zip_codes'][0] }
 	end
