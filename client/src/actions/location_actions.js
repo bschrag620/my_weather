@@ -21,6 +21,7 @@ export default function retrieveLocation(text) {
 			.then(handleErrors)
 			.then(response => response.json())
 			.then(location => {
+				window.history.pushState({}, `daily detail ${location.preferred_observation_code}`, `/${location.zip}/detail`)
 				dispatch({
 					type: 'SET_ACTIVE_LOCATION',
 					id: location.id,

@@ -8,7 +8,6 @@ class CompactCurrentConditionsContainer extends Component {
 		return (
 			<div className='current-conditions'>
 				<div className='tall-font'><Temperature temperature={this.props.conditions.temperature} /></div>
-				<Wind wind={this.props.conditions.wind} />
 			</div>
 		)
 	}

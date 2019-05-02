@@ -34,7 +34,6 @@ class Location extends Component {
 				<div><CityState city={this.props.location.city} state={this.props.location.state}/></div>
 				{this.state.loading ? <RetrievingData /> : <CompactCurrentConditionsContainer conditions={this.state.currentConditions}/>}
 				<Zip zip={this.props.location.zip} /><br/>
-				<LatLng lat={this.props.location.lat} lng={this.props.location.lng} />
 			</div>
 		)
 	}

@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import retrieveLocation from '../actions/location_actions'
 import retrieveCurrentConditions from '../actions/weather_actions'
 import RetreivingData from '../components/stateless/retrievingData'
-import weatherIndex from '../components/stateless/weatherIndex'
 import DetailCard from '../components/detailCard'
 
 
@@ -35,16 +34,12 @@ class DailyDetailContainer extends Component {
 
 	componentDidMount() {
 		this.props.retrieveLocation(this.state.zip)
-			.then( () => {
-				this.updateData()
-			})
+			.then( () => this.updateData() )
 	}
-
 
 	render () {
 		return (
 			<div className="daily-detail">
-				This is a daily detail for {this.state.zip} <br/>
 				{!this.props.dailyDetail ? <RetreivingData message="daily details" /> : <DetailCard details={this.props.dailyDetail} />}
 			</div>
 
