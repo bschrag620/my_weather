@@ -40,7 +40,7 @@ class DailyDetailContainer extends Component {
 	render () {
 		return (
 			<div className="daily-detail">
-				{!this.props.dailyDetail ? <RetreivingData message="daily details" /> : <DetailCard details={this.props.dailyDetail} city={this.props.location.city} state={this.props.location}/>}
+				{!this.props.dailyDetail ? <RetreivingData message="daily details" /> : <DetailCard details={this.props.dailyDetail} city={this.props.location.city} state={this.props.location.state}/>}
 			</div>
 
 		)
@@ -49,8 +49,9 @@ class DailyDetailContainer extends Component {
 
 const mapStateToProps = state => {
 	const code = state.sessionReducer.activeWeatherStationCode
+	const activeLocation = state.sessionReducer.activeLocation
 	return {
-		location: state.sessionReducer.activeLocation,
+		location: state.locationReducer.locations.find( loc => loc.id === activeLocation ),
 		code: code,
 		dailyDetail: state.weatherReducer.sites[code]
 	}
