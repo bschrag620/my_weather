@@ -40,7 +40,7 @@ class DailyDetailContainer extends Component {
 	render () {
 		return (
 			<div className="daily-detail">
-				{!this.props.dailyDetail ? <RetreivingData message="daily details" /> : <DetailCard details={this.props.dailyDetail} city={this.props.location.city} state={this.props.location.state}/>}
+				{!this.props.dailyDetail ? <RetreivingData message="daily details" /> : <DetailCard details={this.props.dailyDetail} location={this.props.location}/>}
 			</div>
 
 		)
