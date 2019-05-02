@@ -3,7 +3,7 @@ import React from 'react'
 const RetrievingData = props => {
 	return (
 		<>
-			Retrieving data...
+			Retrieving {props.message}...
 		</>
 	)
 }
