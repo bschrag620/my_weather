@@ -1,7 +1,7 @@
 import React from 'react'
 
 const LatLng = props => (
-	<i>lat: {props.lat} lng: {props.lng}</i>
+	<>lat: {props.lat} lng: {props.lng}</>
 )
 
 export default LatLng

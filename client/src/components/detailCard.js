@@ -11,9 +11,9 @@ export default class DetailCard extends Component {
 				<h1>{this.props.location.city}, {this.props.location.state}</h1>
 				<h2><Temperature temperature={properties.temperature} /></h2>
 				<h3><Wind wind={properties.wind} /></h3>
-				<i className='fine-print'>Sensor location: {meta.name}</i> <br/>
-				<i className='fine-print'>Observation code: {meta.code}</i> <br/>
-				<i className='fine-print'><LatLng lat={this.props.location.lat} lng={this.props.location.lng} /></i>
+				<div className='fine-print'>Sensor location: {meta.name}</div>
+				<div className='fine-print'>Observation code: {meta.code}</div> 
+				<div className='fine-print'><LatLng lat={this.props.location.lat} lng={this.props.location.lng} /></div>
 			</div>
 		)
 	}
