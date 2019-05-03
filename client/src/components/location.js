@@ -3,6 +3,7 @@ import CityState from './stateless/cityState'
 import Zip from './stateless/zip'
 import LatLng from './stateless/latLng'
 import { connect } from 'react-redux'
+import { Col } from 'react-bootstrap'
 import CompactCurrentConditionsContainer from '../containers/compactCurrentConditionsContainer'
 import retrieveCurrentConditions from '../actions/weather_actions'
 import RetrievingData from './stateless/retrievingData'
@@ -41,11 +42,11 @@ class Location extends Component {
 	
 	render() {
 		return (
-			<div className="location block" id={this.props.location.id}>
+			<Col className="location block" id={this.props.location.id}>
 				<div><CityState city={this.props.location.city} state={this.props.location.state}/></div>
 				{this.state.loading ? <RetrievingData message="location"/> : <CompactCurrentConditionsContainer conditions={this.state.currentConditions}/>}
 				<Zip zip={this.props.location.zip} /><br/>
-			</div>
+			</Col>
 		)
 	}
 }
