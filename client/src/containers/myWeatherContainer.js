@@ -4,12 +4,11 @@ import { connect } from 'react-redux'
 import retrieveLocation from '../actions/location_actions'
 import LocationsContainer from './locationsContainer'
 
-class WeatherContainer extends Component {
+class MyWeatherContainer extends Component {
 
 	render() {
 		return (
 			<div className="weather-container">
-				Weather container <br/>
 				<LocationInput retrieveLocation={this.props.retrieveLocation} /> <br/>
 				<LocationsContainer locations={this.props.locations} />
 			</div>
@@ -25,9 +24,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		retrieveLocation: 
-		(text) => dispatch(retrieveLocation(text))
+		retrieveLocation: (text) => dispatch(retrieveLocation(text))
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(WeatherContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(MyWeatherContainer)

@@ -3,17 +3,20 @@ import { connect } from 'react-redux'
 import retrieveLocation from '../actions/location_actions'
 import retrieveCurrentConditions from '../actions/weather_actions'
 import RetreivingData from '../components/stateless/retrievingData'
-import DetailCard from '../components/detailCard'
+//import DetailCard from '../components/detailCard'
+import ForecastDisplay from './forecastDisplay'
+import { Container } from 'react-bootstrap'
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
 
-class DailyDetailContainer extends Component {
+class ForecastContainer extends Component {
 	constructor(props) {
 		super(props)
-
 		this.state = {
 			loading: true,
-			zip: this.props.match.params.zip
+			zip: props.match.params.zip
 		}
+
 	}
 
 	updateData() {
@@ -39,9 +42,9 @@ class DailyDetailContainer extends Component {
 
 	render () {
 		return (
-			<div className="daily-detail">
-				{!this.props.dailyDetail ? <RetreivingData message="daily details" /> : <DetailCard details={this.props.dailyDetail} location={this.props.location}/>}
-			</div>
+			<Container className="daily-detail">
+				{ !this.props.dailyDetail ? <RetreivingData message="forecast details" /> :  <ForecastDisplay match={this.props.match} data={this.props.dailyDetail}/>}
+			</Container>// <DetailCard details={this.props.dailyDetail} location={this.props.location} />
 
 		)
 	}
@@ -64,4 +67,4 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DailyDetailContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ForecastContainer)
