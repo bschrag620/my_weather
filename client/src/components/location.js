@@ -13,6 +13,8 @@ class Location extends Component {
 			const id = this.props.data.id
 			this.props.retrieveCurrentConditions(code, id, 'si')
 		}
+
+		window.history.pushState( {}, 'detail', `/${this.props.data.zip}/detail`)
 	}
 	
 	render() {

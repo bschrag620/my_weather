@@ -3,6 +3,7 @@ import LocationInput from '../components/locationInput'
 import { connect } from 'react-redux'
 import retrieveLocation from '../actions/location_actions'
 import LocationsContainer from './locationsContainer'
+import DisplayContainer from './displayContainer'
 
 class MyWeatherContainer extends Component {
 	constructor(props) {
@@ -20,6 +21,7 @@ class MyWeatherContainer extends Component {
 			<div className="weather-container">
 				<LocationInput retrieveLocation={this.props.retrieveLocation} /> <br/>
 				<LocationsContainer locations={this.props.locations} />
+				<DisplayContainer />
 			</div>
 		)
 	}
