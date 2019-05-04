@@ -86,8 +86,12 @@ class Api::LocationsController < ApplicationController
 			337.5 => 'NNW'
 		}
 
-		wind_values = wind_table.find_all { |k, v| k <= deg }
-		wind_values.last[1]
+		if deg.nil?
+			'--'
+		else
+			wind_values = wind_table.find_all { |k, v| k <= deg }
+			wind_values.last[1]
+		end
 	end
 
 	def parse_time(string)
