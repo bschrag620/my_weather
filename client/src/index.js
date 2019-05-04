@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import App from './App';
-import DailyDetailContainer from './containers/dailyDetailContainer'
+import ForecastContainer from './containers/forecastContainer'
 import rootReducer from './reducers/index'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
@@ -19,10 +19,7 @@ const validateLocation = () => {
 ReactDOM.render(
 	<Provider store={store}>
 		<Router>
-			<div>
-				<Route path='/' component={ App } />
-				<Route path='/:zip/detail' component={ DailyDetailContainer } />
-			</div>			
+			<App />
 		</Router>
 	</Provider>
 	, document.getElementById('root'));
