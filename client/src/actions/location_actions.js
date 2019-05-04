@@ -1,3 +1,5 @@
+import uuid from 'uuid'
+
 function handleErrors(response) {
 	if (!response.ok) {
 		throw Error('zip code not found')
@@ -6,11 +8,17 @@ function handleErrors(response) {
 }
 
 export default function retrieveLocation(text) {
+	const id = uuid()
 	return (dispatch) => {
 		dispatch({
 			type: 'LOCATION_API_REQUEST',
-			text: text
+			payload: {
+				text: text,
+				loadingData: true,
+				id: id
+			}
 		})
+
 		return fetch('/api/locations/retrieve', {
 			method: 'POST',
 			body: JSON.stringify({query: text}),
@@ -21,15 +29,25 @@ export default function retrieveLocation(text) {
 			.then(handleErrors)
 			.then(response => response.json())
 			.then(location => {
-				window.history.pushState({}, `daily detail ${location.preferred_observation_code}`, `/${location.zip}/detail`)
 				dispatch({
 					type: 'SET_ACTIVE_LOCATION',
-					id: location.id,
+					id: id,
 					code: location.preferred_observation_code
 				})
+				location.id = id
 				dispatch({
-					type: 'ADD_LOCATION', 
-					payload: location
+					type: 'INITIALIZE_WEATHER_ID',
+					payload: {
+						id: id,
+						loadingData: true
+					}
+				})
+				dispatch({
+					type: 'UPDATE_LOCATION', 
+					payload: {
+						...location,
+						loadingData: false
+					}
 				})
 			})
 			.catch(error => {
