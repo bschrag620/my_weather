@@ -1,14 +1,21 @@
 function locationReducer(state = {
 	locations: [],
 }, action) {
+
 	switch (action.type) {
-		case 'ADD_LOCATION':
+		
+		case 'UPDATE_LOCATION':
 			if (state.locations.find( loc => loc.zip === action.payload.zip )) {
     			console.log('duplicate location, not adding')
+    			
     			return state
 			} else {
     			console.log('reducer is adding location: ', action.payload)
-				return {...state, locations: state.locations.concat(action.payload)}
+    			
+    			const index = state.locations.findIndex( loc => loc.id === action.payload.id )
+				const newState = [...state.locations.slice(0, index), action.payload, ...state.locations.slice(index + 1)]			
+				
+				return {...state, locations: newState }
 			}
 			
 
@@ -20,12 +27,8 @@ function locationReducer(state = {
 			}
 
 		case 'LOCATION_API_REQUEST':
-			console.log('reducer is retrieving location: ', action.text)
-			return state
-
-		case 'CLEAR_ACTIVE_LOCATION':
-			console.log('location reducer clearing active location')
-			return {...state, activeLocation: null}
+			console.log('reducer is retrieving location: ', action.payload.text)
+			return {...state, locations: state.locations.concat(action.payload)}
 
 		default:
 			return state
