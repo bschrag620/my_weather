@@ -5,6 +5,15 @@ import retrieveLocation from '../actions/location_actions'
 import LocationsContainer from './locationsContainer'
 
 class MyWeatherContainer extends Component {
+	constructor(props) {
+		super(props)
+
+		if (props.match.params.zip) {
+			const zip = props.match.params.zip
+
+			props.retrieveLocation(zip)
+		}
+	}
 
 	render() {
 		return (
