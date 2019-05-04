@@ -4,11 +4,8 @@ import Zip from './stateless/zip'
 import { Col } from 'react-bootstrap'
 import CompactCurrentConditionsContainer from '../containers/compactCurrentConditionsContainer'
 import RetrievingData from './stateless/retrievingData'
-//import { connect } from 'react-redux'
-
 
 class Location extends Component {
-
 
 	componentDidMount() {
 		if (this.props.weatherSite.current.loadingData) {
