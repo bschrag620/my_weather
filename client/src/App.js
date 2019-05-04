@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Navbar } from 'react-bootstrap'
-import WeatherContainer from './containers/weatherContainer'
+import MyWeatherContainer from './containers/myWeatherContainer'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-          <WeatherContainer />
+          <MyWeatherContainer />
       </div>
     );
   }
