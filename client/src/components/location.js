@@ -4,17 +4,17 @@ import Zip from './stateless/zip'
 import { Col } from 'react-bootstrap'
 import CompactCurrentConditionsContainer from '../containers/compactCurrentConditionsContainer'
 import RetrievingData from './stateless/retrievingData'
+import { withRouter } from 'react-router-dom'
 
 class Location extends Component {
 
 	componentDidMount() {
+
 		if (this.props.weatherSite.current.loadingData) {
 			const code = this.props.data.preferred_observation_code
 			const id = this.props.data.id
 			this.props.retrieveCurrentConditions(code, id, 'si')
 		}
-
-		window.history.pushState( {}, 'detail', `/${this.props.data.zip}/detail`)
 	}
 	
 	render() {
@@ -29,4 +29,4 @@ class Location extends Component {
 	}
 }
 
-export default Location
+export default withRouter(Location)

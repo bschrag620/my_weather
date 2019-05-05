@@ -4,7 +4,6 @@ import { CityState, LatLng, Temperature, Wind, Zip } from '../components/statele
 export default class DetailCard extends Component {
 	
 	render() {
-		debugger;
 		// if (!this.props.details) {
 		// 	return <div> Loading detailCard </div>
 		// } else {

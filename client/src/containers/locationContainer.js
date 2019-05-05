@@ -10,7 +10,7 @@ class LocationContainer extends Component {
 	render() {
 		return (
 			<Col>
-				{this.props.data.loadingData ? <RetrievingData message={this.props.data.text} /> : <Location data={this.props.data} retrieveCurrentConditions={this.props.retrieveCurrentConditions} weatherSite={this.props.weatherSites[this.props.data.id]}/>}
+				{this.props.data.loadingData ? <RetrievingData message={this.props.data.text} /> : <Location data={this.props.data} retrieveCurrentConditions={this.props.retrieveCurrentConditions} weatherSite={this.props.weatherSites[this.props.data.id]} pushHistory={this.props.pushHistory}/>}
 			</Col>
 		)
 	}

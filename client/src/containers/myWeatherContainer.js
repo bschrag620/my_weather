@@ -4,25 +4,27 @@ import { connect } from 'react-redux'
 import retrieveLocation from '../actions/location_actions'
 import LocationsContainer from './locationsContainer'
 import DisplayContainer from './displayContainer'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 class MyWeatherContainer extends Component {
-	constructor(props) {
-		super(props)
-
-		if (props.match.params.zip) {
-			const zip = props.match.params.zip
-
-			props.retrieveLocation(zip)
+	componentDidMount() {
+		const zip = this.props.match.params.zip
+		const matchingLocation = this.props.locations.find( loc => loc.zip === zip )
+		if (!matchingLocation) {
+			debugger;
+			this.props.retrieveLocation(zip)
 		}
 	}
 
 	render() {
 		return (
-			<div className="weather-container">
-				<LocationInput retrieveLocation={this.props.retrieveLocation} /> <br/>
-				<LocationsContainer locations={this.props.locations} />
-				<DisplayContainer />
-			</div>
+			<Router>
+				<div className="weather-container">
+					<LocationInput retrieveLocation={this.props.retrieveLocation} /> <br/>
+					<LocationsContainer locations={this.props.locations} />
+					<Route path={this.props.match.url} component={ DisplayContainer }/>
+				</div>
+			</Router>
 		)
 	}
 }

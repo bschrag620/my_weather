@@ -2,24 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import App from './App';
-import ForecastContainer from './containers/forecastContainer'
 import rootReducer from './reducers/index'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
+import ProfileContainer from './containers/profileContainer'
+import MyWeatherContainer from './containers/myWeatherContainer'
+import DisplayContainer from './containers/displayContainer'
+
 import { createStore, applyMiddleware } from 'redux'
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 console.log('store initiated: ', store.getState())
 
-const validateLocation = () => {
-	debugger;
-	return false
-}
-
 ReactDOM.render(
 	<Provider store={store}>
 		<Router>
-			<App />
+			<Route exact path='/' component={App} />
+			<Route path='/:zip([0-9]{5})' component={App} />
 		</Router>
 	</Provider>
 	, document.getElementById('root'));

@@ -5,24 +5,25 @@ import { connect } from 'react-redux'
 import RetreivingData from '../components/stateless/retrievingData'
 import { Container } from 'react-bootstrap'
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom'
-import DetailCard from '../components/detailCard'
+
+import MyWeatherNavBar from '../components/stateless/myWeatherNavBar'
 
 
 class DisplayContainer extends Component {
-	constructor(props) {
-		super(props);
-
-		debugger;
+	componentWillMount() {
+		if (this.props.match.isExact) {
+		    this.props.history.push(`${this.props.match.url}/detail`)
+		}
 	}
 
 	render () {
 		return (
 			<Router>
 				<Container className="display-container">
-					Hey there from the displayContainer!!! <br/>
-					<Switch>
-						<Route path={this.props.match.url + '/detail'} component={DetailCard} />
-					</Switch>
+					<MyWeatherNavBar match={this.props.match}/>
+					<Route path={this.props.match.url + '/detail'} component={ () => <div>Details!!!</div>} />
+					<Route path={this.props.match.url + '/hourly'} component={ () => <div>Hourly thingies</div>} />
+					<Route path={this.props.match.url + '/weekly'} component={ () => <div>OMG Weekly</div>} />
 				</Container>
 			</Router>
 		)
