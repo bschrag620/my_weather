@@ -48,7 +48,7 @@ class MyWeatherContainer extends Component {
 		return (
 			<Container className="weather-container">
 				<LocationInputForm retrieveLocation={this.props.retrieveLocation} /> <br/>
-				<LocationsContainer onLocationClick={onLocationClick.bind(this)} locations={this.props.locations} />
+				<LocationsContainer locations={this.props.locations} />
 				<DisplayContainer currentLocation={this.props.currentLocation} />
 			</Container>
 		)
