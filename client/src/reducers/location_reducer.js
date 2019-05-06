@@ -28,7 +28,7 @@ function locationReducer(state = {
 
 		case 'LOCATION_API_REQUEST':
 			console.log('reducer is retrieving location: ', action.payload.text)
-			return {...state, locations: state.locations.concat(action.payload)}
+			return {...state, locations: [action.payload, ...state.locations]}
 
 		default:
 			return state
