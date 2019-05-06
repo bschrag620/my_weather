@@ -22,7 +22,6 @@ class MyWeatherContainer extends Component {
 				this.props.history.push(this.props.match.url + '/detail')
 			}
 		}
-
 	}
 
 	componentWillMount() {
@@ -47,7 +46,7 @@ class MyWeatherContainer extends Component {
 			<Container className="weather-container">
 				<LocationInputForm retrieveLocation={this.props.retrieveLocation} /> <br/>
 				<LocationsContainer locations={this.props.locations} />
-				<DisplayContainer match={this.props.match} />
+				<DisplayContainer />
 			</Container>
 		)
 	}

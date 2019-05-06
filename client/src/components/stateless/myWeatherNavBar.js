@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import { Nav, Navbar } from 'react-bootstrap'
+import { withRouter } from 'react-router-dom'
 
-export default class MyWeatherNavBar extends Component {
+class MyWeatherNavBar extends Component {
 
 	handleClick(e) {
 		e.preventDefault();
@@ -27,3 +28,5 @@ export default class MyWeatherNavBar extends Component {
 		)
 	}
 }
+
+export default withRouter(MyWeatherNavBar)
