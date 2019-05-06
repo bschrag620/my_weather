@@ -21,7 +21,6 @@ class Location extends Component {
 			<Fragment>
 				<div><CityState city={this.props.data.city} state={this.props.data.state}/></div>
 				{this.props.weatherSite.current.loadingData ? <RetrievingData message="current conditions" /> : <CompactCurrentConditionsContainer conditions={this.props.weatherSite.current}/>}
-				short detail here<br/>
 			</Fragment>
 		)
 	}

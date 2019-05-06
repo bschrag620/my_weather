@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Temperature from '../components/stateless/temperature'
-import Wind from '../components/stateless/wind'
+import ShortDescription from '../components/stateless/shortDescription'
 
 class CompactCurrentConditionsContainer extends Component {
 
@@ -8,7 +8,8 @@ class CompactCurrentConditionsContainer extends Component {
 		const properties = this.props.conditions.properties
 		return (
 			<div className='current-conditions'>
-				<div className='tall-font'><Temperature temperature={properties.temperature} /></div>
+				<div><Temperature temperature={properties.temperature} /></div>
+				<div><ShortDescription shortDescription={properties.shortDescription} /></div>
 			</div>
 		)
 	}
