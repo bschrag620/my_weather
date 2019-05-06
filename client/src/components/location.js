@@ -12,6 +12,7 @@ class Location extends Component {
 			const code = this.props.data.preferred_observation_code
 			const id = this.props.data.id
 			this.props.retrieveCurrentConditions(code, id, 'si')
+			this.props.retrieveHourlyConditions(code, id, 'si')
 		}
 	}
 	

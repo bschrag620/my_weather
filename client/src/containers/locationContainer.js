@@ -3,7 +3,7 @@ import { Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import RetrievingData from '../components/stateless/retrievingData'
 import Location from '../components/location'
-import retrieveCurrentConditions from '../actions/weather_actions'
+import retrieveCurrentConditions, { retrieveHourlyConditions } from '../actions/weather_actions'
 import { setLocation } from '../actions/location_actions'
 
 class LocationContainer extends Component {
@@ -26,7 +26,7 @@ class LocationContainer extends Component {
 				id={id} 
 				style={setStyling()}
 				onClick={this.handleClick.bind(this) }>
-				{this.props.data.loadingData ? <RetrievingData message={this.props.data.text} /> : <Location data={this.props.data} retrieveCurrentConditions={this.props.retrieveCurrentConditions} weatherSite={this.props.weatherSites[this.props.data.id]} />}
+				{this.props.data.loadingData ? <RetrievingData message={this.props.data.text} /> : <Location data={this.props.data} retrieveCurrentConditions={this.props.retrieveCurrentConditions} retrieveHourlyConditions={this.props.retrieveHourlyConditions} weatherSite={this.props.weatherSites[this.props.data.id]} />}
 			</Col>
 		)
 	}
@@ -35,6 +35,7 @@ class LocationContainer extends Component {
 const mapDispatchToProps = dispatch => {
 	return {
 		retrieveCurrentConditions: (code, id, units) => dispatch(retrieveCurrentConditions(code, id, units)),
+		retrieveHourlyConditions: (code, id, units) => dispatch(retrieveHourlyConditions(code, id, units)),
 		setLocation: id => dispatch(setLocation(id))
 	}
 }
