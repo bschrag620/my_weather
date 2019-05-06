@@ -11,11 +11,10 @@ class MyWeatherNavBar extends Component {
 
 	render() {
 
-		const setStyling = text => (this.props.match.params.displayType === text) ? {backgroundColor: 'white', color: 'black'} : {backgroundColor: 'transparent', color: 'white'}
+		const setStyling = text => (this.props.match.params.displayType === text) ? {backgroundColor: 'white', color: 'black', width: 100} : {backgroundColor: 'transparent', color: 'white', width: 100}
 
 		return (
-			<Navbar style={{padding: 0}} expand='lg' bg='dark' variant='dark' >
-				<Navbar.Brand color='white'>Brand here?</Navbar.Brand>
+			<Navbar style={{padding: 0, backgroundColor: '#333333'}} expand='lg' variant='dark' >
 				<Navbar.Toggle aria-controls='basic-navbar-nav' />
 				<Navbar.Collapse id='basic-navbar-nav'>
 					<Nav className="my-weather">

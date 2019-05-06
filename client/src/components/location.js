@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import CityState from './stateless/cityState'
-import Zip from './stateless/zip'
-import { Col } from 'react-bootstrap'
 import CompactCurrentConditionsContainer from '../containers/compactCurrentConditionsContainer'
 import RetrievingData from './stateless/retrievingData'
 import { withRouter } from 'react-router-dom'
@@ -20,11 +18,11 @@ class Location extends Component {
 	render() {
 
 		return (
-			<Col xs md='auto' className="location block" id={this.props.data.id}>
+			<Fragment>
 				<div><CityState city={this.props.data.city} state={this.props.data.state}/></div>
 				{this.props.weatherSite.current.loadingData ? <RetrievingData message="current conditions" /> : <CompactCurrentConditionsContainer conditions={this.props.weatherSite.current}/>}
-				<Zip zip={this.props.data.zip} /><br/>
-			</Col>
+				short detail here<br/>
+			</Fragment>
 		)
 	}
 }

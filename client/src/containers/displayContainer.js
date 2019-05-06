@@ -13,7 +13,7 @@ class DisplayContainer extends Component {
 
 	render () {
 		return (
-			<Container className="display-container">
+			<Container style={{padding: 0}}className="display-container">
 				<MyWeatherNavBar />
 				Display content for: {this.props.match.params.zip}, {this.props.match.params.displayType}
 			</Container>
