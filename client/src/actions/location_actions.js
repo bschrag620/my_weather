@@ -50,8 +50,11 @@ export default function retrieveLocation(text) {
 				})
 			})
 			.catch(error => {
-				// would like to add an error component to handle temporary display of errors
 				console.log(error)
+				dispatch({
+					type: 'REMOVE_LOCATION',
+					id: id
+				})
 			})
 	}
 };
