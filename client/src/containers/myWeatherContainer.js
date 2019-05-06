@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import LocationInputForm from '../components/locationInput'
 import { connect } from 'react-redux'
 import retrieveLocation from '../actions/location_actions'
+import { setLocation } from '../actions/location_actions'
 import { Container } from 'react-bootstrap'
 import LocationsContainer from './locationsContainer'
 import DisplayContainer from './displayContainer'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+
 
 class MyWeatherContainer extends Component {
 
@@ -46,7 +48,7 @@ class MyWeatherContainer extends Component {
 		return (
 			<Container className="weather-container">
 				<LocationInputForm retrieveLocation={this.props.retrieveLocation} /> <br/>
-				<LocationsContainer locations={this.props.locations} />
+				<LocationsContainer onLocationClick={onLocationClick.bind(this)} locations={this.props.locations} />
 				<DisplayContainer currentLocation={this.props.currentLocation} />
 			</Container>
 		)
@@ -62,7 +64,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		retrieveLocation: (text) => dispatch(retrieveLocation(text))
+		retrieveLocation: (text) => dispatch(retrieveLocation(text)),
 	}
 }
 

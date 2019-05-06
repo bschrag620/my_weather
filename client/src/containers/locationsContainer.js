@@ -7,9 +7,9 @@ const noLocation = () => (
 	"Enter a location to get started"
 )
 
-const renderLocations = (locations, retrieveCurrentConditions, pushHistory) => {
+const renderLocations = (locations, retrieveCurrentConditions) => {
 	if (locations.length > 0) {
-		return locations.map( location => <LocationContainer data={location} key={uuid()} pushHistory={pushHistory}/>)
+		return locations.map( location => <LocationContainer data={location} key={uuid()} />)
 	} else {
 		return noLocation()
 	}
@@ -21,7 +21,7 @@ class LocationsContainer extends Component {
 		return (
 			<Container>
 				<Row className='locations-container' style={{backgroundColor: '#333333', color: 'white'}}>
-					{renderLocations(this.props.locations, this.props.retrieveCurrentConditions, this.props.pushHistory)}
+					{renderLocations(this.props.locations, this.props.retrieveCurrentConditions)}
 				</Row>
 			</Container>
 		)

@@ -7,7 +7,7 @@ function handleErrors(response) {
 	return response
 }
 
-export default function retrieveLocation(text) {
+export function retrieveLocation(text) {
 	const id = uuid()
 	return (dispatch) => {
 		dispatch({
@@ -62,8 +62,10 @@ export default function retrieveLocation(text) {
 export function setLocation(location) {
 	return dispatch => {
 		dispatch({
-			dispatch: 'SET_ACTIVE_LOCATION',
+			type: 'SET_ACTIVE_LOCATION',
 			location: location
 		})
 	}
-};
+}
+
+export default retrieveLocation
