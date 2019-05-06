@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Button from './button'
 
-export default class LocationInput extends Component {
+export default class LocationInputForm extends Component {
 
 	state = {
 		text: ''

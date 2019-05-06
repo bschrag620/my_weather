@@ -31,8 +31,7 @@ export default function retrieveLocation(text) {
 			.then(location => {
 				dispatch({
 					type: 'SET_ACTIVE_LOCATION',
-					id: id,
-					code: location.preferred_observation_code
+					location: location
 				})
 				location.id = id
 				dispatch({
@@ -61,9 +60,7 @@ export function setLocation(location) {
 	return dispatch => {
 		dispatch({
 			dispatch: 'SET_ACTIVE_LOCATION',
-			id: location.id,
-			code: location.preferred_observation_code
-
+			location: location
 		})
 	}
 };

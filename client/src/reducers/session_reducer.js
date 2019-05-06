@@ -1,11 +1,10 @@
 function sessionReducer(state = {
-	activeLocation: null,
-	activeWeatherStationCode: null
+	currentLocation: null
 }, action) {
 	switch (action.type) {
 		case 'SET_ACTIVE_LOCATION':
-			console.log('session reducer setting active location: ', action.id)
-			return {...state, activeLocation: action.id, activeWeatherStationCode: action.code}
+			console.log('session reducer setting active location: ', action.location.id)
+			return {...state, currentLocation: action.location}
 
 		default:
 			return state
