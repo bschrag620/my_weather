@@ -53,6 +53,7 @@ class Api::LocationsController < ApplicationController
 		current_conditions[:visibility] = is_metric ? { value: prop['visibility']['value'] / 1000, units: 'km' } : { value: prop['visibility']['value'] / 1609, units: 'm' }
 		current_conditions[:relativeHumidity] = { value: prop['relativeHumidity']['value'], units: '%' }
 		current_conditions[:timestamp] = parse_time(prop['timestamp'])[0]
+		current_conditions[:shortDescription] = prop['textDescription']
 
 		render json: {:meta => ObservationSiteSerializer.new(site).attributes, properties: current_conditions}
 	end
