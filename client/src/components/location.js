@@ -10,9 +10,11 @@ class Location extends Component {
 
 		if (this.props.weatherSite.current.loadingData) {
 			const code = this.props.data.preferred_observation_code
+			const locationId = this.props.data.locationId
 			const id = this.props.data.id
+
 			this.props.retrieveCurrentConditions(code, id, 'si')
-			this.props.retrieveHourlyConditions(code, id, 'si')
+			this.props.retrieveHourlyConditions(locationId, id, 'si')
 		}
 	}
 	
