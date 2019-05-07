@@ -3,9 +3,8 @@ import { CityState, LatLng, Temperature, Wind, Zip } from '../components/statele
 import RetrievingData from './stateless/retrievingData'
 
 const card = props => {
-	const properties = props.currentConditions.properties
-	const meta = props.currentConditions.meta
-
+	const properties = props.currentConditions
+	const meta = props.meta
 	return (
 		<div className={meta.code}>
 			<h1>{props.currentLocation.city}, {props.currentLocation.state}</h1>

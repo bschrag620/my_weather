@@ -5,7 +5,8 @@ import ShortDescription from '../components/stateless/shortDescription'
 class CompactCurrentConditionsContainer extends Component {
 
 	render() {
-		const properties = this.props.conditions.properties
+		const properties = this.props.conditions
+		
 		return (
 			<div className='current-conditions'>
 				<div><Temperature temperature={properties.temperature} /></div>

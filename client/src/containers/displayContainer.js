@@ -13,12 +13,15 @@ import MyWeatherNavBar from '../components/stateless/myWeatherNavBar'
 class DisplayContainer extends Component {
 
 	handleRoute() {
+
 		switch (this.props.match.params.displayType) {
 			case 'detail':
-				return <DetailCard currentLocation={this.props.currentLocation} currentConditions={this.props.allWeather.current}/>
+				return <DetailCard currentLocation={this.props.currentLocation} currentConditions={this.props.allWeather.current} meta={this.props.allWeather.meta}/>
 
 			case 'hourly':
-				return <HourlyCard />
+				if (this.props.allWeather.hourly) {
+					return <HourlyCard currentLocation={this.props.currentLocation} hourlyForecast={this.props.allWeather.hourly} meta={this.props.allWeather.meta}/>
+				}	
 
 			case 'weekly':
 				return <WeeklyCard />

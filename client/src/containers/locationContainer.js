@@ -13,12 +13,10 @@ class LocationContainer extends Component {
 		this.props.setLocation(loc)
 	}
 	
-	render() {
-
-	
-		
+	render() {		
 		const setStyling = () => (this.props.currentLocation && (this.props.currentLocation.id === this.props.data.id)) ? {backgroundColor: 'white', color: 'black'} : {backgroundColor: '#333333', color: 'white'}
 		const id = this.props.data.id		
+		
 		return (
 			<Col 
 				xs md='auto' 
@@ -35,7 +33,7 @@ class LocationContainer extends Component {
 const mapDispatchToProps = dispatch => {
 	return {
 		retrieveCurrentConditions: (code, id, units) => dispatch(retrieveCurrentConditions(code, id, units)),
-		retrieveHourlyConditions: (code, id, units) => dispatch(retrieveHourlyConditions(code, id, units)),
+		retrieveHourlyConditions: (locationId, id, units) => dispatch(retrieveHourlyConditions(locationId, id, units)),
 		setLocation: id => dispatch(setLocation(id))
 	}
 }
