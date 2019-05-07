@@ -13,7 +13,7 @@ class Api::LocationsController < ApplicationController
 		units = params[:units] || 'si'
 		forecast_type = params[:type] == 'hourly' ? 'hourly' : 'weekly'
 		url = (params[:type] == 'hourly') ? location.hourly_forecast_api : location.forecast_api
-		binding.pry
+
 		resp = Faraday.get url + "?units=#{units.downcase}"
 		body = JSON.parse(resp.body)
 		properties = body['properties']
@@ -128,7 +128,6 @@ class Api::LocationsController < ApplicationController
 
 	def rescue_temperature(metric, value)
 		units = metric ? 'C' : 'F'
-		binding.pry
 		begin
 			temp =  metric ? value * 1 : value * 9 / 5 + 32
 		rescue StandardError
