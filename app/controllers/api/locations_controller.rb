@@ -9,26 +9,30 @@ class Api::LocationsController < ApplicationController
 	end
 
 	def forecast
-		location = Location.find(params[:id])
+		location = Location.find_by(:id => params[:location_id])
 		units = params[:units] || 'SI'
+		forecast_type = params[:type] == 'hourly' ? 'hourly' : 'weekly'
 		url = (params[:type] == 'hourly') ? location.hourly_forecast_api : location.forecast_api
-
-		resp = Faraday.get url + "&units=#{units}"
+		resp = Faraday.get url + "?units=#{units}"
 		body = JSON.parse(resp.body)
 		properties = body['properties']
-
 		forecasts = {
-			params[:id] => [],
+			forecast_type => [],
 			zip: location.zip
 		}
 
 		properties['periods'].each do |forecast|
-			forecasts[params[:id]] << {
+			(start_time, utc, date) = parse_time(forecast['startTime'])
+
+			binding.pry
+			forecasts[forecast_type] << {
 				:sequenceN => forecast['number'],
 				:name => forecast['name'],
-				:startTime => forecast['startTime'],
-				:endTime => forecast['endTime'],
-				:temperature => forecast['temperature'],
+				:startTime => start_time,
+				:endTime => parse_time(forecast['endTime'])[0],
+				:utc => utc,
+				:date => date,
+				:temperature => { value: forecast['temperature'], units: forecast['temperatureUnit'] }
 				:windSpeed => forecast['windSpeed'],
 				:windDirection => forecast['windDirection'],
 				:shortForecast => forecast['shortForecast'],
@@ -41,7 +45,6 @@ class Api::LocationsController < ApplicationController
 
 	def current
 		site = ObservationSite.find_by(:code => params[:code])
-
 		resp = Faraday.get site.observation_api + '/latest'
 		body = JSON.parse(resp.body)
 		prop = body['properties']
@@ -55,7 +58,7 @@ class Api::LocationsController < ApplicationController
 		current_conditions[:timestamp] = parse_time(prop['timestamp'])[0]
 		current_conditions[:shortDescription] = prop['textDescription']
 
-		render json: {:meta => ObservationSiteSerializer.new(site).attributes, properties: current_conditions}
+		render json: {:meta => ObservationSiteSerializer.new(site).attributes, current: current_conditions}
 	end
 
 	private
@@ -97,7 +100,7 @@ class Api::LocationsController < ApplicationController
 
 	def parse_time(string)
 		(date, remainder) = string.split('T')
-		(time, utc) = remainder.split('+')
+		(time, utc) = remainder.split(/[+-]/)
 		[time, utc, date]
 	end
 end
