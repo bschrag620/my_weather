@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Container } from 'react-bootstrap'
-import Button from '../components/button'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Container } from 'react-bootstrap';
+import Button from '../components/button';
+import Switch from 'react-switch';
 
 class MySettingsContainer extends Component {
 
