@@ -24,8 +24,8 @@ const generateHourlyCards = forecasts => {
 		}
 
 		return (
-			<Container key={uuid()} style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#333333'}}>
-				<Row style={{backgroundColor: '#333333', color: 'white', paddingLeft: '5px'}}><h1>{date}</h1></Row>
+			<Container key={uuid()} style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#333333', margin: '25px 0px'}}>
+				<Row style={{backgroundColor: '#333333', color: 'white'}}><h1>{date}</h1></Row>
 				<Row>
 					{hourlyForecasts.map( (f, i) => hourlyCard(f, i))}
 				</Row>

@@ -21,7 +21,7 @@ export default class WeeklyDisplay extends Component {
 		
 		return (this.props.weeklyForecast.loadingData) ?
 			<RetrievingData message='weekly forecast...' /> : 
-			<Container>
+			<Container style={{margin: '25px 0px'}}>
 				<Row>{this.props.weeklyForecast.map( card => <DailyCard key={uuid()} data={card} onClick={onCardClick} />)}</Row>
 			</Container>
 	}

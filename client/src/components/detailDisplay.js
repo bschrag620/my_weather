@@ -7,7 +7,7 @@ const card = props => {
 	const properties = props.currentConditions
 	const meta = props.meta
 	return (
-		<Container className={meta.code}>
+		<Container className={meta.code} style={{padding: '10px'}}>
 			<h1>{props.currentLocation.city}, {props.currentLocation.state}</h1>
 			<h2><Temperature temperature={properties.temperature} /></h2>
 			<h3><Wind wind={properties.wind} /></h3>

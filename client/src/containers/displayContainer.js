@@ -38,7 +38,7 @@ class DisplayContainer extends Component {
 	render () {
 
 		return (
-			<Container style={{padding: 0}}className="display-container">
+			<Container style={{padding: '0', margin: '25px 0px'}} className="display-container">
 				<MyWeatherNavBar />
 				{(this.props.allWeather) ? this.handleRoute() : ''}
 

@@ -10,7 +10,7 @@ class DailyCard extends Component {
 			<Col 
 				sm md lg='3' 
 				id={data.sequenceN}
-				onClick={this.props.onClick}>
+				onClick={ e => this.props.onClick(e)}>
 				<Row className='card-header' style={{backgroundColor: '#333333', color: 'white'}}>
 					<h3>{data.name}</h3>	
 				</Row>
