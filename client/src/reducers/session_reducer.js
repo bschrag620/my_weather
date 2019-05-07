@@ -2,8 +2,9 @@ function sessionReducer(state = {
 	currentLocation: null,
 	units: 'si'
 }, action) {
+	let newUnit;
+	
 	switch (action.type) {
-		let newUnit;
 
 		case 'SET_ACTIVE_LOCATION':
 			console.log('session reducer setting active location: ', action.location.id)
@@ -11,11 +12,10 @@ function sessionReducer(state = {
 
 		case 'TOGGLE_UNITS':
 			newUnit = (state.units === 'si') ? 'us' : 'si'
-			debugger;
+			console.log('session reducer setting units to: ', newUnit)
 			return {...state, units: newUnit} 
 
 		case 'SET_UNITS':
-			debugger;
 			return {...state, ...action.payload}
 
 		default:

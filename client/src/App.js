@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Container, Navbar } from 'react-bootstrap'
 import MyWeatherContainer from './containers/myWeatherContainer'
-import MySettings from './containers/mySettings'
+import MySettingsContainer from './containers/mySettingsContainer'
 import LocationInput from './components/locationInput'
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
 					App nav bar here....
 				</Navbar>
 				<Switch>
-					<Route path='/settings' component={MySettings} />
+					<Route path='/settings' component={MySettingsContainer} />
 					<Route path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' component={MyWeatherContainer} />
 				</Switch>
 	      </Container>
