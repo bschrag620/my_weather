@@ -24,7 +24,6 @@ class Api::LocationsController < ApplicationController
 		properties['periods'].each do |forecast|
 			(start_time, utc, date) = parse_time(forecast['startTime'])
 
-			binding.pry
 			forecasts[forecast_type] << {
 				:sequenceN => forecast['number'],
 				:name => forecast['name'],
@@ -32,9 +31,9 @@ class Api::LocationsController < ApplicationController
 				:endTime => parse_time(forecast['endTime'])[0],
 				:utc => utc,
 				:date => date,
-				:temperature => { value: forecast['temperature'], units: forecast['temperatureUnit'] }
-				:windSpeed => forecast['windSpeed'],
-				:windDirection => forecast['windDirection'],
+				:temperature => { value: forecast['temperature'], units: forecast['temperatureUnit'] },
+				:wind => {value: forecast['windSpeed'].split(' ')[0], units: forecast['windSpeed'].split(' ')[1], direction: forecast['windDirection'] },
+				:isDaytime => forecast['isDayTime'],
 				:shortForecast => forecast['shortForecast'],
 				:detailedForecast => forecast['detailedForecast']
 			}
