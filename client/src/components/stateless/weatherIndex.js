@@ -4,6 +4,7 @@ import Temperature from './temperature'
 import Wind from './wind'
 import Zip from './zip'
 import Time from './time'
+import Detailed from './detailed'
 
 export {
 	CityState,
@@ -11,5 +12,6 @@ export {
 	Temperature,
 	Wind,
 	Zip,
-	Time
+	Time,
+	Detailed
 }
