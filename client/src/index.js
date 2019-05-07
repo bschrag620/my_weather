@@ -16,9 +16,7 @@ console.log('store initiated: ', store.getState())
 
 ReactDOM.render(
 	<Provider store={store}>
-		<Router>
-			<Route path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' component={MyWeatherContainer} />			
-		</Router>
+		<App />			
 	</Provider>
 	, document.getElementById('root'));
 
