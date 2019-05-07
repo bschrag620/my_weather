@@ -21,20 +21,21 @@ export default function retrieveCurrentConditions(code, id, units='si') {
 	}
 }
 
-export function retrieveHourlyConditions(code, id, units='si') {
+export function retrieveHourlyConditions(locationId, id, units='si') {
 	return dispatch => {
 		dispatch({
 			type: 'RETRIEVING_HOURLY_WEATHER',
 			payload: {
 				loadingData: true,
-				id: id,
-				code: code
+				locationId: locationId,
+				id: id
 			}
 		})
 
-		return fetch(`/api/locations/${code}/hourly?units=${units}`)
+		return fetch(`/api/locations/${locationId}/forecast?units=${units}&type=hourly`)
 			.then(resp => resp.json())
 			.then(weather => {
+				debugger;
 				dispatch({
 					type: 'ADD_HOURLY_WEATHER',
 					payload: weather,

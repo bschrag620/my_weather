@@ -15,35 +15,33 @@ export default function weatherReducer (state={
 			id = action.payload.id
 			return {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], current: action.payload}}) }
 
-		case 'RETRIEVING_HOURLY':
-			console.log('retrieving hourly forecast for: ', action.code)
-			return state
+		case 'RETRIEVING_HOURLY_WEATHER':
+			console.log('retrieving hourly forecast for: ', action.locationId)
+			id = action.payload.id
+			const newState = {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], hourly: action.payload}}) }
+
+			return newState
 
 		case 'RETRIEVING_DAILY':
-			console.log('retrieving daily forecast for: ', action.code)
+			console.log('retrieving daily forecast for: ', action.locationId)
 			return state
+
+		case 'ADD_HOURLY_WEATHER':
+			console.log('adding hourly data')
+			id = action.id
+			const newHourly = Object.assign({}, {sites: {...state.sites, [id]: {...state.sites[id], ...action.payload}}})
+			newHourly.sites[id].hourly.loadingData = false
+
+			return {...state, ...newHourly}
 
 		case 'ADD_CURRENT':
 			
 			id = action.id
-			const newSites = Object.assign({}, { 
-				sites:
-					{...state.sites, [id]: 
-						{...state.sites[id], current: 
-							{...state.sites[id].current, ...action.payload}
-						}
-					}
-				}
-			)
-			newSites.sites[id].current.loadingData = false
-			
-			const newKeyIndex = Object.assign({}, {
-				keyIndex: {
-					...state.keyIndex, [id]: action.payload.meta.code
-				}
-			})
+			const newSites = Object.assign({}, {sites: {...state.sites, [id]: {...state.sites[id], ...action.payload}}})
 
-			return {...state, ...newSites, ...newKeyIndex}
+			newSites.sites[id].current.loadingData = false
+
+			return {...state, ...newSites}
 
 		default:
 			return state
