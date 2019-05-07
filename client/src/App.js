@@ -15,10 +15,8 @@ class App extends Component {
 				<Navbar>
 					App nav bar here....
 				</Navbar>
-				<Switch>
 					<Route path='/settings' component={MySettingsContainer} />
-					<Route path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' component={MyWeatherContainer} />
-				</Switch>
+					<Route exact path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' component={MyWeatherContainer} />
 	      </Container>
       	</Router>
     );
