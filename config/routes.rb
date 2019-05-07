@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   	end
 
   	post '/locations/retrieve', to: 'locations#retrieve'
-  	get '/locations/:id/forecast', to: 'locations#forecast'
+  	get '/locations/:location_id/forecast', to: 'locations#forecast'
   	get '/locations/:code/current', to: 'locations#current'
   end
 
