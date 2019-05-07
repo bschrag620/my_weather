@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { CityState, LatLng, Temperature, Wind, Zip, Detailed } from '../components/stateless/weatherIndex'
 import RetrievingData from './stateless/retrievingData'
-import { Container } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 
 const card = props => {
 	const properties = props.currentConditions
 	const meta = props.meta
 	return (
 		<Container className={meta.code} style={{padding: '10px'}}>
-			<h1>{props.currentLocation.city}, {props.currentLocation.state}</h1>
+			<Row style={{backgroundColor: '#333333', color: 'white', paddingLeft: '5px'}}><h1>{props.currentLocation.city}, {props.currentLocation.state}</h1></Row>
 			<h2><Temperature temperature={properties.temperature} /></h2>
 			<h3><Wind wind={properties.wind} /></h3>
 			<h3><Detailed detailed={properties.detailedForecast} /></h3>
