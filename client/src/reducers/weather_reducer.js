@@ -2,7 +2,7 @@ export default function weatherReducer (state={
 	keyIndex: {},
 	sites: {}
 }, action) {
-	let id;
+	let id, newState;
 
 	switch (action.type) {
 		case 'INITIALIZE_WEATHER_ID':
@@ -13,35 +13,46 @@ export default function weatherReducer (state={
 		case 'RETRIEVING_CURRENT':
 			console.log('retrieving current weather for: ', action.payload.id)
 			id = action.payload.id
+			
 			return {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], current: action.payload}}) }
 
 		case 'RETRIEVING_HOURLY_WEATHER':
 			console.log('retrieving hourly forecast for: ', action.locationId)
 			id = action.payload.id
-			const newState = {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], hourly: action.payload}}) }
 
-			return newState
+			return {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], hourly: action.payload}}) }
 
-		case 'RETRIEVING_DAILY':
-			console.log('retrieving daily forecast for: ', action.locationId)
-			return state
+		case 'RETRIEVING_WEEKLY_WEATHER':
+			console.log('retrieving weekly forecast for: ', action.locationId)
+			id = action.payload.id
+			
+			return {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], weekly: action.payload}})}
 
 		case 'ADD_HOURLY_WEATHER':
 			console.log('adding hourly data')
 			id = action.id
-			const newHourly = Object.assign({}, {sites: {...state.sites, [id]: {...state.sites[id], ...action.payload}}})
-			newHourly.sites[id].hourly.loadingData = false
+			newState = Object.assign({}, {sites: {...state.sites, [id]: {...state.sites[id], ...action.payload}}})
+			newState.sites[id].hourly.loadingData = false
 
-			return {...state, ...newHourly}
+			return {...state, ...newState}
+
+		case 'ADD_WEEKLY_WEATHER':
+			console.log('adding weekly weather')
+			id = action.id
+			newState = Object.assign({}, {sites: {...state.sites, [id]: {...state.sites[id], ...action.payload}}})
+			newState.sites[id].weekly.loadingData = false
+
+			newState.sites[id].current['detailedForecast'] = newState.sites[id].weekly[0]['detailedForecast']
+			return {...state, ...newState}
 
 		case 'ADD_CURRENT':
 			
 			id = action.id
-			const newSites = Object.assign({}, {sites: {...state.sites, [id]: {...state.sites[id], ...action.payload}}})
-
-			newSites.sites[id].current.loadingData = false
-
-			return {...state, ...newSites}
+			newState = Object.assign({}, {sites: {...state.sites, [id]: {...state.sites[id], ...action.payload}}})
+			
+			newState.sites[id].current.loadingData = false
+			newState.sites[id].current['detailedForecast'] = 'Retrieving detailed forecast...'
+			return {...state, ...newState}
 
 		default:
 			return state

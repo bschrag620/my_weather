@@ -43,3 +43,26 @@ export function retrieveHourlyConditions(locationId, id, units='si') {
 			})
 	}
 }
+
+export function retrieveWeeklyForecast(locationId, id, units='si') {
+	return dispatch => {
+		dispatch({
+			type: 'RETRIEVING_WEEKLY_WEATHER',
+			payload: {
+				loadingData: true,
+				locationId: locationId,
+				id: id
+			}
+		})
+
+		return fetch(`/api/locations/${locationId}/forecast?units=${units}&type=weekly`)
+			.then(resp => resp.json())
+			.then(weather => {
+				dispatch({
+					type: 'ADD_WEEKLY_WEATHER',
+					payload: weather,
+					id: id
+				})
+			})
+	}	
+}
