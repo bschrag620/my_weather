@@ -34,7 +34,7 @@ const generateHourlyCards = forecasts => {
 	})
 }
 
-export default class HourlyCard extends Component {
+export default class HourlyDisplay extends Component {
 	
 	render() {
 		return <Fragment> {this.props.hourlyForecast.loadingData ? <RetrievingData message="hourly data" /> : generateHourlyCards(this.props.hourlyForecast) } </Fragment>
