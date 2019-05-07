@@ -10,10 +10,11 @@ class Api::LocationsController < ApplicationController
 
 	def forecast
 		location = Location.find_by(:id => params[:location_id])
-		units = params[:units] || 'SI'
+		units = params[:units] || 'si'
 		forecast_type = params[:type] == 'hourly' ? 'hourly' : 'weekly'
 		url = (params[:type] == 'hourly') ? location.hourly_forecast_api : location.forecast_api
-		resp = Faraday.get url + "?units=#{units}"
+		binding.pry
+		resp = Faraday.get url + "?units=#{units.downcase}"
 		body = JSON.parse(resp.body)
 		properties = body['properties']
 		forecasts = {
@@ -49,11 +50,11 @@ class Api::LocationsController < ApplicationController
 		prop = body['properties']
 
 		current_conditions = {}
-		current_conditions[:temperature] = is_metric ? { value: prop['temperature']['value'], units: 'C' } : { value: prop['temperature']['value'] * 9 / 5 + 32, units: 'F' }
-		current_conditions[:wind] = is_metric ? { value: prop['windSpeed']['value'], units: 'ms-1', direction: wind_direction_conversion(prop['windDirection']['value']) } : { value: prop['windSpeed']['value'] * 2.237, units: 'mph', direction: wind_direction_conversion(prop['windDirection']['value']) }
-		current_conditions[:pressure] = is_metric ? { value: prop['barometricPressure']['value'], units: 'Pa' } : { value: prop['barometricPressure']['value'] / 100, units: 'mBar' }
-		current_conditions[:visibility] = is_metric ? { value: prop['visibility']['value'] / 1000, units: 'km' } : { value: prop['visibility']['value'] / 1609, units: 'm' }
-		current_conditions[:relativeHumidity] = { value: prop['relativeHumidity']['value'], units: '%' }
+		current_conditions[:temperature] = rescue_temperature(is_metric, prop['temperature']['value'])
+		current_conditions[:wind] = rescue_wind(is_metric, prop['windSpeed']['value'], prop['windDirection']['value'])
+		current_conditions[:pressure] = rescue_pressure(is_metric, prop['barometricPressure']['value'])
+		current_conditions[:visibility] = rescue_visibility(is_metric, prop['visibility']['value'])
+		current_conditions[:relativeHumidity] = rescue_humidity(is_metric, prop['relativeHumidity']['value'])
 		current_conditions[:timestamp] = parse_time(prop['timestamp'])[0]
 		current_conditions[:shortDescription] = prop['textDescription']
 
@@ -101,5 +102,65 @@ class Api::LocationsController < ApplicationController
 		(date, remainder) = string.split('T')
 		(time, utc) = remainder.split(/[+-]/)
 		[time, utc, date]
+	end
+
+	def rescue_visibility(metric, value)
+		units = metric ? 'km' : 'miles'
+		begin
+			vis = metric ? value / 1000 : value / 1609
+		rescue StandardError
+			vis = 'Not available'
+			units = '--'
+		end
+		{value: vis, units: units}
+	end
+
+	def rescue_pressure(metric, value)
+		units = metric ? 'kPa' : 'mmHg'
+		begin
+			press = metric ? value / 1000.0 : value * 0.00750062
+		rescue StandardError
+			press = 'Not available'
+			units = '--'
+		end
+		{value: press, units: units}
+	end
+
+	def rescue_temperature(metric, value)
+		units = metric ? 'C' : 'F'
+		binding.pry
+		begin
+			temp =  metric ? value * 1 : value * 9 / 5 + 32
+		rescue StandardError
+			temp = 'Not available'
+			units = '--'
+		end
+		{value: temp, units: units}
+	end
+
+	def rescue_humidity(metric, value)
+		untis = '%'
+		begin
+			humidity = value.round(2)
+		rescue StandardError
+			humidity = 'Not available'
+			units = '--'
+		end
+		{value: humidity, units: units}
+	end
+
+	def rescue_wind(metric, value, direction)
+		units = metric ? 'km/hr' : 'mph'
+		direction = wind_direction_conversion(direction)
+		begin
+			wind = metric ? wind * 3.6 : wind * 2.237
+	    rescue StandardError
+	    	wind = 'Not available'
+	    	units = '--'
+	    	direction = '--'
+	    end
+	    
+
+	    {value: value, units: units, direction: direction}
 	end
 end
