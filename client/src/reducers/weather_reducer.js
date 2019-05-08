@@ -41,8 +41,8 @@ export default function weatherReducer (state={
 			id = action.id
 			newState = Object.assign({}, {sites: {...state.sites, [id]: {...state.sites[id], ...action.payload}}})
 			newState.sites[id].weekly.loadingData = false
-
 			newState.sites[id].current['detailedForecast'] = newState.sites[id].weekly[0]['detailedForecast']
+
 			return {...state, ...newState}
 
 		case 'ADD_CURRENT':

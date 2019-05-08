@@ -17,11 +17,10 @@ class LocationContainer extends Component {
 	retrieveAll() {
 		// need to put units in sessionReducer eventually to give users ability to change between metric and imperial
 		
-		const units = 'si'
+		const units = this.props.units
 		const code = this.props.currentLocation.preferred_observation_code
 		const locationId = this.props.currentLocation.locationId
 		const id = this.props.currentLocation.id
-		
 
 		this.props.retrieveCurrentConditions(code, id, units)
 		this.props.retrieveHourlyConditions(locationId, id, units)
@@ -58,7 +57,8 @@ const mapStateToProps = state => {
 	return {
 		weatherSites: state.weatherReducer.sites,
 		currentLocation: state.sessionReducer.currentLocation,
-		locations: state.locationReducer.locations
+		locations: state.locationReducer.locations,
+		units: state.sessionReducer.units
 	}
 }
 
