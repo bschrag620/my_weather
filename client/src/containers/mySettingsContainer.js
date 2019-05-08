@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'react-bootstrap';
-import Button from '../components/button';
-import Switch from 'react-switch';
+import { Container, Row, Col } from 'react-bootstrap';
+import SettingsCardWithToggle from '../components/stateless/settingsCardWithToggle';
 
 class MySettingsContainer extends Component {
 
@@ -13,7 +12,16 @@ class MySettingsContainer extends Component {
 	render() {
 		return (
 			<Container>This is the settings component
-				<Button text='toggle units' onClick={this.handleToggleUnits.bind(this)} />
+				<Row>
+					<Col xs md lg='3'>
+						<SettingsCardWithToggle 
+							handleChange={this.props.toggleUnits} 
+							bool={this.props.units === 'si'}
+							leftLabel='US'
+							rightLabel='Metric'
+							title='Units'/>
+					</Col>
+				</Row>
 			</Container>
 		)
 
@@ -28,4 +36,10 @@ const mapDispatchToProps = dispatch => {
 	}
 }
 
-export default connect(null, mapDispatchToProps)(MySettingsContainer)
+const mapStateToProps = state => {
+	return {
+		units: state.sessionReducer.units
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MySettingsContainer)
