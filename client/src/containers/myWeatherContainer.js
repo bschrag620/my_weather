@@ -19,10 +19,6 @@ class MyWeatherContainer extends Component {
 			if (this.props.location.pathname.split('/')[1] !== zip.toString()) {
 				this.props.history.push('/' + zip)
 			}
-
-			if (this.props.match.params.zip && !this.props.match.params.displayType) {
-				this.props.history.push(this.props.match.url + '/detail')
-			}
 		}
 	}
 
