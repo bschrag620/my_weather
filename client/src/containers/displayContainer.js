@@ -14,10 +14,10 @@ class DisplayContainer extends Component {
 
 	render () {
 		return (
-			!this.props.allWeather ? "Loading weather" :
+			!this.props.allWeather ? "" :
 				<Container>
 					<Router>		
-							<Route path='/:zip' component={MyWeatherNavBar} />
+							<Route path='/:zip/:displayType(detail|hourly|weekly)?' component={MyWeatherNavBar} />
 							<Route 
 								exact path='/:zip/(detail)?' 
 								render={ () => 

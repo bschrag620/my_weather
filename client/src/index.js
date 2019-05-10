@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import ProfileContainer from './containers/profileContainer'
 import MyWeatherContainer from './containers/myWeatherContainer'
 import DisplayContainer from './containers/displayContainer'
+import './index.css'
 
 import { createStore, applyMiddleware } from 'redux'
 
