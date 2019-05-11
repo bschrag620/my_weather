@@ -92,3 +92,22 @@
 .tooltip:hover .tooltiptext {
 	visibility: visible;
 }
+
+.rounded-corner {
+	border-radius: 1rem;
+}
+
+#find-weather {
+	background-color: yellow;
+	opacity: .5;
+	max-width: 500px;
+	margin: auto;
+}
+
+#find-weather:hover {
+	cursor: pointer;
+}
+
+.daily-card {
+	min-width: 200px;
+}

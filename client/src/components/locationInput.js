@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Button from './button'
-import { Col } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 
 export default class LocationInputForm extends Component {
 
@@ -32,9 +32,16 @@ export default class LocationInputForm extends Component {
 				<input 
 					type="text"
 					value={this.state.text}
+					className='tall-font rounded-corner'
 					onChange={ e => this.handleChange(e) }
-					placeholder="city, st or zip code"/>
-				<Button text='Find myWeather!' onClick={ (e) => this.handleSubmit(e)} />
+					placeholder="city, st or zip code"/> <br/>
+				<div 
+					onClick={ (e) => this.handleSubmit(e)}
+					id='find-weather'
+					className='rounded-corner tall-font' 
+				>
+					Find myWeather!
+				</div>
 			</form>
 			</Col>
 		)
