@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 class MyWeatherContainer extends Component {
 
 	setURL() {
-		if (this.props.currentLocation) {
+		if (this.props.currentLocation && this.props.currentLocation.zip) {
 			const zip = this.props.currentLocation.zip
 
 			if (this.props.location.pathname.split('/')[1] !== zip.toString()) {

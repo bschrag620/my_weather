@@ -42,7 +42,7 @@
 }
 
 .panel {
-	padding: 15px;
+	padding: 50px;
 	background-color: blue;
 }
 
@@ -81,8 +81,6 @@
 
 .locations-container {
 	padding-top: 15px;
-	padding-left: 15px;
-	padding-right: 15px;
 }
 
 .tall-font {
