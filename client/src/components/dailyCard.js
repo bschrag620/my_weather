@@ -16,8 +16,8 @@ class DailyCard extends Component {
 					{data.name}
 				</div>
 				<Row className='time'>Start: <Time time={data.startTime} /> End: <Time time={data.endTime} /></Row>
-				<h2><Temperature temperature={data.temperature} /></h2>
-				<p>Wind: <Wind wind={data.wind} /></p>
+				<Row className='tall-font'><Temperature temperature={data.temperature} /></Row>
+				<Row><Wind wind={data.wind} /></Row>
 				<Row className="short-description">
 					{data.shortForecast}
 				</Row>

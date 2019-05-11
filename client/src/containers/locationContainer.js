@@ -28,7 +28,7 @@ class LocationContainer extends Component {
 	}
 
 	setClassName() {
-		return (this.props.currentLocation && (this.props.currentLocation.id === this.props.data.id)) ? `tab clickable selected light` : `tab clickable light`
+		return (this.props.currentLocation && (this.props.currentLocation.id === this.props.data.id)) ? `tab clickable selected` : `tab clickable mid`
 	}
 	
 	render() {		
