@@ -2,6 +2,7 @@ function locationReducer(state = {
 	locations: [],
 }, action) {
 
+	let index, newState;
 	switch (action.type) {
 		
 		case 'UPDATE_LOCATION':
@@ -12,11 +13,16 @@ function locationReducer(state = {
 			} else {
     			console.log('reducer is adding location: ', action.payload)
     			
-    			const index = state.locations.findIndex( loc => loc.id === action.payload.id )
-				const newState = [...state.locations.slice(0, index), action.payload, ...state.locations.slice(index + 1)]			
-				
+    			index = state.locations.findIndex( loc => loc.id === action.payload.id )
+				newState = [...state.locations.slice(0, index), action.payload, ...state.locations.slice(index + 1)]			
 				return {...state, locations: newState }
 			}
+
+		case 'AMEND_LOCATION':
+			index = state.locations.findIndex( loc => loc.id === action.payload.id )
+			newState = [...state.locations.slice(0, index), action.payload, ...state.locations.slice(index + 1)]
+
+			return {...state, locations: newState }
 			
 
 		case 'REMOVE_LOCATION':

@@ -34,16 +34,16 @@ export function retrieveLocation(text) {
 		return fetch(`/api/locations/retrieve?query=${text}`)
 			.then(response => {
 				if (response.status === 204) {
-					
+					debugger;
 					dispatch({
-						type: 'UPDATE_LOCATION',
+						type: 'AMEND_LOCATION',
 						payload: {
 							text: 'new location, this may take a moment...',
 							loadingData: true,
 							id: id
 						}
 					})
-
+					debugger;
 					return fetch('/api/locations/create', {
 						method: 'POST',
 						body: JSON.stringify({query: text}),
