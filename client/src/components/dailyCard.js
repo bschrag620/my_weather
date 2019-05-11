@@ -10,10 +10,11 @@ class DailyCard extends Component {
 			<Col 
 				sm md lg='3' 
 				id={data.sequenceN}
-				onClick={ e => this.props.onClick(e)}>
-				<Row className='card-header' style={{backgroundColor: '#333333', color: 'white'}}>
-					<h3>{data.name}</h3>	
-				</Row>
+				onClick={ e => this.props.onClick(e)}
+				className='clickable card'>
+				<div className='minititle'>
+					{data.name}
+				</div>
 				<Row className='time'>Start: <Time time={data.startTime} /> End: <Time time={data.endTime} /></Row>
 				<h2><Temperature temperature={data.temperature} /></h2>
 				<p>Wind: <Wind wind={data.wind} /></p>

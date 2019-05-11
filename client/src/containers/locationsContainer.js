@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Container } from 'react-bootstrap'
 import LocationContainer from './locationContainer'
+import LocationInput from '../components/locationInput'
 import uuid from 'uuid'
 
 const noLocation = () => (
@@ -20,7 +21,8 @@ class LocationsContainer extends Component {
 	render () {
 		return (
 			<Container>
-				<Row className='locations-container' style={{backgroundColor: '#333333', color: 'white'}}>
+				<LocationInput retrieveLocation={this.props.retrieveLocation} />
+				<Row className='locations-container dark'>
 					{renderLocations(this.props.locations, this.props.retrieveCurrentConditions)}
 				</Row>
 			</Container>

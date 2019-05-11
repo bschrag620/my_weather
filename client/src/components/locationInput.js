@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Button from './button'
+import { Col } from 'react-bootstrap'
 
 export default class LocationInputForm extends Component {
 
@@ -24,6 +25,7 @@ export default class LocationInputForm extends Component {
 
 	render() {
 		return (
+			<Col className='centered'>
 			<form
 				onSubmit={ e => this.handleSubmit(e) }
 			>
@@ -34,6 +36,7 @@ export default class LocationInputForm extends Component {
 					placeholder="city, st or zip code"/>
 				<Button text='Find myWeather!' onClick={ (e) => this.handleSubmit(e)} />
 			</form>
+			</Col>
 		)
 	}
 }

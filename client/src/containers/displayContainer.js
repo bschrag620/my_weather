@@ -15,7 +15,7 @@ class DisplayContainer extends Component {
 	render () {
 		return (
 			!this.props.allWeather ? "" :
-				<Container>
+				<Container className='panel'>
 					<Router>		
 							<Route path='/:zip/:displayType(detail|hourly|weekly)?' component={MyWeatherNavBar} />
 							<Route 

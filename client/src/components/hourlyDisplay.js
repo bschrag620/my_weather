@@ -14,7 +14,7 @@ const generateHourlyCards = forecasts => {
 
 		const hourlyCard = (props) => {
 			return (
-				<Col xs md lg='2' key={uuid()} style={{borderColor: '#333333', borderStyle: 'solid', borderWidth: '2px'}}>
+				<Col xs md lg='2' key={uuid()} className='card display'>
 					<h4><Time time={props.startTime} /></h4>
 					<h2><Temperature temperature={props.temperature} /></h2>
 					<div className="wind"><Wind wind={props.wind} /></div>
@@ -24,8 +24,8 @@ const generateHourlyCards = forecasts => {
 		}
 
 		return (
-			<Container key={uuid()} style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#333333', margin: '25px 0px'}}>
-				<Row style={{backgroundColor: '#333333', color: 'white'}}><h1>{date}</h1></Row>
+			<Container key={uuid()} className='panel light'>
+				<Row className='subtitle'><h1>{date}</h1></Row>
 				<Row>
 					{hourlyForecasts.map( (f, i) => hourlyCard(f, i))}
 				</Row>

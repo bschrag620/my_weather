@@ -26,17 +26,19 @@ class LocationContainer extends Component {
 		this.props.retrieveHourlyConditions(locationId, id, units)
 		this.props.retrieveWeeklyForecast(locationId, id, units)
 	}
+
+	setClassName() {
+		return (this.props.currentLocation && (this.props.currentLocation.id === this.props.data.id)) ? `tab clickable selected light` : `tab clickable light`
+	}
 	
 	render() {		
-		const setStyling = () => (this.props.currentLocation && (this.props.currentLocation.id === this.props.data.id)) ? {backgroundColor: 'white', color: 'black'} : {backgroundColor: '#333333', color: 'white'}
 		const id = this.props.data.id		
 		
 		return (
 			<Col 
 				xs md='auto' 
-				className="location" 
-				id={id} 
-				style={setStyling()}
+				className={this.setClassName()}
+				id='location'
 				onClick={this.handleClick.bind(this) }>
 				{this.props.data.loadingData ? <RetrievingData message={this.props.data.text} /> : <Location data={this.props.data} retrieveAll={this.retrieveAll.bind(this)} weatherSite={this.props.weatherSites[this.props.data.id]} />}
 			</Col>
