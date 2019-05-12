@@ -32,14 +32,12 @@ class Api::LocationsController < ApplicationController
 		}
 
 		properties['periods'].each do |forecast|
-			(start_time, utc, date) = parse_time(forecast['startTime'])
-
+			
 			forecasts[forecast_type] << {
 				:sequenceN => forecast['number'],
 				:name => forecast['name'],
-				:startTime => start_time,
-				:endTime => parse_time(forecast['endTime'])[0],
-				:utc => utc,
+				:startTime => forecast['startTime'],
+				:endTime => forecast['endTime'],
 				:date => date,
 				:temperature => { value: forecast['temperature'], units: forecast['temperatureUnit'] },
 				:wind => {value: forecast['windSpeed'].split(' ')[0], units: forecast['windSpeed'].split(' ')[1], direction: forecast['windDirection'] },
@@ -64,7 +62,7 @@ class Api::LocationsController < ApplicationController
 		current_conditions[:pressure] = rescue_pressure(is_metric, prop['barometricPressure']['value'])
 		current_conditions[:visibility] = rescue_visibility(is_metric, prop['visibility']['value'])
 		current_conditions[:relativeHumidity] = rescue_humidity(is_metric, prop['relativeHumidity']['value'])
-		current_conditions[:timestamp] = parse_time(prop['timestamp'])[0]
+		current_conditions[:timestamp] = prop['timestamp']
 		current_conditions[:shortDescription] = prop['textDescription']
 
 		render json: {:meta => ObservationSiteSerializer.new(site).attributes, current: current_conditions}
@@ -105,12 +103,6 @@ class Api::LocationsController < ApplicationController
 			wind_values = wind_table.find_all { |k, v| k <= deg }
 			wind_values.last[1]
 		end
-	end
-
-	def parse_time(string)
-		(date, remainder) = string.split('T')
-		(time, utc) = remainder.split(/[+-]/)
-		[time, utc, date]
 	end
 
 	def rescue_visibility(metric, value)
