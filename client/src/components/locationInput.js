@@ -32,7 +32,7 @@ export default class LocationInputForm extends Component {
 				<input 
 					type="text"
 					value={this.state.text}
-					className='tall-font rounded-corner'
+					className='tall-font rounded-corner centered'
 					onChange={ e => this.handleChange(e) }
 					placeholder="city, st or zip code"/> <br/>
 				<div 

@@ -3,12 +3,13 @@
 	padding-top: 15px;
 	padding-left: 15px;
 	padding-right: 15px;
-	font-size: 2.5em;
+	font-size: 1.5em;
 }
 
 .tab {
-	border-top-left-radius: 1rem;
-	border-top-right-radius: 1rem;
+	border-top-left-radius: 0rem;
+	border-top-right-radius: 0rem;
+	max-width: 150px;
 }
 
 .tab:hover {
@@ -42,13 +43,13 @@
 }
 
 .panel {
-	padding: 50px;
+	padding: 10px;
 	background-color: blue;
 }
 
 .subtitle {
 	padding-left: 15px;
-	font-size: 2.5em;
+	font-size: 1.5em;
 	color: blue;
 	margin: auto;
 }
@@ -92,12 +93,11 @@
 }
 
 .rounded-corner {
-	border-radius: 1rem;
+	border-radius: 0rem;
 }
 
 #find-weather {
 	background-color: yellow;
-	opacity: .5;
 	max-width: 500px;
 	margin: auto;
 }
@@ -108,4 +108,26 @@
 
 .daily-card {
 	min-width: 200px;
+}
+
+.fluid-row {
+	white-space: nowrap;
+	overflow-x: auto;
+}
+
+.fluid-row .col {
+	white-space: normal;
+	display: inline-block;
+}
+
+.wrap-text {
+	overflow-wrap: break-word;
+}
+
+.hourly {
+	min-height: 150px;
+}
+
+.daily-card {
+	min-height: 215px;
 }

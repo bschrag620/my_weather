@@ -12,7 +12,7 @@ class App extends Component {
 	
     return (
     	<Router>
-	      <Container className="App">
+	      <Container className="app">
 				<AppNavbar />
 				<Route path='/settings' component={MySettingsContainer} />
 				<Route exact path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' component={MyWeatherContainer} />

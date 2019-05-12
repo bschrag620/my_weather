@@ -3,7 +3,6 @@ import DailyCard from './dailyCard'
 import { Row, Container } from 'react-bootstrap'
 import RetrievingData from './stateless/retrievingData'
 import { CityState, LatLng, Temperature, Wind, Zip } from '../components/stateless/weatherIndex'
-import uuid from 'uuid'
 
 export default class WeeklyDisplay extends Component {
 	
@@ -21,8 +20,10 @@ export default class WeeklyDisplay extends Component {
 		
 		return (this.props.weeklyForecast.loadingData) ?
 			<RetrievingData message='weekly forecast...' /> : 
-			<Container >
-				<Row className='flexy' >{this.props.weeklyForecast.map( card => <DailyCard key={uuid()} data={card} onClick={onCardClick} />)}</Row>
+			<Container className='panel light'>
+				<div className="fluid-row">
+					{this.props.weeklyForecast.map( card => <DailyCard data={card} onClick={onCardClick} />)}
+				</div>
 			</Container>
 	}
 }

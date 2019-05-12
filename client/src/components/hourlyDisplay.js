@@ -14,21 +14,21 @@ const generateHourlyCards = forecasts => {
 
 		const hourlyCard = (props) => {
 			return (
-				<Col xs md lg='2' key={uuid()} className='card display'>
-					<h4><Time time={props.startTime} /></h4>
-					<h2><Temperature temperature={props.temperature} /></h2>
-					<div className="wind"><Wind wind={props.wind} /></div>
-					<div className="shortDescription">{props.shortForecast}</div>
+				<Col xs md lg='2' key={uuid()} className='hourly card display'>
+					<Row><Time time={props.startTime} /></Row>
+					<Row><Temperature temperature={props.temperature} /></Row>
+					<Row className="wind"><Wind wind={props.wind} /></Row>
+					<Row className="shortDescription wrap-text">{props.shortForecast}</Row>
 				</Col>
 			)
 		}
 
 		return (
 			<Container key={uuid()} className='panel light'>
-				<Row className='subtitle'><h1>{date}</h1></Row>
-				<Row>
+				<Row className='subtitle'>{date}</Row>
+				<div className='fluid-row'>
 					{hourlyForecasts.map( (f, i) => hourlyCard(f, i))}
-				</Row>
+				</div>
 			</Container>
 		)
 	})

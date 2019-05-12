@@ -21,11 +21,11 @@ class MyWeatherNavBar extends Component {
 	render() {
 
 		return (
-			<Row className="tab-row tab-header">
-					{this.createNavTab('Detail')}
-					{this.createNavTab('Hourly')}
-					{this.createNavTab('Weekly')}
-			</Row>
+				<Container className="tab-row tab-header overflow-x fluid-row" >
+						{this.createNavTab('Detail')}
+						{this.createNavTab('Hourly')}
+						{this.createNavTab('Weekly')}
+				</Container>
 		)
 	}
 }
