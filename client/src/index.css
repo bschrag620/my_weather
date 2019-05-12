@@ -1,15 +1,13 @@
 .tab-header {
-	background-color: blue;
+	background-color: transparent;
 	padding-top: 15px;
-	padding-left: 15px;
-	padding-right: 15px;
 	font-size: 1.5em;
 }
 
 .tab {
 	border-top-left-radius: 0rem;
 	border-top-right-radius: 0rem;
-	max-width: 150px;
+	min-width: 150px;
 }
 
 .tab:hover {
@@ -26,8 +24,17 @@
 }
 
 #location.tab.selected {
-	background-color: blue;
+	background-color: rgba(255, 255, 255, .4);
+	color: #333;
+}
+
+#location.tab:not(.selected) {
+	background-color: rgba(120, 120, 120, .7);
 	color: white;
+}
+
+#location.tab {
+	max-width: 150px;
 }
 
 .clickable {
@@ -44,7 +51,7 @@
 
 .panel {
 	padding: 10px;
-	background-color: blue;
+	background-color: rgba(255, 255, 255, .4);
 }
 
 .subtitle {
@@ -55,9 +62,9 @@
 }
 
 .minititle {
-	font-size: 1.75em;
+	font-size: 1.25em;
+	font-weight: bold;
 	color: blue;
-	margin: 5px;
 }
 
 .card {
@@ -93,13 +100,21 @@
 }
 
 .rounded-corner {
-	border-radius: 0rem;
+	border-radius: 1rem;
 }
 
 #find-weather {
-	background-color: yellow;
-	max-width: 500px;
+	background-color: rgba(255, 255, 0, .7);
+
 	margin: auto;
+	max-width: 400px;
+}
+
+input.find-weather {
+	max-width: 400px;
+	background-color: rgba(255, 255, 255, .4);
+	border: none;
+	color: #333;
 }
 
 #find-weather:hover {
@@ -126,8 +141,31 @@
 
 .hourly {
 	min-height: 150px;
+	max-width: 45%;
 }
 
 .daily-card {
 	min-height: 215px;
+	max-width: 45%;
+}
+
+.fine-print {
+	font-size: .75em;
+	font-style: italic;
+}
+
+body {
+	background-image: url('images/sky.jpg');
+}
+
+.transparent {
+	background-color: transparent;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.tab-3 {
+	width: 33.333%;
 }

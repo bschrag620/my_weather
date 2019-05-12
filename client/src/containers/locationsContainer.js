@@ -22,7 +22,7 @@ class LocationsContainer extends Component {
 		return (
 			<Container>
 				<LocationInput retrieveLocation={this.props.retrieveLocation} />
-				<Row className='locations-container light'>
+				<Row className='locations-container transparent'>
 					{renderLocations(this.props.locations, this.props.retrieveCurrentConditions)}
 				</Row>
 			</Container>

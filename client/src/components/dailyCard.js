@@ -9,11 +9,11 @@ class DailyCard extends Component {
 		const data = this.props.data
 		return (
 			<Col xs md lg='3' key={uuid()} id={data.sequenceN} onClick={ e => this.props.onClick(e)}
-				className='card daily-card display'>
+				className='card daily-card display clickable'>
 				<Row className='minititle'>
 					{data.name}
 				</Row>
-				<Row className='time'>Start: <Time time={data.startTime} /> End: <Time time={data.endTime} /></Row>
+				<Row className='time'><Time time={data.startTime} />-<Time time={data.endTime} /></Row>
 				<Row className='tall-font'><Temperature temperature={data.temperature} /></Row>
 				<Row><Wind wind={data.wind} /></Row>
 				<Row>

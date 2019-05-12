@@ -11,21 +11,21 @@ class MyWeatherNavBar extends Component {
 	}
 
 	currentPage(text) {
-		return 'clickable tab centered dark' + (this.props.match.params.displayType === text.toLowerCase() ? ' selected' : '')
+		return 'clickable tab-3 tab centered dark' + (this.props.match.params.displayType === text.toLowerCase() ? ' selected' : '')
 	}
 
 	createNavTab(text) {
-		return <Col className={this.currentPage(text)} href={`/${this.props.match.params.zip}/${text.toLowerCase()}`} onClick={e => this.handleClick(e)}>{text}</Col>
+		return <Col size='3' className={this.currentPage(text)} href={`/${this.props.match.params.zip}/${text.toLowerCase()}`} onClick={e => this.handleClick(e)}>{text}</Col>
 	}
 
 	render() {
 
 		return (
-				<Container className="tab-row tab-header overflow-x fluid-row" >
+				<div className="full-width tab-row tab-header fluid-row" >
 						{this.createNavTab('Detail')}
 						{this.createNavTab('Hourly')}
 						{this.createNavTab('Weekly')}
-				</Container>
+				</div>
 		)
 	}
 }

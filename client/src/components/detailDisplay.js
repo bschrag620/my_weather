@@ -11,7 +11,7 @@ const card = props => {
 		<Container className={meta.code + ' display'} >
 			<Row className='subtitle'>{props.currentLocation.city}, {props.currentLocation.state}</Row>
 			<Temperature temperature={properties.temperature} />
-			<Wind wind={properties.wind} />
+			<div><Wind wind={properties.wind} /></div>
 			<Detailed detailed={properties.detailedForecast} />
 			<div className='fine-print'>Sensor location: {meta.name}</div>
 			<div className='fine-print'>Observation code: {meta.code}</div> 
