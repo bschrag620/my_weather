@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CityState, LatLng, Temperature, Wind, Zip, Detailed } from '../components/stateless/weatherIndex'
+import { LatLng, Temperature, Wind, Detailed } from '../components/stateless/weatherIndex'
 import RetrievingData from './stateless/retrievingData'
 import { Container, Row } from 'react-bootstrap'
 

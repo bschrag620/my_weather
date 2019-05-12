@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { CityState, LatLng, Temperature, Wind, Zip, Time } from '../components/stateless/weatherIndex'
+import { Temperature, Wind, Time } from '../components/stateless/weatherIndex'
 import RetrievingData from './stateless/retrievingData'
 import { Row, Col, Container } from 'react-bootstrap'
 import uuid from 'uuid'

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import DailyCard from './dailyCard'
-import { Row, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import RetrievingData from './stateless/retrievingData'
-import { CityState, LatLng, Temperature, Wind, Zip } from '../components/stateless/weatherIndex'
 
 export default class WeeklyDisplay extends Component {
 	

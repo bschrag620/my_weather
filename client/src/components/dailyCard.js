@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { CityState, LatLng, Temperature, Wind, Zip, Detailed, Time } from '../components/stateless/weatherIndex'
+import { Temperature, Wind, Time } from '../components/stateless/weatherIndex'
 import uuid from 'uuid'
 
 class DailyCard extends Component {

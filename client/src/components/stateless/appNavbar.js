@@ -29,8 +29,6 @@ class AppNavBar extends Component {
 	
 	render() {
 
-		const setStyling = text => ('settings' === text) ? {backgroundColor: 'white', color: 'black'} : {backgroundColor: 'transparent', color: 'white'}
-
 		return (
 			<Container className="header">
 				<Navbar style={{padding: 0, backgroundColor: '#333333'}} expand='lg' variant='dark'>

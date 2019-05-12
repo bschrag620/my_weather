@@ -11,12 +11,14 @@ class LocationContainer extends Component {
 
 	handleClick(){
 		const loc = this.props.locations.find( loc => loc.id === this.props.data.id)
-		this.props.setLocation(loc)
+		
+		// don't try to load the location if it is still gathering data
+		if (!loc.loadingData) {
+			this.props.setLocation(loc)
+		}
 	}
 
-	retrieveAll() {
-		// need to put units in sessionReducer eventually to give users ability to change between metric and imperial
-		
+	retrieveAll() {		
 		const units = this.props.units
 		const code = this.props.currentLocation.preferred_observation_code
 		const locationId = this.props.currentLocation.locationId
@@ -32,7 +34,6 @@ class LocationContainer extends Component {
 	}
 	
 	render() {		
-		const id = this.props.data.id		
 		
 		return (
 			<Col 

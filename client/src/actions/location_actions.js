@@ -4,11 +4,9 @@ function handleErrors(response) {
 	switch (response.status) {
 		case 404:
 			throw Error('zip code not found')
-			return response
 
 		case 500:
 			throw Error('problem creating location')
-			return response
 
 		case 204:
 			console.log('attempting to create new location')

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import LocationInputForm from '../components/locationInput'
 import { connect } from 'react-redux'
 import retrieveLocation from '../actions/location_actions'
-import { setLocation } from '../actions/location_actions'
 import { Container } from 'react-bootstrap'
 import LocationsContainer from './locationsContainer'
 import DisplayContainer from './displayContainer'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 
 class MyWeatherContainer extends Component {
@@ -29,7 +26,7 @@ class MyWeatherContainer extends Component {
 		// checking for initial landing of the site to include a zip code
 		// ..../[0-9]{5}
 		// if there is a zip, load the location
-		if (this.props.match.params.zip && !this.props.locations.find( l => l.zip == this.props.match.params.zip)) {
+		if (this.props.match.params.zip && !this.props.locations.find( l => l.zip.toString() === this.props.match.params.zip)) {
 			this.props.retrieveLocation(this.props.match.params.zip)
 		}
 

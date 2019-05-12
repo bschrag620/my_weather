@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Nav, Navbar, Col, Container, Row } from 'react-bootstrap'
+import {  Col } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 class MyWeatherNavBar extends Component {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import RetreivingData from '../components/stateless/retrievingData'
 import DetailDisplay from '../components/detailDisplay'
 import HourlyDisplay from '../components/hourlyDisplay'
 import WeeklyDisplay from '../components/weeklyDisplay'

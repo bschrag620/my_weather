@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Button from './button'
-import { Col, Row } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 
 export default class LocationInputForm extends Component {
 

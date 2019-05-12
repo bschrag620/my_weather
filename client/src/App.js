@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Container, Navbar } from 'react-bootstrap'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Container } from 'react-bootstrap'
 import MyWeatherContainer from './containers/myWeatherContainer'
 import MySettingsContainer from './containers/mySettingsContainer'
-import LocationInput from './components/locationInput'
 import AppNavbar from './components/stateless/appNavbar'
 
 class App extends Component {
