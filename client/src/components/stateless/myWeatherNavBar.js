@@ -21,7 +21,7 @@ class MyWeatherNavBar extends Component {
 	render() {
 
 		return (
-				<div className="full-width tab-row tab-header fluid-row" >
+				<div className="full-width tab-row tab-header fluid-row tall-font" >
 						{this.createNavTab('Detail')}
 						{this.createNavTab('Hourly')}
 						{this.createNavTab('Weekly')}

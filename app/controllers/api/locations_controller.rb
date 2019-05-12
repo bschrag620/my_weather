@@ -38,7 +38,6 @@ class Api::LocationsController < ApplicationController
 				:name => forecast['name'],
 				:startTime => forecast['startTime'],
 				:endTime => forecast['endTime'],
-				:date => date,
 				:temperature => { value: forecast['temperature'], units: forecast['temperatureUnit'] },
 				:wind => {value: forecast['windSpeed'].split(' ')[0], units: forecast['windSpeed'].split(' ')[1], direction: forecast['windDirection'] },
 				:isDaytime => forecast['isDayTime'],

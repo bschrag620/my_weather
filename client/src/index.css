@@ -1,13 +1,12 @@
 .tab-header {
 	background-color: transparent;
 	padding-top: 15px;
-	font-size: 1.5em;
 }
 
 .tab {
 	border-top-left-radius: 0rem;
 	border-top-right-radius: 0rem;
-	min-width: 150px;
+	min-width: 100px;
 }
 
 .tab:hover {
@@ -54,18 +53,7 @@
 	background-color: rgba(255, 255, 255, .4);
 }
 
-.subtitle {
-	padding-left: 15px;
-	font-size: 1.5em;
-	color: blue;
-	margin: auto;
-}
 
-.minititle {
-	font-size: 1.25em;
-	font-weight: bold;
-	color: blue;
-}
 
 .card {
 	border-radius: 0;
@@ -91,9 +79,7 @@
 	padding-top: 15px;
 }
 
-.tall-font {
-	font-size: 2.5em;
-}
+
 
 .tooltip:hover .tooltiptext {
 	visibility: visible;
@@ -109,13 +95,16 @@
 	border-style: solid;
 	border-color: rgba(255, 255, 0, .6);
 	margin: auto;
-	max-width: 400px;
+	width: 60%;
+	min-width: 200px;
 }
 
 input.find-weather {
-	max-width: 400px;
+	width: 60%;
+	min-width: 200px;
 	background-color: rgba(255, 255, 255, .3);
 	border: none;
+	margin: auto;
 	color: #333;
 }
 
@@ -142,13 +131,15 @@ input.find-weather {
 }
 
 .hourly {
-	min-height: 150px;
-	max-width: 45%;
+	min-height: 215px;
+	width: 45%;
+	max-width: 250px;
 }
 
 .daily-card {
 	min-height: 215px;
-	max-width: 45%;
+	width: 45%;
+	max-width: 250px;
 }
 
 .fine-print {
@@ -170,4 +161,67 @@ body {
 
 .tab-3 {
 	width: 33.333%;
+}
+
+.tall-font {
+	font-size: 1.25em;
+}
+
+.subtitle {
+	padding-left: 15px;
+	font-size: 1em;
+	font-weight: bold;
+	color: blue;
+	margin: auto;
+}
+
+.minititle {
+	font-size: .75em;
+	font-weight: bold;
+	color: blue;
+}
+
+@media (min-width: 600px) {
+	.tall-font {
+		font-size: 1.5em;
+	}
+
+	.subtitle {
+		font-size: 1.25em;
+	}
+
+	.minititle {
+		font-size: 1em;
+	}
+}
+
+@media (min-width: 800px) {
+	.tall-font {
+		font-size: 2em;
+	}
+
+	.subtitle {
+		font-size: 1.5em;
+	}
+
+	.minititle {
+		font-size: 1.25em;
+	}
+
+}
+
+@media (min-width: 1000px) {
+
+	.tall-font {
+		font-size: 2.5em;
+	}
+
+	.subtitle {
+		font-size: 2em;
+	}
+
+	.minititle {
+		font-size: 1.5em;
+	}
+
 }

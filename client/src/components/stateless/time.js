@@ -1,32 +1,44 @@
 import React, { Component, Fragment as Frag } from 'react'
 
-const displayType = 24;
-
-const adjustDisplay = time => {
-	let hours, minutes, seconds;
-	let amPM = '';
-
-	[hours, minutes, seconds] = time.split(':')
-	
-	if (displayType === 12) {
-		amPM = (hours > 12) ? 'pm' : 'am'
-	} 
-
-	hours = (displayType === 12 && hours > 12) ? hours - 12 : hours
-
-	return `${hours}:${minutes}${amPM}`
+const days = {
+	0: 'Sunday',
+	1: 'Monday',
+	2: 'Tuesday',
+	3: 'Wednesday',
+	4: 'Thursday',
+	5: 'Friday',
+	6: 'Saturday'
 }
 
-class Time extends Component {
+export const Day = props => {
+	const d = new Date(props.time)
+	
+	return (
+		<Frag>
+			{days[d.getDay()]}
+		</Frag>
+	)
+}
+
+export const TwentyFourHours = props => {
+	const d = new Date(props.time)
+
+	return (
+		<Frag>
+			{d.getHours()}
+		</Frag>
+	)
+}
+
+export default class Time extends Component {
 
 
 	render() {
+		const d = new Date(this.props.time)
 		return (
 			<Frag>
-				{adjustDisplay(this.props.time)}
+				{days[d.getDay()]}
 			</Frag>
 		)
 	}
 }
-
-export default Time
