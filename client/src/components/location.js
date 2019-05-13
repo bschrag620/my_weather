@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom'
 
 class Location extends Component {
 
-	componentDidMount() {
+	 componentDidMount() {
 
 		if (this.props.weatherSite.current.loadingData) {
 			this.props.retrieveAll()

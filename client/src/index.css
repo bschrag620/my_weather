@@ -4,8 +4,6 @@
 }
 
 .tab {
-	border-top-left-radius: 0rem;
-	border-top-right-radius: 0rem;
 	min-width: 100px;
 }
 
@@ -56,7 +54,6 @@
 
 
 .card {
-	border-radius: 0;
 	padding-left: 15px;
 }
 
@@ -89,27 +86,14 @@
 	border-radius: 1rem;
 }
 
-#find-weather {
-	background-color: rgba(255, 255, 255, .4);
-	border-width: 3px;
-	border-style: solid;
-	border-color: rgba(255, 255, 0, .6);
-	margin: auto;
-	width: 60%;
-	min-width: 200px;
-}
-
 input.find-weather {
 	width: 60%;
+	height: 35px;
 	min-width: 200px;
 	background-color: rgba(255, 255, 255, .3);
 	border: none;
 	margin: auto;
 	color: #333;
-}
-
-#find-weather:hover {
-	cursor: pointer;
 }
 
 .daily-card {
@@ -175,6 +159,11 @@ body {
 	margin: auto;
 }
 
+.app {
+	margin: 50px;
+	width: 100%;
+}
+
 .minititle {
 	font-size: .75em;
 	font-weight: bold;
@@ -182,17 +171,6 @@ body {
 }
 
 @media (min-width: 600px) {
-	.tall-font {
-		font-size: 1.5em;
-	}
-
-	.subtitle {
-		font-size: 1.25em;
-	}
-
-	.minititle {
-		font-size: 1em;
-	}
 }
 
 @media (min-width: 800px) {
@@ -224,4 +202,22 @@ body {
 		font-size: 1.5em;
 	}
 
+}
+
+::placeholder {
+	color: rgba(255, 255, 255, .5);
+}
+
+button {
+	background-color: rgba(255, 255, 255, .4);
+	border-width: 3px;
+	border-style: solid;
+	border-color: rgba(255, 255, 0, .6);
+	width: 60%;
+	height: 32px;
+	line-height: 1rem;
+	color: #333;
+	min-width: 200px;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }

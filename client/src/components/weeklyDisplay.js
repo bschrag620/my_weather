@@ -21,7 +21,7 @@ export default class WeeklyDisplay extends Component {
 			<RetrievingData message='weekly forecast...' /> : 
 			<Container className='panel light'>
 				<div className="fluid-row">
-					{this.props.weeklyForecast.map( card => <DailyCard data={card} onClick={onCardClick} />)}
+					{this.props.weeklyForecast.map( (card, i) => <DailyCard key={i} data={card} onClick={onCardClick} />)}
 				</div>
 			</Container>
 	}

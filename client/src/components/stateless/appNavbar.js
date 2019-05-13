@@ -23,7 +23,7 @@ class AppNavBar extends Component {
 		if (newPath === 'home') {
 			newPath = this.state.previousHomeRoute
 		}
-
+		
 		this.props.history.push(`/${newPath}`)
 	}
 	
@@ -31,10 +31,10 @@ class AppNavBar extends Component {
 
 		return (
 			<Container className="header">
-				<Navbar style={{padding: 0, backgroundColor: '#333333'}} expand='lg' variant='dark'>
+				<Navbar  expand='sm'>
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
-						<Nav className="my-settings">
+						<Nav className="my-settings tall-font">
 							<Col xs='auto'><Nav.Link href='/' onClick={ e => this.handleClick(e) } value='home'>Home</Nav.Link></Col>
 							<Col xs='auto'><Nav.Link href='/settings' onClick={ e => this.handleClick(e) } value='settings'>Settings</Nav.Link></Col>
 						</Nav>

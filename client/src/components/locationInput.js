@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Col } from 'react-bootstrap'
+import Button from './button'
 
 export default class LocationInputForm extends Component {
 
@@ -9,10 +10,12 @@ export default class LocationInputForm extends Component {
 
 	handleSubmit(e) {
 		e.preventDefault()
-		this.props.retrieveLocation(this.state.text)
-		this.setState({
-			text: ''
-		})
+		if (this.state.text !== '') {
+			this.props.retrieveLocation(this.state.text)
+			this.setState({
+				text: ''
+			})
+		}
 	}
 
 	handleChange(e) {
@@ -34,13 +37,13 @@ export default class LocationInputForm extends Component {
 					className='tall-font find-weather rounded-corner centered'
 					onChange={ e => this.handleChange(e) }
 					placeholder="city, st or zip code"/> <br/>
-				<div 
-					onClick={ (e) => this.handleSubmit(e)}
+				<Button 
+					onClick={this.handleSubmit.bind(this)}
 					id='find-weather'
-					className='find-weather rounded-corner tall-font' 
+					text='Find myWeather!' 
 				>
 					Find myWeather!
-				</div>
+				</Button>
 			</form>
 			</Col>
 		)
