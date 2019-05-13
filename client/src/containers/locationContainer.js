@@ -30,9 +30,9 @@ class LocationContainer extends Component {
 
 	retrieveAll() {		
 		const units = this.props.units
-		const code = this.props.currentLocation.preferred_observation_code
-		const locationId = this.props.currentLocation.locationId
-		const id = this.props.currentLocation.id
+		const code = this.props.data.preferred_observation_code
+		const locationId = this.props.data.locationId
+		const id = this.props.data.id
 
 		this.props.retrieveCurrentConditions(code, id, units)
 		this.props.retrieveHourlyConditions(locationId, id, units)
