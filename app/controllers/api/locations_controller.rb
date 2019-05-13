@@ -53,6 +53,7 @@ class Api::LocationsController < ApplicationController
 		site = ObservationSite.find_by(:code => params[:code])
 		resp = Faraday.get site.observation_api + '/latest'
 		body = JSON.parse(resp.body)
+		units = params[:units] || 'si'
 		prop = body['properties']
 
 		current_conditions = {}
@@ -64,7 +65,7 @@ class Api::LocationsController < ApplicationController
 		current_conditions[:timestamp] = prop['timestamp']
 		current_conditions[:shortDescription] = prop['textDescription']
 
-		render json: {:meta => ObservationSiteSerializer.new(site).attributes, current: current_conditions}
+		render json: {:meta => ObservationSiteSerializer.new(site).attributes, current: current_conditions, units: units}
 	end
 
 	private
