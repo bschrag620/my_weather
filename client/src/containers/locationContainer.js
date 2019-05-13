@@ -18,6 +18,16 @@ class LocationContainer extends Component {
 		}
 	}
 
+	componentDidMount() {
+		if (this.props.handleSettingsChange()) {
+			// landing here means there was a change to the settings
+			// now to invalidate the weather data
+			this.props.locations.forEach((loc) => {
+			  this.props.invalidateWeatherData(loc.id)
+			})
+		}
+	}
+
 	retrieveAll() {		
 		const units = this.props.units
 		const code = this.props.currentLocation.preferred_observation_code
@@ -30,7 +40,7 @@ class LocationContainer extends Component {
 	}
 
 	setClassName() {
-		return (this.props.currentLocation && (this.props.currentLocation.id === this.props.data.id)) ? `tab clickable selected` : `tab clickable`
+		return (this.props.currentLocation && (this.props.currentLocation.id === this.props.data.id)) ? `tab clickable ${this.props.units} selected` : `tab ${this.props.units} clickable`
 	}
 	
 	render() {		
@@ -40,6 +50,7 @@ class LocationContainer extends Component {
 				xs md='auto' 
 				className={this.setClassName()}
 				id='location'
+				data-type={this.props.units}
 				onClick={this.handleClick.bind(this) }>
 				{this.props.data.loadingData ? <RetrievingData message={this.props.data.text} /> : <Location data={this.props.data} retrieveAll={this.retrieveAll.bind(this)} weatherSite={this.props.weatherSites[this.props.data.id]} />}
 			</Col>
@@ -52,7 +63,14 @@ const mapDispatchToProps = dispatch => {
 		retrieveCurrentConditions: (code, id, units) => dispatch(retrieveCurrentConditions(code, id, units)),
 		retrieveHourlyConditions: (locationId, id, units) => dispatch(retrieveHourlyConditions(locationId, id, units)),
 		retrieveWeeklyForecast: (locationId, id, units) => dispatch(retrieveWeeklyForecast(locationId, id, units)),
-		setLocation: id => dispatch(setLocation(id))
+		setLocation: id => dispatch(setLocation(id)),
+		invalidateWeatherData: id => dispatch({
+					type: 'INITIALIZE_WEATHER_ID',
+					payload: {
+						id: id,
+						loadingData: true
+					}
+				})
 	}
 }
 
@@ -61,7 +79,6 @@ const mapStateToProps = state => {
 		weatherSites: state.weatherReducer.sites,
 		currentLocation: state.sessionReducer.currentLocation,
 		locations: state.locationReducer.locations,
-		units: state.sessionReducer.units
 	}
 }
 

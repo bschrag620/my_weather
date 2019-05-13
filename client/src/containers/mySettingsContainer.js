@@ -2,26 +2,45 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import SettingsCardWithToggle from '../components/stateless/settingsCardWithToggle';
+import Button from '../components/button'
+import { withRouter } from 'react-router-dom'
 
 class MySettingsContainer extends Component {
+	constructor(props) {
+		super(props);
 
-	handleToggleUnits() {
-		this.props.toggleUnits()
+		this.state = {
+			units: this.props.units
+		}
+	}
+	
+	toggleUnits() {
+		this.setState({
+			units: (this.state.units === 'si') ? 'us' : 'si'
+		})
+	}
+
+	handleClick() {
+		this.props.delayedUpdate(this.state)
+		this.props.history.goBack()
 	}
 
 	render() {
 		return (
-			<Container>This is the settings component
+			<Container>
 				<Row>
 					<Col xs md lg='3'>
 						<SettingsCardWithToggle 
-							handleChange={this.props.toggleUnits} 
-							bool={this.props.units === 'si'}
+							handleChange={this.toggleUnits.bind(this)} 
+							bool={this.state.units === 'si'}
 							leftLabel='US'
 							rightLabel='Metric'
 							title='Units'/>
 					</Col>
 				</Row>
+				<Container className='centered'>
+				<Button onClick={this.handleClick.bind(this)} text='Update Settings' />
+				</Container>
 			</Container>
 		)
 
@@ -30,8 +49,9 @@ class MySettingsContainer extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		toggleUnits: () => dispatch({
-			type: 'TOGGLE_UNITS'
+		delayedUpdate: (payload) => dispatch({
+			type: 'DELAYED_UPDATE',
+			payload: payload
 		})
 	}
 }
@@ -42,4 +62,4 @@ const mapStateToProps = state => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MySettingsContainer)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MySettingsContainer))

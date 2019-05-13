@@ -19,6 +19,7 @@ function handleErrors(response) {
 
 export function retrieveLocation(text) {
 	const id = uuid()
+
 	return (dispatch) => {
 		dispatch({
 			type: 'LOCATION_API_REQUEST',
