@@ -125,6 +125,7 @@
 
 body {
 	background-image: url('images/sky.jpg');
+	background-size: 100%, 100%;
 }
 
 .transparent {
@@ -152,7 +153,6 @@ body {
 }
 
 .app {
-	margin: 50px;
 	width: 100%;
 }
 

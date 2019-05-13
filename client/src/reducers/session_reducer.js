@@ -28,9 +28,7 @@ function sessionReducer(state = {
 		case 'CLEAR_DELAYED':
 			newState = Object.assign({}, state)
 			delete newState.delayed[action.payload]
-			if (Object.keys(newState.delayed).length === 0) {
-				newState.delayed = null
-			}
+			debugger;
 			return newState
 
 		default:

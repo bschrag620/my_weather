@@ -19,7 +19,7 @@ const renderLocations = (locations, retrieveCurrentConditions, units, handleSett
 
 class LocationsContainer extends Component {
 	handleSettingsChange() {
-		if (this.props.session.delayed && this.props.session.units !== this.props.session.delayed.units) {
+		if (this.props.session.delayed && this.props.session.delayed.units) {
 			this.props.updateSettings(this.props.session.delayed)
 			this.props.clearDelayed('units')
 			return true
