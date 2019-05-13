@@ -41,6 +41,7 @@ export default class LocationInputForm extends Component {
 					onClick={this.handleSubmit.bind(this)}
 					id='find-weather'
 					text='Find myWeather!' 
+					className='find-weather'
 				>
 					Find myWeather!
 				</Button>
