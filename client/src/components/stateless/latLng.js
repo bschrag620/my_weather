@@ -1,4 +1,4 @@
-import React, { Fragemnt as Frag} from 'react'
+import React, { Fragment as Frag} from 'react'
 
 const LatLng = props => (
 	<Frag>lat: {props.lat} lng: {props.lng}</Frag>
