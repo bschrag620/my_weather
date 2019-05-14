@@ -6,7 +6,7 @@ class SettingsCardWithToggle extends Component {
 
 	render() {
 		return (
-			<Container className='card'>
+			<Container className='card panel'>
 				<Col className='text-center'><h2>{this.props.title}</h2></Col>
 				<Row>
 					<Col className='text-center' size='auto'>

@@ -20,6 +20,24 @@ class Location < ApplicationRecord
 		super(value.round(4))
 	end
 
+	def self.find_by_string(string)
+		params = parse_string(string)
+
+		if params.keys.empty?
+			nil
+		else
+			if !params.keys.include?(:zip)
+				params = retrieve_zip_by_city_state(params)
+			end
+
+			if params[:zip].nil?
+				nil
+			else
+				Location.find_by(:zip => params[:zip])
+			end
+		end
+	end
+
 	def self.create_from_string(string)
 		# parse the string to see what kind of data was sent
 		params = parse_string(string)
@@ -31,21 +49,19 @@ class Location < ApplicationRecord
 			if !params.keys.include?(:zip)
 				params = retrieve_zip_by_city_state(params)
 			end
-
 			if params[:zip].nil?
 				nil
 			else
 			# now we have a zip key, let's find_or_create_by zips
-				Location.find_or_create_by(params)
+				Location.create_by(params)
 			end
 		end
 	end
 
 	
 	# overriding class method so the new location can be constructed will all relevant data
-	def self.find_or_create_by(params)
+	def self.create_by(params)
 		location = Location.find_by(params)
-
 		# if location wasn't found, create it and retrieve the necessary info		
 		if !location
 			zip_params = retrieve_by_zip(params)

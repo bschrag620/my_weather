@@ -1,27 +1,28 @@
 import React, { Component } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { CityState, LatLng, Temperature, Wind, Zip, Detailed, Time } from '../components/stateless/weatherIndex'
+import { Temperature, Wind, Time } from '../components/stateless/weatherIndex'
+import uuid from 'uuid'
 
 class DailyCard extends Component {
 
 	render() {
 		const data = this.props.data
 		return (
-			<Col 
-				sm md lg='3' 
-				id={data.sequenceN}
-				onClick={ e => this.props.onClick(e)}>
-				<Row className='card-header' style={{backgroundColor: '#333333', color: 'white'}}>
-					<h3>{data.name}</h3>	
+			<Col xs md lg='3' key={uuid()} id={data.sequenceN} onClick={ e => this.props.onClick(e)}
+				className='card daily-card display clickable'>
+				<Row className='minititle'>
+					{data.name}
 				</Row>
-				<Row className='time'>Start: <Time time={data.startTime} /> End: <Time time={data.endTime} /></Row>
-				<h2><Temperature temperature={data.temperature} /></h2>
-				<p>Wind: <Wind wind={data.wind} /></p>
-				<Row className="short-description">
-					{data.shortForecast}
-				</Row>
-				<Row className='detailed-description' hidden>
-					{data.detailedForecast}
+				<Row className='time'><Time time={data.startTime} />-<Time time={data.endTime} /></Row>
+				<Row className='tall-font'><Temperature temperature={data.temperature} /></Row>
+				<Row><Wind wind={data.wind} /></Row>
+				<Row>
+					<p className="short-description">
+						{data.shortForecast}
+					</p>
+					<p className='detailed-description' hidden>
+						{data.detailedForecast}
+					</p>
 				</Row>
 			</Col>
 		)

@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
-import { CityState, LatLng, Temperature, Wind, Zip, Detailed } from '../components/stateless/weatherIndex'
+import { LatLng, Temperature, Wind, Detailed } from '../components/stateless/weatherIndex'
 import RetrievingData from './stateless/retrievingData'
 import { Container, Row } from 'react-bootstrap'
 
 const card = props => {
 	const properties = props.currentConditions
 	const meta = props.meta
+
 	return (
-		<Container className={meta.code} style={{padding: '10px'}}>
-			<Row style={{backgroundColor: '#333333', color: 'white', paddingLeft: '5px'}}><h1>{props.currentLocation.city}, {props.currentLocation.state}</h1></Row>
-			<h2><Temperature temperature={properties.temperature} /></h2>
-			<h3><Wind wind={properties.wind} /></h3>
-			<h3><Detailed detailed={properties.detailedForecast} /></h3>
+		<Container className={meta.code + ' display'} >
+			<Row className='subtitle'>{props.currentLocation.city}, {props.currentLocation.state}</Row>
+			<Temperature temperature={properties.temperature} />
+			<div><Wind wind={properties.wind} /></div>
+			<Detailed detailed={properties.detailedForecast} />
 			<div className='fine-print'>Sensor location: {meta.name}</div>
 			<div className='fine-print'>Observation code: {meta.code}</div> 
 			<div className='fine-print'><LatLng lat={props.currentLocation.lat} lng={props.currentLocation.lng} /></div>

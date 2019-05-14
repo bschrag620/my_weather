@@ -1,14 +1,25 @@
 import uuid from 'uuid'
 
 function handleErrors(response) {
-	if (!response.ok) {
-		throw Error('zip code not found')
+	switch (response.status) {
+		case 404:
+			throw Error('zip code not found')
+
+		case 500:
+			throw Error('problem creating location')
+
+		case 204:
+			console.log('attempting to create new location')
+			return response
+
+		default:
+			return response
 	}
-	return response
 }
 
 export function retrieveLocation(text) {
 	const id = uuid()
+
 	return (dispatch) => {
 		dispatch({
 			type: 'LOCATION_API_REQUEST',
@@ -19,15 +30,32 @@ export function retrieveLocation(text) {
 			}
 		})
 
-		return fetch('/api/locations/retrieve', {
-			method: 'POST',
-			body: JSON.stringify({query: text}),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
+		return fetch(`/api/locations/retrieve?query=${text}`)
+			.then(response => {
+				if (response.status === 204) {
+					debugger;
+					dispatch({
+						type: 'AMEND_LOCATION',
+						payload: {
+							text: 'new location, this may take a moment...',
+							loadingData: true,
+							id: id
+						}
+					})
+					debugger;
+					return fetch('/api/locations/create', {
+						method: 'POST',
+						body: JSON.stringify({query: text}),
+						headers: {
+							'Content-Type': 'application/json'
+						}
+					})
+				}
+
+				return response
+			})
 			.then(handleErrors)
-			.then(response => response.json())
+			.then(response => response.json() )
 			.then(location => {
 				dispatch({
 					type: 'SET_ACTIVE_LOCATION',
@@ -51,6 +79,7 @@ export function retrieveLocation(text) {
 			})
 			.catch(error => {
 				console.log(error)
+				alert(error)
 				dispatch({
 					type: 'REMOVE_LOCATION',
 					id: id

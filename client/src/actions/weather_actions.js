@@ -1,3 +1,7 @@
+const handleError = response => {
+	return response
+}
+
 export default function retrieveCurrentConditions(code, id, units='si') {
 	return dispatch => {
 		dispatch({
@@ -10,6 +14,7 @@ export default function retrieveCurrentConditions(code, id, units='si') {
 		})
 
 		return fetch(`/api/locations/${code}/current?units=${units}`)
+				.then(resp => handleError(resp))
 				.then(resp => resp.json())
 				.then(weather => {
 					dispatch({
@@ -18,6 +23,7 @@ export default function retrieveCurrentConditions(code, id, units='si') {
 						id: id
 					})
 				})
+				.catch(error => console.log(error))
 	}
 }
 
@@ -33,6 +39,7 @@ export function retrieveHourlyConditions(locationId, id, units='si') {
 		})
 
 		return fetch(`/api/locations/${locationId}/forecast?units=${units}&type=hourly`)
+			.then(resp => handleError(resp))
 			.then(resp => resp.json())
 			.then(weather => {
 				dispatch({
@@ -41,6 +48,7 @@ export function retrieveHourlyConditions(locationId, id, units='si') {
 					id: id
 				})
 			})
+			.catch(error => console.log(error))
 	}
 }
 
@@ -56,6 +64,7 @@ export function retrieveWeeklyForecast(locationId, id, units='si') {
 		})
 
 		return fetch(`/api/locations/${locationId}/forecast?units=${units}&type=weekly`)
+			.then(resp => handleError(resp))
 			.then(resp => resp.json())
 			.then(weather => {
 				dispatch({
@@ -63,6 +72,9 @@ export function retrieveWeeklyForecast(locationId, id, units='si') {
 					payload: weather,
 					id: id
 				})
+			})
+			.catch(error => {
+				console.log(error)
 			})
 	}	
 }

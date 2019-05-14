@@ -1,10 +1,19 @@
 class Api::LocationsController < ApplicationController
-	def retrieve
+	def show
+		location = Location.find_by_string(params[:query])
+		if location
+			render json: location, :status => 200
+		else
+			render json: {:error => 'no matching zip code found', :body => 'test'}, status: 204
+		end
+	end
+
+	def create
 		location = Location.create_from_string(params[:query])
 		if location
 			render json: location, :status => 200
 		else
-			render json: {:error => 'no matching zip code found'}, status: 404
+			render json: {:error => "location could not be created based on given values of: #{params[:query]}"}, status: 404
 		end
 	end
 
@@ -23,15 +32,12 @@ class Api::LocationsController < ApplicationController
 		}
 
 		properties['periods'].each do |forecast|
-			(start_time, utc, date) = parse_time(forecast['startTime'])
-
+			
 			forecasts[forecast_type] << {
 				:sequenceN => forecast['number'],
 				:name => forecast['name'],
-				:startTime => start_time,
-				:endTime => parse_time(forecast['endTime'])[0],
-				:utc => utc,
-				:date => date,
+				:startTime => forecast['startTime'],
+				:endTime => forecast['endTime'],
 				:temperature => { value: forecast['temperature'], units: forecast['temperatureUnit'] },
 				:wind => {value: forecast['windSpeed'].split(' ')[0], units: forecast['windSpeed'].split(' ')[1], direction: forecast['windDirection'] },
 				:isDaytime => forecast['isDayTime'],
@@ -47,6 +53,7 @@ class Api::LocationsController < ApplicationController
 		site = ObservationSite.find_by(:code => params[:code])
 		resp = Faraday.get site.observation_api + '/latest'
 		body = JSON.parse(resp.body)
+		units = params[:units] || 'si'
 		prop = body['properties']
 
 		current_conditions = {}
@@ -55,10 +62,10 @@ class Api::LocationsController < ApplicationController
 		current_conditions[:pressure] = rescue_pressure(is_metric, prop['barometricPressure']['value'])
 		current_conditions[:visibility] = rescue_visibility(is_metric, prop['visibility']['value'])
 		current_conditions[:relativeHumidity] = rescue_humidity(is_metric, prop['relativeHumidity']['value'])
-		current_conditions[:timestamp] = parse_time(prop['timestamp'])[0]
+		current_conditions[:timestamp] = prop['timestamp']
 		current_conditions[:shortDescription] = prop['textDescription']
 
-		render json: {:meta => ObservationSiteSerializer.new(site).attributes, current: current_conditions}
+		render json: {:meta => ObservationSiteSerializer.new(site).attributes, current: current_conditions, units: units}
 	end
 
 	private
@@ -96,12 +103,6 @@ class Api::LocationsController < ApplicationController
 			wind_values = wind_table.find_all { |k, v| k <= deg }
 			wind_values.last[1]
 		end
-	end
-
-	def parse_time(string)
-		(date, remainder) = string.split('T')
-		(time, utc) = remainder.split(/[+-]/)
-		[time, utc, date]
 	end
 
 	def rescue_visibility(metric, value)

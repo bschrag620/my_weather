@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { CityState, LatLng, Temperature, Wind, Zip, Time } from '../components/stateless/weatherIndex'
+import { Temperature, Wind, Time } from '../components/stateless/weatherIndex'
 import RetrievingData from './stateless/retrievingData'
 import { Row, Col, Container } from 'react-bootstrap'
 import uuid from 'uuid'
@@ -14,21 +14,21 @@ const generateHourlyCards = forecasts => {
 
 		const hourlyCard = (props) => {
 			return (
-				<Col xs md lg='2' key={uuid()} style={{borderColor: '#333333', borderStyle: 'solid', borderWidth: '2px'}}>
-					<h4><Time time={props.startTime} /></h4>
-					<h2><Temperature temperature={props.temperature} /></h2>
-					<div className="wind"><Wind wind={props.wind} /></div>
-					<div className="shortDescription">{props.shortForecast}</div>
+				<Col xs md lg='2' key={uuid()} className='hourly card display'>
+					<Row className='subtitle'><Time time={props.startTime} /></Row>
+					<Row className='tall-font'><Temperature temperature={props.temperature} /></Row>
+					<Row className="wind"><Wind wind={props.wind} /></Row>
+					<Row className="shortDescription wrap-text">{props.shortForecast}</Row>
 				</Col>
 			)
 		}
 
 		return (
-			<Container key={uuid()} style={{borderStyle: 'solid', borderWidth: '1px', borderColor: '#333333', margin: '25px 0px'}}>
-				<Row style={{backgroundColor: '#333333', color: 'white'}}><h1>{date}</h1></Row>
-				<Row>
+			<Container key={uuid()} className='panel light'>
+				<Row className='subtitle'>{date}</Row>
+				<div className='fluid-row'>
 					{hourlyForecasts.map( (f, i) => hourlyCard(f, i))}
-				</Row>
+				</div>
 			</Container>
 		)
 	})
