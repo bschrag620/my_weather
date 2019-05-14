@@ -15,8 +15,8 @@ const generateHourlyCards = forecasts => {
 		const hourlyCard = (props) => {
 			return (
 				<Col xs md lg='2' key={uuid()} className='hourly card display'>
-					<Row><Time time={props.startTime} /></Row>
-					<Row><Temperature temperature={props.temperature} /></Row>
+					<Row className='subtitle'><Time time={props.startTime} /></Row>
+					<Row className='tall-font'><Temperature temperature={props.temperature} /></Row>
 					<Row className="wind"><Wind wind={props.wind} /></Row>
 					<Row className="shortDescription wrap-text">{props.shortForecast}</Row>
 				</Col>
