@@ -1,0 +1,33 @@
+{
+  "name": "my-weather",
+  "version": "1.0.0",
+  "engines": {
+    "node": "6.3.1"
+  },
+  "description": "react weather app",
+  "dependencies": {
+    "react-switch": "^5.0.0"
+  },
+  "dependencies": {},
+  "scripts": {
+    "build": "cd client && npm install && npm run build && cd..",
+    "deploy": "cp -a client/build/. public/",
+    "postinstall": "npm run build && npm run deploy && echo 'Client build!'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bschrag620/my_weather.git"
+  },
+  "keywords": [
+    "weather",
+    "react",
+    "rails",
+    "noaa"
+  ],
+  "author": "Brad Schrag",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bschrag620/my_weather/issues"
+  },
+  "homepage": "https://github.com/bschrag620/my_weather#readme"
+}
