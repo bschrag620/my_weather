@@ -5,9 +5,6 @@
     "node": "8.10.0"
   },
   "description": "react weather app",
-  "dependencies": {
-    "react-switch": "^5.0.0"
-  },
   "dependencies": {},
   "scripts": {
     "build": "cd client && npm install && npm run build && cd ..",
