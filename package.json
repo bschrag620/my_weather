@@ -2,7 +2,7 @@
   "name": "my-weather",
   "version": "1.0.0",
   "engines": {
-    "node": "6.3.1"
+    "node": "8.10.0"
   },
   "description": "react weather app",
   "dependencies": {
@@ -10,7 +10,7 @@
   },
   "dependencies": {},
   "scripts": {
-    "build": "cd client && npm install && npm run build && cd..",
+    "build": "cd client && npm install && npm run build && cd ..",
     "deploy": "cp -a client/build/. public/",
     "postinstall": "npm run build && npm run deploy && echo 'Client build!'"
   },
