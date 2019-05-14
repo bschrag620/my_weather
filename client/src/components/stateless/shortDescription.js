@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Fragment as Frag } from 'react'
 
 const ShortDescription = props => (
-	<>{props.shortDescription}</>
+	<Frag>{props.shortDescription}</Frag>
 )
 export default ShortDescription

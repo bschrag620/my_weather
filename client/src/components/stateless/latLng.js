@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Fragemnt as Frag} from 'react'
 
 const LatLng = props => (
-	<>lat: {props.lat} lng: {props.lng}</>
+	<Frag>lat: {props.lat} lng: {props.lng}</Frag>
 )
 
 export default LatLng

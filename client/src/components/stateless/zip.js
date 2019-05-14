@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Fragment as Frag } from 'react'
 
 const Zip = props => (
-	<>Zip: {props.zip}</>
+	<Frag>Zip: {props.zip}</Frag>
 )
 
 export default Zip
