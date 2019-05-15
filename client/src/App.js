@@ -11,7 +11,7 @@ class App extends Component {
     return (
     	<Router>
 	      <Container className="app">
-				<AppNavbar />
+				<Route path='/' component={AppNavbar} />
 				<Route path='/settings' render={ () =>
 					<MySettingsContainer />
 				}/>

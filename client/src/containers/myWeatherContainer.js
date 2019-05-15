@@ -23,16 +23,9 @@ class MyWeatherContainer extends Component {
 	}
 
 	componentWillMount() {
-		// checking for initial landing of the site to include a zip code
-		// ..../[0-9]{5}
-		// if there is a zip, load the location
 		if (this.props.match.params.zip && !this.props.locations.find( l => l.zip.toString() === this.props.match.params.zip)) {
 			this.props.retrieveLocation(this.props.match.params.zip)
 		}
-
-		// let componentDidUpdate handle checking for the rest of the url
-		// ..../:zip/ [detail | hourly | weekly ]
-		// it will automatically add detail if not there
 	}
 
 	componentDidUpdate() {

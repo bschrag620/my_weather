@@ -10,11 +10,7 @@ const noLocation = () => (
 )
 
 const renderLocations = (locations, retrieveCurrentConditions, units, handleSettingsChange) => {
-	if (locations.length > 0) {
-		return locations.map( location => <LocationContainer data={location} key={uuid()} units={units} handleSettingsChange={handleSettingsChange}/>)
-	} else {
-		return noLocation()
-	}
+	return locations.map( location => <LocationContainer data={location} key={uuid()} units={units} handleSettingsChange={handleSettingsChange}/>)
 }
 
 class LocationsContainer extends Component {

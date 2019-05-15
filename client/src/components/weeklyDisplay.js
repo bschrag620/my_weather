@@ -23,6 +23,8 @@ export default class WeeklyDisplay extends Component {
 				<div className="fluid-row">
 					{this.props.weeklyForecast.map( (card, i) => <DailyCard key={i} data={card} onClick={onCardClick} />)}
 				</div>
+				<div className='fine-print'>*click for expanded details</div>
+
 			</Container>
 	}
 }
