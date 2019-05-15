@@ -8,8 +8,7 @@ function locationReducer(state = {
 		case 'UPDATE_LOCATION':
 			if (state.locations.find( loc => loc.zip === action.payload.zip )) {
     			console.log('duplicate location, not adding')
-    			
-    			return state
+				return locationReducer(state, {type: 'REMOVE_LOCATION', id: action.payload.id})
 			} else {
     			console.log('reducer is adding location: ', action.payload)
     			
@@ -27,10 +26,13 @@ function locationReducer(state = {
 
 		case 'REMOVE_LOCATION':
 			console.log('location reducer removing locaiton: ', action.id)
-			return {
+			newState = {
 				...state, 
 				locations: state.locations.filter( l => l.id !== action.id )
 			}
+
+			debugger;
+			return newState
 
 		case 'LOCATION_API_REQUEST':
 			console.log('reducer is retrieving location: ', action.payload.text)
