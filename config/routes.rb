@@ -12,9 +12,8 @@ Rails.application.routes.draw do
   	get '/locations/:code/current', to: 'locations#current'
   end
 
-  resources :api, only: [:index]
-
   get '*path', to: "application#fallback_index_html", constraints: ->(request) do
+    puts 'fallback triggered'
     !request.xhr? && request.format.html?
   end
 end
