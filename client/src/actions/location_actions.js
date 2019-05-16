@@ -1,14 +1,12 @@
 import uuid from 'uuid'
 
 function handleErrors(response) {
-	debugger;
 	switch (response.status) {
 		case 404:
 			console.log('existing location not found')
 			return response
 
 		case 406:
-			debugger;
 			throw Error('error creating location')
 
 		case 500:
@@ -46,7 +44,6 @@ export function retrieveLocation(text) {
 
 		return fetch(`/api/locations/retrieve?query=${text}`)
 			.then(response => {
-				debugger;
 				if (response.status === 404) {
 					dispatch({
 						type: 'AMEND_LOCATION',

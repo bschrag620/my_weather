@@ -7,7 +7,7 @@ class Api::LocationsController < ApplicationController
 
 	def create
 		response = Location.create_from_string(params[:query])
-		binding.pry
+
 		render json: response[:body], :status => response[:status]
 	end
 
