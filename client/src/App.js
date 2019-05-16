@@ -13,16 +13,15 @@ class App extends Component {
 		
     		<Router>
 				<Route path='/' component={AppNavbar} />
-    			
-    			<Switch>
-					<Route path='/settings' render={ () =>
-						<MySettingsContainer />
-					}/>
-					<Route exact path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' component={MyWeatherContainer} />
-					<Route path="*" render= { () =>
-						'Unrecognized path'
-					} />
-				</Switch>
+	    			<Switch>
+						<Route path='/settings' render={ () =>
+							<MySettingsContainer />
+						}/>
+						<Route exact path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' component={MyWeatherContainer} />
+						<Route path="*" render= { () =>
+							'Unrecognized path'
+						} />
+					</Switch>
       		</Router>
 	    </Container>
 
