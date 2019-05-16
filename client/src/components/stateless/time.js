@@ -25,7 +25,7 @@ export const TwentyFourHours = props => {
 
 	return (
 		<Frag>
-			{d.getHours()}
+			{d.getHours()}:00
 		</Frag>
 	)
 }
