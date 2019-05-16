@@ -1,20 +1,14 @@
 class Api::LocationsController < ApplicationController
 	def show
-		location = Location.find_by_string(params[:query])
-		if location
-			render json: location, :status => 200
-		else
-			render json: {:error => 'no matching zip code found', :body => 'test'}, status: 204
-		end
+		response = Location.find_by_string(params[:query])
+
+		render json: response[:body], :status => response[:status]
 	end
 
 	def create
-		location = Location.create_from_string(params[:query])
-		if location
-			render json: location, :status => 200
-		else
-			render json: {:error => "location could not be created based on given values of: #{params[:query]}"}, status: 404
-		end
+		response = Location.create_from_string(params[:query])
+		binding.pry
+		render json: response[:body], :status => response[:status]
 	end
 
 	def forecast

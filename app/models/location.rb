@@ -10,8 +10,6 @@ class Location < ApplicationRecord
 	@@google_key = ENV['GOOGLE_MAP_API_KEY']
 	@@zip_key = ENV['ZIP_API_KEY']
 
-	# allows for a Location to be created from an abstract string of either zip code or city, state
-
 	def lat=(value)
 		super(value.round(4))
 	end
@@ -24,18 +22,23 @@ class Location < ApplicationRecord
 		params = parse_string(string)
 
 		if params.keys.empty?
-			nil
+			{:body => {:error => "query not recognized: #{string}"}, :status => 415}
 		else
-			if !params.keys.include?(:zip)
-				params = retrieve_zip_by_city_state(params)
-			end
-
-			if params[:zip].nil?
-				nil
-			else
-				Location.find_by(:zip => params[:zip])
-			end
+			location = Location.find_by(params).first
+			location ? {:body => location, :status => 200} : {:body => {:error => "location data does not exist for: #{string}"}, :status => 404}
 		end
+	end
+
+	def self.find_by(params)
+		# find by downcase abstract method
+		# will work on zip codes too!
+		locations = Location.all
+
+		params.each do |k, v|
+			locations = locations.select{ |loc| loc[k].to_s.downcase == v.to_s.downcase }
+		end
+		
+		locations
 	end
 
 	def self.create_from_string(string)
@@ -50,37 +53,35 @@ class Location < ApplicationRecord
 				params = retrieve_zip_by_city_state(params)
 			end
 			if params[:zip].nil?
-				nil
+				{:body => {:error => "query not recognized: #{string}"}, :status => 415}
 			else
-			# now we have a zip key, let's find_or_create_by zips
-				Location.create_by(params)
+			# now we have a zip key, let's create zip
+				Location.create(params)
 			end
 		end
 	end
 
 	
 	# overriding class method so the new location can be constructed will all relevant data
-	def self.create_by(params)
-		location = Location.find_by(params)
-		# if location wasn't found, create it and retrieve the necessary info		
-		if !location
-			zip_params = retrieve_by_zip(params)
-			
-			if zip_params
-				location = Location.new(zip_params)
-				location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))
-				location.update(retrieve_observation_stations(location.station_list_api))
-				location.set_preferred_site
+	def self.create(params)
+		response = retrieve_by_zip(params)
 
-				location.save
-			end
+		if response[:status] == 200
+			location = Location.new(response[:body])
+			location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))
+			location.update(retrieve_observation_stations(location.station_list_api))
+			location.set_preferred_site
+
+			location.save
+
+			{:body => location, :status => 200}
+		else
+			response
 		end
-
-		location
 	end
 
 	def self.parse_string(string)
-		zip = /\d{5}/
+		zip = /^\d{5}$/
 		city_state = /.+[,]\s?\w+/
 
 		# assign values to data hash
@@ -101,7 +102,6 @@ class Location < ApplicationRecord
 		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{@@google_key}"
 		resp = Faraday.get url
 		data = JSON.parse(resp.body)
-
 		if !data['results'].empty?	
 			location = {}
 
@@ -110,10 +110,17 @@ class Location < ApplicationRecord
 			location.update(data['results'][0]['geometry']['location'])
 			location[:city] =  find_type(address_components, 'locality')['long_name']
 			location[:state] = find_type(address_components, 'administrative_area_level_1')['short_name']
+			
+			response = {:body => location, :status => resp.status }
+		
+		elsif data['results'].empty?
+			response = {:body => {:error => "no data found for #{params[:zip]}"}, :status => 406}
+		
 		else
-			location = nil
+			response = {:body => {:error => data['error_message']}, :status => resp.status } 
 		end
-		location
+
+		response
 	end
 
 	def self.find_type(array, name)
@@ -199,283 +206,3 @@ class Location < ApplicationRecord
 	end
 
 end
-
-# https://api.weather.gov/gridpoints/TOP/31,80/forecast/hourly?units=us
-
-# https://api.weather.gov/gridpoints/TOP/31,80/forecast?units=us
-
-# {
-#   "@context": [
-#     "https://raw.githubusercontent.com/geojson/geojson-ld/master/contexts/geojson-base.jsonld",
-#     {
-#       "wx": "https://api.weather.gov/ontology#",
-#       "geo": "http://www.opengis.net/ont/geosparql#",
-#       "unit": "http://codes.wmo.int/common/unit/",
-#       "@vocab": "https://api.weather.gov/ontology#"
-#     }
-#   ],
-#   "type": "Feature",
-#   "geometry": {
-#     "type": "GeometryCollection",
-#     "geometries": [
-#       {
-#         "type": "Point",
-#         "coordinates": [
-#           -97.0944084,
-#           39.7559738
-#         ]
-#       },
-#       {
-#         "type": "Polygon",
-#         "coordinates": [
-#           [
-#             [
-#               -97.1089731,
-#               39.7668263
-#             ],
-#             [
-#               -97.1085269,
-#               39.7447788
-#             ],
-#             [
-#               -97.0798467,
-#               39.7451195
-#             ],
-#             [
-#               -97.08028680000001,
-#               39.767167
-#             ],
-#             [
-#               -97.1089731,
-#               39.7668263
-#             ]
-#           ]
-#         ]
-#       }
-#     ]
-#   },
-#   "properties": {
-#     "updated": "2019-04-20T18:26:30+00:00",
-#     "units": "us",
-#     "forecastGenerator": "BaselineForecastGenerator",
-#     "generatedAt": "2019-04-20T19:52:14+00:00",
-#     "updateTime": "2019-04-20T18:26:30+00:00",
-#     "validTimes": "2019-04-20T12:00:00+00:00/P7DT13H",
-#     "elevation": {
-#       "value": 441.96000000000004,
-#       "unitCode": "unit:m"
-#     },
-#     "periods": [
-#       {
-#         "number": 1,
-#         "name": "This Afternoon",
-#         "startTime": "2019-04-20T14:00:00-05:00",
-#         "endTime": "2019-04-20T18:00:00-05:00",
-#         "isDaytime": true,
-#         "temperature": 82,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "15 mph",
-#         "windDirection": "S",
-#         "icon": "https://api.weather.gov/icons/land/day/skc?size=medium",
-#         "shortForecast": "Sunny",
-#         "detailedForecast": "Sunny, with a high near 82. South wind around 15 mph, with gusts as high as 25 mph."
-#       },
-#       {
-#         "number": 2,
-#         "name": "Tonight",
-#         "startTime": "2019-04-20T18:00:00-05:00",
-#         "endTime": "2019-04-21T06:00:00-05:00",
-#         "isDaytime": false,
-#         "temperature": 55,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "10 to 15 mph",
-#         "windDirection": "S",
-#         "icon": "https://api.weather.gov/icons/land/night/few?size=medium",
-#         "shortForecast": "Mostly Clear",
-#         "detailedForecast": "Mostly clear, with a low around 55. South wind 10 to 15 mph, with gusts as high as 25 mph."
-#       },
-#       {
-#         "number": 3,
-#         "name": "Sunday",
-#         "startTime": "2019-04-21T06:00:00-05:00",
-#         "endTime": "2019-04-21T18:00:00-05:00",
-#         "isDaytime": true,
-#         "temperature": 82,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "10 to 15 mph",
-#         "windDirection": "S",
-#         "icon": "https://api.weather.gov/icons/land/day/sct?size=medium",
-#         "shortForecast": "Mostly Sunny",
-#         "detailedForecast": "Mostly sunny, with a high near 82. South wind 10 to 15 mph, with gusts as high as 25 mph."
-#       },
-#       {
-#         "number": 4,
-#         "name": "Sunday Night",
-#         "startTime": "2019-04-21T18:00:00-05:00",
-#         "endTime": "2019-04-22T06:00:00-05:00",
-#         "isDaytime": false,
-#         "temperature": 55,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "5 to 15 mph",
-#         "windDirection": "SE",
-#         "icon": "https://api.weather.gov/icons/land/night/tsra_sct,30?size=medium",
-#         "shortForecast": "Chance Showers And Thunderstorms",
-#         "detailedForecast": "A chance of showers and thunderstorms after 7pm. Mostly cloudy, with a low around 55. Southeast wind 5 to 15 mph, with gusts as high as 20 mph. Chance of precipitation is 30%."
-#       },
-#       {
-#         "number": 5,
-#         "name": "Monday",
-#         "startTime": "2019-04-22T06:00:00-05:00",
-#         "endTime": "2019-04-22T18:00:00-05:00",
-#         "isDaytime": true,
-#         "temperature": 67,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "10 to 15 mph",
-#         "windDirection": "N",
-#         "icon": "https://api.weather.gov/icons/land/day/tsra_sct,20?size=medium",
-#         "shortForecast": "Slight Chance Showers And Thunderstorms",
-#         "detailedForecast": "A slight chance of showers and thunderstorms before 1pm. Mostly cloudy, with a high near 67. North wind 10 to 15 mph. Chance of precipitation is 20%."
-#       },
-#       {
-#         "number": 6,
-#         "name": "Monday Night",
-#         "startTime": "2019-04-22T18:00:00-05:00",
-#         "endTime": "2019-04-23T06:00:00-05:00",
-#         "isDaytime": false,
-#         "temperature": 46,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "10 to 15 mph",
-#         "windDirection": "N",
-#         "icon": "https://api.weather.gov/icons/land/night/bkn?size=medium",
-#         "shortForecast": "Mostly Cloudy",
-#         "detailedForecast": "Mostly cloudy, with a low around 46."
-#       },
-#       {
-#         "number": 7,
-#         "name": "Tuesday",
-#         "startTime": "2019-04-23T06:00:00-05:00",
-#         "endTime": "2019-04-23T18:00:00-05:00",
-#         "isDaytime": true,
-#         "temperature": 63,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "10 mph",
-#         "windDirection": "N",
-#         "icon": "https://api.weather.gov/icons/land/day/rain_showers,20?size=medium",
-#         "shortForecast": "Slight Chance Rain Showers",
-#         "detailedForecast": "A slight chance of rain showers between 7am and 1pm. Mostly cloudy, with a high near 63. Chance of precipitation is 20%."
-#       },
-#       {
-#         "number": 8,
-#         "name": "Tuesday Night",
-#         "startTime": "2019-04-23T18:00:00-05:00",
-#         "endTime": "2019-04-24T06:00:00-05:00",
-#         "isDaytime": false,
-#         "temperature": 45,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "5 to 10 mph",
-#         "windDirection": "N",
-#         "icon": "https://api.weather.gov/icons/land/night/bkn?size=medium",
-#         "shortForecast": "Mostly Cloudy",
-#         "detailedForecast": "Mostly cloudy, with a low around 45."
-#       },
-#       {
-#         "number": 9,
-#         "name": "Wednesday",
-#         "startTime": "2019-04-24T06:00:00-05:00",
-#         "endTime": "2019-04-24T18:00:00-05:00",
-#         "isDaytime": true,
-#         "temperature": 71,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "5 mph",
-#         "windDirection": "N",
-#         "icon": "https://api.weather.gov/icons/land/day/sct?size=medium",
-#         "shortForecast": "Mostly Sunny",
-#         "detailedForecast": "Mostly sunny, with a high near 71."
-#       },
-#       {
-#         "number": 10,
-#         "name": "Wednesday Night",
-#         "startTime": "2019-04-24T18:00:00-05:00",
-#         "endTime": "2019-04-25T06:00:00-05:00",
-#         "isDaytime": false,
-#         "temperature": 48,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "5 mph",
-#         "windDirection": "SW",
-#         "icon": "https://api.weather.gov/icons/land/night/few?size=medium",
-#         "shortForecast": "Mostly Clear",
-#         "detailedForecast": "Mostly clear, with a low around 48."
-#       },
-#       {
-#         "number": 11,
-#         "name": "Thursday",
-#         "startTime": "2019-04-25T06:00:00-05:00",
-#         "endTime": "2019-04-25T18:00:00-05:00",
-#         "isDaytime": true,
-#         "temperature": 74,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "5 to 15 mph",
-#         "windDirection": "NW",
-#         "icon": "https://api.weather.gov/icons/land/day/sct?size=medium",
-#         "shortForecast": "Mostly Sunny",
-#         "detailedForecast": "Mostly sunny, with a high near 74."
-#       },
-#       {
-#         "number": 12,
-#         "name": "Thursday Night",
-#         "startTime": "2019-04-25T18:00:00-05:00",
-#         "endTime": "2019-04-26T06:00:00-05:00",
-#         "isDaytime": false,
-#         "temperature": 48,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "5 to 10 mph",
-#         "windDirection": "NE",
-#         "icon": "https://api.weather.gov/icons/land/night/few?size=medium",
-#         "shortForecast": "Mostly Clear",
-#         "detailedForecast": "Mostly clear, with a low around 48."
-#       },
-#       {
-#         "number": 13,
-#         "name": "Friday",
-#         "startTime": "2019-04-26T06:00:00-05:00",
-#         "endTime": "2019-04-26T18:00:00-05:00",
-#         "isDaytime": true,
-#         "temperature": 74,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "5 to 10 mph",
-#         "windDirection": "SE",
-#         "icon": "https://api.weather.gov/icons/land/day/sct?size=medium",
-#         "shortForecast": "Mostly Sunny",
-#         "detailedForecast": "Mostly sunny, with a high near 74."
-#       },
-#       {
-#         "number": 14,
-#         "name": "Friday Night",
-#         "startTime": "2019-04-26T18:00:00-05:00",
-#         "endTime": "2019-04-27T06:00:00-05:00",
-#         "isDaytime": false,
-#         "temperature": 55,
-#         "temperatureUnit": "F",
-#         "temperatureTrend": null,
-#         "windSpeed": "10 to 15 mph",
-#         "windDirection": "S",
-#         "icon": "https://api.weather.gov/icons/land/night/sct/tsra_hi,20?size=medium",
-#         "shortForecast": "Partly Cloudy then Slight Chance Showers And Thunderstorms",
-#         "detailedForecast": "A slight chance of showers and thunderstorms after 1am. Partly cloudy, with a low around 55. Chance of precipitation is 20%."
-#       }
-#     ]
-#   }
-# }
