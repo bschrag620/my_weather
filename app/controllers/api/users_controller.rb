@@ -1,9 +1,5 @@
-class Api::UsersController < ApplicationController
-	def index
-		redirect_to api_index_path
-	end
-
-
+class Api::UsersController < ApiController
+	
 	def create
 		user = User.create(user_params)
 		if user.save

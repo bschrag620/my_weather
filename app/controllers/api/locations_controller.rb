@@ -1,4 +1,4 @@
-class Api::LocationsController < ApplicationController
+class Api::LocationsController < ApiController
 	def show
 		response = Location.find_by_string(params[:query])
 

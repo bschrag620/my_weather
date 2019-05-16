@@ -1,5 +1,3 @@
-class ApiController < ActionController::Base
-	def index
+class ApiController < ActionController::API
 
-	end
 end
