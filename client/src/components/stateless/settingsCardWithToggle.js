@@ -6,15 +6,15 @@ class SettingsCardWithToggle extends Component {
 
 	render() {
 		return (
-			<Container className='card panel'>
-				<Col className='text-center'><h2>{this.props.title}</h2></Col>
+			<Container className='settings-card card panel'>
+				<Col className='text-center'>{this.props.title}</Col>
 				<Row>
 					<Col className='text-center' size='auto'>
-						<h3>{this.props.leftLabel}</h3>
+						{this.props.leftLabel}
 					</Col>
 					<ToggleSwitch handleChange={this.props.handleChange} bool={this.props.bool} />
 					<Col className='text-center' size='auto'>
-						<h3>{this.props.rightLabel}</h3>
+						{this.props.rightLabel}
 					</Col>
 				</Row>
 			</Container>
