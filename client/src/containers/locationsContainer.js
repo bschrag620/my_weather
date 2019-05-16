@@ -5,10 +5,6 @@ import LocationInput from '../components/locationInput'
 import { connect } from 'react-redux'
 import uuid from 'uuid'
 
-const noLocation = () => (
-	"Enter a location to get started"
-)
-
 const renderLocations = (locations, retrieveCurrentConditions, units, handleSettingsChange) => {
 	return locations.map( location => <LocationContainer data={location} key={uuid()} units={units} handleSettingsChange={handleSettingsChange}/>)
 }
