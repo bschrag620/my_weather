@@ -1,19 +1,33 @@
 import uuid from 'uuid'
 
 function handleErrors(response) {
+	debugger;
 	switch (response.status) {
 		case 404:
-			throw Error('zip code not found')
+			console.log('existing location not found')
+			return response
+
+		case 406:
+			debugger;
+			throw Error('error creating location')
 
 		case 500:
 			throw Error('problem creating location')
 
-		case 204:
-			console.log('attempting to create new location')
+		case 415:
+			throw Error('Search string not recognized as 5-digit zip code or city, st')
+
+		case 200:
+			console.log('location found')
+			return response
+
+		case 201:
+			console.log('new location created')
 			return response
 
 		default:
-			return response
+			console.log('unrecognized response:', response.status, response)
+			throw Error('unrecognized response')
 	}
 }
 
@@ -32,8 +46,8 @@ export function retrieveLocation(text) {
 
 		return fetch(`/api/locations/retrieve?query=${text}`)
 			.then(response => {
-				if (response.status === 204) {
-					debugger;
+				debugger;
+				if (response.status === 404) {
 					dispatch({
 						type: 'AMEND_LOCATION',
 						payload: {
@@ -42,7 +56,7 @@ export function retrieveLocation(text) {
 							id: id
 						}
 					})
-					debugger;
+
 					return fetch('/api/locations/create', {
 						method: 'POST',
 						body: JSON.stringify({query: text}),
