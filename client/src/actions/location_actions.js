@@ -7,7 +7,7 @@ function handleErrors(response) {
 			return response
 
 		case 406:
-			throw Error('error creating location')
+			throw Error('A location could not be found for that zip code')
 
 		case 500:
 			throw Error('problem creating location')
