@@ -12,7 +12,7 @@ class Api::LocationsController < ApplicationController
 	end
 
 	def forecast
-		location = Location.find_by(:id => params[:location_id])
+		location = Location.find_by(:id => params[:location_id]).first
 		units = params[:units] || 'si'
 		forecast_type = params[:type] == 'hourly' ? 'hourly' : 'weekly'
 		url = (params[:type] == 'hourly') ? location.hourly_forecast_api : location.forecast_api
