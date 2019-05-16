@@ -191,9 +191,6 @@ input.find-weather {
 	color: #333;
 }
 
-@media (min-width: 600px) {
-}
-
 @media (min-width: 800px) {
 	button {
 		height: 3rem;
@@ -217,31 +214,12 @@ input.find-weather {
 
 }
 
-@media (min-width: 1000px) {
-	button {
-		height: 3.5rem;
-		line-height: 1rem;
-	}
-
-	input.find-weather {
-		height: 3.5rem;
-	}
-
-	.tall-font {
-		font-size: 2.5em;
-	}
-
-	.subtitle {
-		font-size: 2em;
-	}
-
-	.minititle {
-		font-size: 1.5em;
-	}
-
+.header-font {
+	font-size: 3em;
+	color: #333;
 }
 
 ::placeholder {
-	color: rgba(255, 255, 255, .5);
+	color: rgba(20, 20, 20, .5);
 }
 

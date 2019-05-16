@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 import MyWeatherContainer from './containers/myWeatherContainer'
 import MySettingsContainer from './containers/mySettingsContainer'
-import AppNavbar from './components/stateless/appNavbar'
+import AppHeader from './components/stateless/appHeader'
 
 class App extends Component {
 
@@ -12,7 +12,7 @@ class App extends Component {
 	    <Container className="app">
 		
     		<Router>
-				<Route path='/' component={AppNavbar} />
+				<Route path='/' component={AppHeader} />
 	    			<Switch>
 						<Route path='/settings' render={ () =>
 							<MySettingsContainer />

@@ -34,7 +34,7 @@ class AppNavBar extends Component {
 				<Navbar  expand='sm'>
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
-						<Nav className="my-settings tall-font">
+						<Nav className="my-settings">
 							<Col xs='auto'><Nav.Link href='/' onClick={ e => this.handleClick(e) } value='home'>Home</Nav.Link></Col>
 							<Col xs='auto'><Nav.Link href='/settings' onClick={ e => this.handleClick(e) } value='settings'>Settings</Nav.Link></Col>
 						</Nav>
