@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 
 class MyWeatherNavBar extends Component {
 
-	handleClick(e) {
+	handleClick = e => {
 		e.preventDefault();
 		const url = e.currentTarget.getAttribute('href')
 		this.props.history.push(url)
@@ -15,7 +15,7 @@ class MyWeatherNavBar extends Component {
 	}
 
 	createNavTab(text) {
-		return <Col size='3' className={this.currentPage(text)} href={`/${this.props.match.params.zip}/${text.toLowerCase()}`} onClick={e => this.handleClick(e)}>{text}</Col>
+		return <Col size='3' className={this.currentPage(text)} href={`/${this.props.match.params.zip}/${text.toLowerCase()}`} onClick={this.handleClick}>{text}</Col>
 	}
 
 	render() {

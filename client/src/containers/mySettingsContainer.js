@@ -6,21 +6,17 @@ import Button from '../components/button'
 import { withRouter } from 'react-router-dom'
 
 class MySettingsContainer extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			units: this.props.units
-		}
+	state = {
+		units: this.props.units
 	}
 	
-	toggleUnits() {
+	toggleUnits = () => {
 		this.setState({
 			units: (this.state.units === 'si') ? 'us' : 'si'
 		})
 	}
 
-	handleClick() {
+	handleClick = () => {
 		this.props.delayedUpdate(this.state)
 		this.props.history.goBack()
 	}
@@ -31,7 +27,7 @@ class MySettingsContainer extends Component {
 				<Row>
 					<Col xs md lg='3'>
 						<SettingsCardWithToggle 
-							handleChange={this.toggleUnits.bind(this)} 
+							handleChange={this.toggleUnits} 
 							bool={this.state.units === 'si'}
 							leftLabel='US'
 							rightLabel='Metric'
@@ -39,7 +35,7 @@ class MySettingsContainer extends Component {
 					</Col>
 				</Row>
 				<Container className='centered'>
-				<Button onClick={this.handleClick.bind(this)} text='Update Settings' />
+				<Button onClick={this.handleClick} text='Update Settings' />
 				</Container>
 			</Container>
 		)

@@ -3,15 +3,10 @@ import { Nav, Navbar, Col, Container } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom'
 
 class AppNavBar extends Component {
-	constructor(props) {
-		super(props)
+	state = { 
+		previousHomeRoute: ''}
 
-		this.state = {
-			previousHomeRoute: ''
-		}
-	}
-
-	handleClick(e) {
+	handleClick = e => {
 		e.preventDefault();
 		if (this.props.location.pathname !== '/settings') {
 			this.setState({
@@ -35,8 +30,8 @@ class AppNavBar extends Component {
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className="my-settings">
-							<Col xs='auto'><Nav.Link href='/' onClick={ e => this.handleClick(e) } value='home'>Home</Nav.Link></Col>
-							<Col xs='auto'><Nav.Link href='/settings' onClick={ e => this.handleClick(e) } value='settings'>Settings</Nav.Link></Col>
+							<Col xs='auto'><Nav.Link href='/' onClick={ this.handleClick } value='home'>Home</Nav.Link></Col>
+							<Col xs='auto'><Nav.Link href='/settings' onClick={ this.handleClick } value='settings'>Settings</Nav.Link></Col>
 						</Nav>
 					</Navbar.Collapse>
 

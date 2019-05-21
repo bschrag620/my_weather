@@ -9,7 +9,7 @@ import { setLocation } from '../actions/location_actions'
 class LocationContainer extends Component {
 
 
-	handleClick(){
+	handleClick = () => {
 		const loc = this.props.locations.find( loc => loc.id === this.props.data.id)
 		
 		// don't try to load the location if it is still gathering data
@@ -51,7 +51,7 @@ class LocationContainer extends Component {
 				className={this.setClassName()}
 				id='location'
 				data-type={this.props.units}
-				onClick={this.handleClick.bind(this) }>
+				onClick={this.handleClick }>
 				{this.props.data.loadingData ? <RetrievingData message={this.props.data.text} /> : <Location data={this.props.data} retrieveAll={this.retrieveAll.bind(this)} weatherSite={this.props.weatherSites[this.props.data.id]} />}
 			</Col>
 		)

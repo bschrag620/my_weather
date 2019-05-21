@@ -11,8 +11,7 @@ export default class CommentContainer extends Component {
 		}
 	}
 
-	addComment = function(text) {
-		console.log(this)
+	addComment = (text) => {
 		this.setState({
 			comments: this.state.comments.concat(text)
 		})

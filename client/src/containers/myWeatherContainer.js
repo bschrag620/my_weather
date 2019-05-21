@@ -4,6 +4,7 @@ import retrieveLocation from '../actions/location_actions'
 import { Container } from 'react-bootstrap'
 import LocationsContainer from './locationsContainer'
 import DisplayContainer from './displayContainer'
+import CommentContainer from './commentContainer'
 
 
 class MyWeatherContainer extends Component {
@@ -37,6 +38,7 @@ class MyWeatherContainer extends Component {
 		return (
 			<Container className="weather-container">
 				<LocationsContainer retrieveLocation={this.props.retrieveLocation} locations={this.props.locations} />
+				<CommentContainer />
 				<DisplayContainer currentLocation={this.props.currentLocation} />
 			</Container>
 		)

@@ -5,10 +5,20 @@ import uuid from 'uuid'
 
 class DailyCard extends Component {
 
+	onCardClick = e => {
+		const id = e.currentTarget.id
+		const card = document.getElementById(id)
+		const short = card.getElementsByClassName('short-description')
+		const detailed = card.getElementsByClassName('detailed-description')
+		
+		short[0].hidden = !short[0].hidden
+		detailed[0].hidden = !detailed[0].hidden
+	}
+
 	render() {
 		const data = this.props.data
 		return (
-			<Col xs md lg='3' key={uuid()} id={data.sequenceN} onClick={ e => this.props.onClick(e)}
+			<Col xs md lg='3' key={uuid()} id={data.sequenceN} onClick={ this.onCardClick }
 				className='card daily-card display clickable'>
 				<Row className='minititle'>
 					{data.name}

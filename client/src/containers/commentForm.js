@@ -6,7 +6,6 @@ export default class CommentForm extends Component {
 
 		this.state = {
 			inputText: '',
-			comments: 'do not update this.'
 		}
 
 		}

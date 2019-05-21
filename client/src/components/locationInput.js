@@ -8,7 +8,7 @@ export default class LocationInputForm extends Component {
 		text: ''
 	}
 
-	handleSubmit(e) {
+	handleSubmit = e => {
 		e.preventDefault()
 		if (this.state.text !== '') {
 			this.props.retrieveLocation(this.state.text)
@@ -18,7 +18,7 @@ export default class LocationInputForm extends Component {
 		}
 	}
 
-	handleChange(e) {
+	handleChange = e => {
 		this.setState({
 			text: e.target.value
 		})
@@ -29,16 +29,16 @@ export default class LocationInputForm extends Component {
 		return (
 			<Col className='centered'>
 			<form
-				onSubmit={ e => this.handleSubmit(e) }
+				onSubmit={ this.handleSubmit }
 			>
 				<input 
 					type="text"
 					value={this.state.text}
 					className='tall-font find-weather rounded-corner centered'
-					onChange={ e => this.handleChange(e) }
+					onChange={ this.handleChange }
 					placeholder="city, st or zip code"/> <br/>
 				<Button 
-					onClick={this.handleSubmit.bind(this)}
+					onClick={this.handleSubmit}
 					id='find-weather'
 					text='Find myWeather!' 
 					className='find-weather'

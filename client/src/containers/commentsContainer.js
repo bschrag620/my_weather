@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 export default class CommentsContainer extends Component {
 	
 	renderComments = comments => {
-		return comments.map( comment => <div>{comment}</div>)	
+		return comments.map( (comment, i) => <div key={i} >{comment}</div>)	
 	}
 
 	render() {
