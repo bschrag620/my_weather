@@ -5,12 +5,9 @@ import LocationInput from '../components/locationInput'
 import { connect } from 'react-redux'
 import uuid from 'uuid'
 
-const renderLocations = (locations, retrieveCurrentConditions, units, handleSettingsChange) => {
-	return locations.map( location => <LocationContainer data={location} key={uuid()} units={units} handleSettingsChange={handleSettingsChange}/>)
-}
-
 class LocationsContainer extends Component {
-	handleSettingsChange() {
+	
+	handleSettingsChange = () => {
 		if (this.props.session.delayed && this.props.session.delayed.units) {
 			this.props.updateSettings(this.props.session.delayed)
 			this.props.clearDelayed('units')
@@ -21,12 +18,11 @@ class LocationsContainer extends Component {
 	}
 
 	render () {
-
 		return (
 			<Container>
 				<LocationInput retrieveLocation={this.props.retrieveLocation} />
 				<Row className='locations-container transparent'>
-					{renderLocations(this.props.locations, this.props.retrieveCurrentConditions, this.props.session.units, this.handleSettingsChange.bind(this))}
+					{ this.props.locations.map( location => <LocationContainer data={location} key={uuid()} units={this.props.session.units} handleSettingsChange={this.handleSettingsChange} />) } 
 				</Row>
 			</Container>
 		)

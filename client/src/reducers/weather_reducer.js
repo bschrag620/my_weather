@@ -17,13 +17,13 @@ export default function weatherReducer (state={
 			return {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], current: action.payload}}) }
 
 		case 'RETRIEVING_HOURLY_WEATHER':
-			console.log('retrieving hourly forecast for: ', action.locationId)
+			console.log('retrieving hourly forecast for: ', action.payload.id)
 			id = action.payload.id
 
 			return {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], hourly: action.payload}}) }
 
 		case 'RETRIEVING_WEEKLY_WEATHER':
-			console.log('retrieving weekly forecast for: ', action.locationId)
+			console.log('retrieving weekly forecast for: ', action.payload.id)
 			id = action.payload.id
 			
 			return {...state, sites: Object.assign({}, state.sites, {[id]: {...state.sites[id], weekly: action.payload}})}

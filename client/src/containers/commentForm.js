@@ -1,28 +1,24 @@
 import React, { Component } from 'react'
 
 export default class CommentForm extends Component {
-	constructor(props) {
-		super(props)
 
-		this.state = {
+	state = {
 			inputText: '',
-		}
+	}
 
-		}
+	handleSubmit = e => {
+		e.preventDefault()
+		this.props.onSubmit(this.state.inputText)
+		this.setState({
+			inputText: ''
+		})
+	}
 
-		handleSubmit = e => {
-			e.preventDefault()
-			this.props.onSubmit(this.state.inputText)
-			this.setState({
-				inputText: ''
-			})
-		}
-
-		handleChange = e => {
-			this.setState({
-				inputText: e.currentTarget.value
-			})
-		}
+	handleChange = e => {
+		this.setState({
+			inputText: e.currentTarget.value
+		})
+	}
 	
 	render() {
 		return (

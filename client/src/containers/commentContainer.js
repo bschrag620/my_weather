@@ -6,10 +6,14 @@ export default class CommentContainer extends Component {
 	constructor(props) {
 		super(props)
 
-		this.state = {
-			comments: []
-		}
+		this.logger = console.log('constructor loading...')
 	}
+
+	state = {
+		comments: []
+	}
+
+	logger = console.log('comment container loading...')
 
 	addComment = (text) => {
 		this.setState({

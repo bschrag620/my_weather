@@ -8,7 +8,7 @@ function sessionReducer(state = {
 	switch (action.type) {
 
 		case 'SET_ACTIVE_LOCATION':
-			console.log('session reducer setting active location: ', action.location.id)
+			console.log('session reducer setting active location: ', action.location.locationId)
 			return {...state, currentLocation: action.location}
 
 		case 'UPDATE_SETTINGS':

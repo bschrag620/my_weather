@@ -23,7 +23,7 @@ class MyWeatherContainer extends Component {
 		}
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		if (this.props.match.params.zip && !this.props.locations.find( l => l.zip.toString() === this.props.match.params.zip)) {
 			this.props.retrieveLocation(this.props.match.params.zip)
 		}
