@@ -9,7 +9,6 @@ import './index.css'
 import { createStore, applyMiddleware } from 'redux'
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
-console.log('store initiated: ', store.getState())
 
 ReactDOM.render(
 	<Provider store={store}>

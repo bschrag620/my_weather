@@ -3,10 +3,18 @@ import { Nav, Navbar, Col, Container } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom'
 
 class AppNavBar extends Component {
-	state = { 
-		previousHomeRoute: ''}
+	
+	constructor(props) {
+		super(props);
 
-	handleClick = e => {
+		this.state = { 
+			previousHomeRoute: ''}
+
+		this.handleClick = this.handleClick.bind(this)
+	}
+	
+
+	handleClick(e) {
 		e.preventDefault();
 		if (this.props.location.pathname !== '/settings') {
 			this.setState({

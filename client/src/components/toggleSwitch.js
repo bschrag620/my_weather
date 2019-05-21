@@ -3,7 +3,7 @@ import Switch from 'react-switch';
 
 class ToggleSwitch extends Component {
 
-  handleChange = (checked) => {
+  handleChange = checked => {
   	this.props.handleChange()
   }
 	render() {

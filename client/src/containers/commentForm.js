@@ -6,7 +6,7 @@ export default class CommentForm extends Component {
 			inputText: '',
 	}
 
-	handleSubmit = e => {
+	handleSubmit(e) {
 		e.preventDefault()
 		this.props.onSubmit(this.state.inputText)
 		this.setState({
@@ -14,7 +14,7 @@ export default class CommentForm extends Component {
 		})
 	}
 
-	handleChange = e => {
+	handleChange(e) {
 		this.setState({
 			inputText: e.currentTarget.value
 		})
