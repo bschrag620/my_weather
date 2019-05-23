@@ -3,7 +3,7 @@ development:
   database: my_weather_dev
   pool: 5
   timeout: 5000
-  userame: my_weather
+  username: my_weather
   password:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
