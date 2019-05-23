@@ -50,9 +50,9 @@ class Location < ApplicationRecord
 		else
 			# if it is missing a zip key, find it using the zip api
 			if !params.keys.include?(:zip)
-				params = retrieve_zip_by_city_state(params)
+				params.update(retrieve_zip_by_city_state(params))
 			end
-			if params[:zip].nil?
+			if params[:zip].nil? && list_of_zips.nil?
 				{:body => {:error => "query not recognized: #{string}"}, :status => 415}
 			else
 			# now we have a zip key, let's create zip
@@ -64,9 +64,10 @@ class Location < ApplicationRecord
 	
 	# overriding class method so the new location can be constructed will all relevant data
 	def self.create(params)
-		response = retrieve_by_zip(params)
+		loc = Location.find_or_create_by(:zip => params[:zip])
+		response = loc ? {:body => loc, :status => 200} : retrieve_by_zip(params)
 
-		if response[:status] == 200
+		if response[:status] == 201
 			location = Location.new(response[:body])
 			location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))
 			location.update(retrieve_observation_stations(location.station_list_api))
@@ -74,7 +75,7 @@ class Location < ApplicationRecord
 
 			location.save
 
-			{:body => location, :status => 200}
+			{:body => location, :status => 201}
 		else
 			response
 		end
@@ -102,7 +103,7 @@ class Location < ApplicationRecord
 		url = "https://maps.googleapis.com/maps/api/geocode/json?address=#{params[:zip]}&key=#{@@google_key}"
 		resp = Faraday.get url
 		data = JSON.parse(resp.body)
-		if !data['results'].empty?	
+		if !data['results'].empty?
 			location = {}
 
 			location[:zip] = params[:zip]
@@ -111,8 +112,7 @@ class Location < ApplicationRecord
 			location[:city] =  find_type(address_components, 'locality')['long_name']
 			location[:state] = find_type(address_components, 'administrative_area_level_1')['short_name']
 			
-			response = {:body => location, :status => resp.status }
-		
+			response = {:body => location, :status => 201 }
 		elsif data['results'].empty?
 			response = {:body => {:error => "no data found for #{params[:zip]}"}, :status => 406}
 		
@@ -130,7 +130,7 @@ class Location < ApplicationRecord
 	def self.retrieve_zip_by_city_state(params)
 		url = "https://www.zipcodeapi.com/rest/#{@@zip_key}/city-zips.json/#{to_uri(params[:city])}/#{params[:state]}"
 		resp = Faraday.get url
-		
+
 		{ :zip => JSON.parse(resp.body)['zip_codes'][0] }
 	end
 

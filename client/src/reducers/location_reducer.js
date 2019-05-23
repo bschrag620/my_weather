@@ -31,7 +31,6 @@ function locationReducer(state = {
 				locations: state.locations.filter( l => l.id !== action.id )
 			}
 
-			debugger;
 			return newState
 
 		case 'LOCATION_API_REQUEST':
