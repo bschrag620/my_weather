@@ -2,6 +2,8 @@ class Location < ApplicationRecord
 	has_many :user_locations
 	has_many :users, through: :user_locations
 
+	has_many :location_aliases
+
 	has_many :observation_site_locations
 	has_many :observation_sites, through: :observation_site_locations
 
@@ -37,7 +39,11 @@ class Location < ApplicationRecord
 		params.each do |k, v|
 			locations = locations.select{ |loc| loc[k].to_s.downcase == v.to_s.downcase }
 		end
-		
+
+		if locations.empty? && params[:zip].nil?
+			locations = LocationAlias.find_by(params)
+		end
+		binding.pry
 		locations
 	end
 
@@ -66,7 +72,15 @@ class Location < ApplicationRecord
 	def self.create(params)
 		loc = Location.find_or_create_by(:zip => params[:zip])
 		response = loc ? {:body => loc, :status => 200} : retrieve_by_zip(params)
+		if {:city => params[:city].downcase, :state => params[:state].downcase} != {:city => response[:body][:city].downcase, :state => response[:body][:state].downcase}
+			new_alias = LocationAlias.create(params)
+			new_alias.location = response[:body]
+			new_alias.save
 
+			response[:body][:city] = new_alias[:city]
+			response[:body][:state] = new_alias[:state]
+
+		end
 		if response[:status] == 201
 			location = Location.new(response[:body])
 			location.update(retrieve_weather_api(location.lat.round(4), location.lng.round(4)))

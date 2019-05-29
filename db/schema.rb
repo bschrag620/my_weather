@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_25_201934) do
+ActiveRecord::Schema.define(version: 2019_05_24_114917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "location_aliases", force: :cascade do |t|
+    t.integer "location_id"
+    t.string "city"
+    t.string "state"
+    t.integer "zip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "locations", force: :cascade do |t|
     t.float "lat"
