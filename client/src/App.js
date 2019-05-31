@@ -4,8 +4,17 @@ import { Container } from 'react-bootstrap'
 import MyWeatherContainer from './containers/myWeatherContainer'
 import MySettingsContainer from './containers/mySettingsContainer'
 import AppHeader from './components/stateless/appHeader'
+import { withCookies } from 'react-cookie'
 
 class App extends Component {
+
+  componentDidMount() {
+  	if (!this.props.allCookies.myWeatherVisited) {
+  		this.props.cookies.set('myWeatherVisited', true, { path: '/' })
+  		this.props.cookies.set('myWeatherUnits', 'si', { path: '/' })
+  		alert('Welcome to myWeather')
+  	}
+  }
 
   render() {
     return (
@@ -14,10 +23,21 @@ class App extends Component {
     		<Router>
 				<Route path='/' component={AppHeader} />
 	    			<Switch>
-						<Route path='/settings' render={ () =>
-							<MySettingsContainer />
+						<Route path='/settings' render={ (props) =>
+							<MySettingsContainer 
+								{ ...props } 
+								cookies={this.props.cookies}
+							/>
 						}/>
-						<Route exact path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' component={MyWeatherContainer} />
+						<Route 
+							exact path='/:zip([0-9]{5})?/:displayType(detail|hourly|weekly)?' 
+							render={ (props) => 
+								<MyWeatherContainer
+									{ ...props }
+									cookies={this.props.cookies}
+								/>
+							} 
+						/>
 						<Route path="*" render= { () =>
 							'Unrecognized path'
 						} />
@@ -29,4 +49,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withCookies(App);
