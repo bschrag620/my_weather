@@ -1,6 +1,6 @@
 function userReducer(state = {
-	username: '',
-	token: ''}, action) {
+	username: null,
+	token: null}, action) {
 
 	switch (action.type) {
 

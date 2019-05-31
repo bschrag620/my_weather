@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Nav, Navbar, Col, Container } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom'
 
@@ -37,6 +38,10 @@ class AppNavBar extends Component {
 						<Nav className="my-settings">
 							<Col xs='auto'><Nav.Link href='/' onClick={ e => this.handleClick(e) } value='home'>Home</Nav.Link></Col>
 							<Col xs='auto'><Nav.Link href='/settings' onClick={ e => this.handleClick(e) } value='settings'>Settings</Nav.Link></Col>
+							{(this.props.user.username === null) ?
+							 	<Col xs='auto'><Nav.Link href='/signup' onClick={ e => this.handleClick(e) } value='signup'>Signup</Nav.Link></Col> :
+							 	''
+							}
 						</Nav>
 					</Navbar.Collapse>
 
@@ -47,4 +52,10 @@ class AppNavBar extends Component {
 	}
 }
 
-export default withRouter(AppNavBar)
+const mapStateToProps = state => {
+	return {
+		user: state.userReducer
+	}
+}
+
+export default withRouter(connect(mapStateToProps)(AppNavBar))

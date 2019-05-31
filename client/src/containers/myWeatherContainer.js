@@ -46,7 +46,7 @@ class MyWeatherContainer extends Component {
 const mapStateToProps = state => {
 	return {
 		locations: state.locationReducer.locations,
-		currentLocation: state.sessionReducer.currentLocation
+		currentLocation: state.sessionReducer.currentLocation,
 	}
 }
 
