@@ -43,7 +43,6 @@ class Location < ApplicationRecord
 		if locations.empty? && params[:zip].nil?
 			locations = LocationAlias.find_by(params)
 		end
-		binding.pry
 		locations
 	end
 
@@ -70,16 +69,18 @@ class Location < ApplicationRecord
 	
 	# overriding class method so the new location can be constructed will all relevant data
 	def self.create(params)
-		loc = Location.find_or_create_by(:zip => params[:zip])
+		loc = Location.find_by(:zip => params[:zip])[0]
 		response = loc ? {:body => loc, :status => 200} : retrieve_by_zip(params)
-		if {:city => params[:city].downcase, :state => params[:state].downcase} != {:city => response[:body][:city].downcase, :state => response[:body][:state].downcase}
-			new_alias = LocationAlias.create(params)
-			new_alias.location = response[:body]
-			new_alias.save
+		if params.keys.include?(:city)
+			if {:city => params[:city].downcase, :state => params[:state].downcase} != {:city => response[:body][:city].downcase, :state => response[:body][:state].downcase}
+				new_alias = LocationAlias.create(params)
+				new_alias.location = response[:body]
+				new_alias.save
 
-			response[:body][:city] = new_alias[:city]
-			response[:body][:state] = new_alias[:state]
+				response[:body][:city] = new_alias[:city]
+				response[:body][:state] = new_alias[:state]
 
+			end
 		end
 		if response[:status] == 201
 			location = Location.new(response[:body])

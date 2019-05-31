@@ -17,8 +17,12 @@ class LocationAlias < ApplicationRecord
 		params.each do |k, v|
 			aliases = aliases.select{ |loc| loc[k].to_s.downcase == v.to_s.downcase }
 		end
-		aliased_location = Location.find(aliases.first.location_id)
-		binding.pry
-		aliases
+
+		aliases.collect do |a|
+			loc = a.location
+			loc.city = a.city
+			loc.state = a.state
+			loc
+		end
 	end
 end
