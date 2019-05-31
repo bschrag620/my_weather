@@ -12,6 +12,7 @@ const renderLocations = (locations, retrieveCurrentConditions, units, handleSett
 class LocationsContainer extends Component {
 	handleSettingsChange() {
 		if (this.props.session.delayed && this.props.session.delayed.units) {
+			this.props.cookies.set('myWeatherUnits', this.props.session.delayed.units, { path: '/' })
 			this.props.updateSettings(this.props.session.delayed)
 			this.props.clearDelayed('units')
 			return true
@@ -26,7 +27,7 @@ class LocationsContainer extends Component {
 			<Container>
 				<LocationInput retrieveLocation={this.props.retrieveLocation} />
 				<Row className='locations-container transparent'>
-					{renderLocations(this.props.locations, this.props.retrieveCurrentConditions, this.props.session.units, this.handleSettingsChange.bind(this))}
+					{renderLocations(this.props.locations, this.props.retrieveCurrentConditions, this.props.cookies.cookies.myWeatherUnits, this.handleSettingsChange.bind(this))}
 				</Row>
 			</Container>
 		)

@@ -10,7 +10,7 @@ class MySettingsContainer extends Component {
 		super(props);
 
 		this.state = {
-			units: this.props.units
+			units: this.props.cookies.cookies.myWeatherUnits
 		}
 	}
 	

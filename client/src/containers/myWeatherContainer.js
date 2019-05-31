@@ -22,7 +22,7 @@ class MyWeatherContainer extends Component {
 		}
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		if (this.props.match.params.zip && !this.props.locations.find( l => l.zip.toString() === this.props.match.params.zip)) {
 			this.props.retrieveLocation(this.props.match.params.zip)
 		}
@@ -36,7 +36,7 @@ class MyWeatherContainer extends Component {
 
 		return (
 			<Container className="weather-container">
-				<LocationsContainer retrieveLocation={this.props.retrieveLocation} locations={this.props.locations} />
+				<LocationsContainer retrieveLocation={this.props.retrieveLocation} locations={this.props.locations} cookies={this.props.cookies}/>
 				<DisplayContainer currentLocation={this.props.currentLocation} />
 			</Container>
 		)

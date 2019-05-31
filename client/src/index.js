@@ -4,6 +4,7 @@ import App from './App';
 import rootReducer from './reducers/index'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
+import { CookiesProvider } from 'react-cookie'
 import './index.css'
 
 import { createStore, applyMiddleware } from 'redux'
@@ -12,9 +13,11 @@ const store = createStore(rootReducer, applyMiddleware(thunk))
 console.log('store initiated: ', store.getState())
 
 ReactDOM.render(
-	<Provider store={store}>
-		<App />			
-	</Provider>
+	<CookiesProvider>
+		<Provider store={store}>
+			<App />			
+		</Provider>
+	</CookiesProvider>
 	, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
