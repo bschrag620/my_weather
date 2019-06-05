@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 import MyWeatherContainer from './containers/myWeatherContainer'
 import MySettingsContainer from './containers/mySettingsContainer'
+import RegistrationContainer from './containers/registrationContainer'
 import AppHeader from './components/stateless/appHeader'
 import { withCookies } from 'react-cookie'
 
@@ -37,6 +38,14 @@ class App extends Component {
 									cookies={this.props.cookies}
 								/>
 							} 
+						/>
+						<Route 
+							exact path='/:registrationType(signup|login)?'
+							render={ () => 
+								<RegistrationContainer 
+									{ ...props }
+									cookies={this.props.cookies}
+								/>}
 						/>
 						<Route path="*" render= { () =>
 							'Unrecognized path'
